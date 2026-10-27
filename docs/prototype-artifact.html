@@ -1,0 +1,406 @@
+<title>Seoulmate Trip Planner</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Noto+Sans+KR:wght@400;600&display=swap">
+<style>
+/* Layout: two-column workspace (trip form + live itinerary), single column under 860px. Indigo (jjokbit) accent, celadon secondary. */
+:root{
+  --bg:#F4F6F3; --surface:#FFFFFF; --sunk:#EBEFEA; --ink:#17212A; --muted:#58646E; --line:#D8DFD8;
+  --accent:#1F4E79; --accent-soft:#E3ECF5; --accent-ink:#FFFFFF; --jade:#2C7A67; --jade-soft:#E1F0EB; --warn:#9A5B00; --warn-soft:#FBF0DC;
+  --f-display:"Bricolage Grotesque","Noto Sans KR",system-ui,sans-serif;
+  --f-body:"IBM Plex Sans","Noto Sans KR",system-ui,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0F151B; --surface:#17202A; --sunk:#121A22; --ink:#E6ECEF; --muted:#98A6B0; --line:#2A3641;
+  --accent:#86B6E6; --accent-soft:#1C2E40; --accent-ink:#0C1620; --jade:#6CC2AB; --jade-soft:#16302A; --warn:#F0B860; --warn-soft:#33270F; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0F151B; --surface:#17202A; --sunk:#121A22; --ink:#E6ECEF; --muted:#98A6B0; --line:#2A3641;
+  --accent:#86B6E6; --accent-soft:#1C2E40; --accent-ink:#0C1620; --jade:#6CC2AB; --jade-soft:#16302A; --warn:#F0B860; --warn-soft:#33270F; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.5}
+.wrap{max-width:1180px;margin:0 auto;padding-block:20px 56px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+header.top{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;padding-bottom:16px;border-bottom:1px solid var(--line)}
+.brand{display:flex;align-items:baseline;gap:10px}
+.brand b{font-family:var(--f-display);font-size:1.6rem;font-weight:700;letter-spacing:-.01em}
+.brand span{color:var(--muted);font-size:.85rem}
+nav.tabs{display:flex;gap:4px;background:var(--sunk);padding:4px;border-radius:10px}
+nav.tabs button{border:0;background:transparent;color:var(--muted);font:500 .9rem var(--f-body);padding:7px 14px;border-radius:7px;cursor:pointer}
+nav.tabs button[aria-selected="true"]{background:var(--surface);color:var(--ink);box-shadow:0 1px 2px rgb(0 0 0 / .08)}
+.notice{margin:14px 0 22px;font-size:.85rem;color:var(--warn);background:var(--warn-soft);padding:8px 12px;border-radius:8px}
+button:focus-visible,input:focus-visible,label.chip:focus-within,.opt:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+.grid{display:grid;grid-template-columns:330px minmax(0,1fr);gap:28px;align-items:start}
+@media (max-width:860px){.grid{grid-template-columns:1fr}}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:20px;display:flex;flex-direction:column;gap:18px}
+@media (min-width:861px){.panel.sticky{position:sticky;top:calc(16px + env(safe-area-inset-top,0px))}}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0}
+h2{font-size:1.15rem;font-weight:700}
+.field{display:flex;flex-direction:column;gap:8px}
+.lbl{font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.dates{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+input[type=date]{width:100%;font:inherit;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+label.chip{position:relative;display:inline-flex;align-items:center;gap:6px;padding:6px 11px;border:1px solid var(--line);border-radius:999px;cursor:pointer;font-size:.88rem;background:var(--bg);user-select:none}
+label.chip input{position:absolute;opacity:0;pointer-events:none}
+label.chip:has(input:checked){background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+label.chip .ko{font-size:.75rem;opacity:.75}
+.hint{font-size:.8rem;color:var(--muted)}
+.seg{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;background:var(--sunk);padding:4px;border-radius:9px}
+.seg label{text-align:center;padding:6px;border-radius:6px;cursor:pointer;font-size:.86rem;color:var(--muted)}
+.seg input{position:absolute;opacity:0}
+.seg label:has(input:checked){background:var(--surface);color:var(--ink);font-weight:600}
+.btn{border:0;border-radius:10px;padding:11px 16px;font:600 .95rem var(--f-body);cursor:pointer;background:var(--accent);color:var(--accent-ink)}
+.btn.ghost{background:transparent;color:var(--accent);border:1px solid var(--accent)}
+
+.trip-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:12px;margin-bottom:14px}
+.trip-head h1{font-size:clamp(1.5rem,3vw,2.1rem);font-weight:700;letter-spacing:-.015em}
+.trip-head p{margin:4px 0 0;color:var(--muted)}
+.meter{font-family:var(--f-mono);font-size:.85rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.day{margin-top:22px}
+.day-h{display:flex;flex-wrap:wrap;align-items:baseline;gap:10px;padding-bottom:8px;border-bottom:1px solid var(--line)}
+.day-h h3{font-size:1.1rem}
+.day-h .date{font-family:var(--f-mono);font-size:.82rem;color:var(--muted)}
+.day-h .city{margin-left:auto;font-size:.82rem;font-weight:600;color:var(--jade);background:var(--jade-soft);padding:2px 9px;border-radius:999px}
+.move{margin-top:10px;font-size:.85rem;color:var(--muted);border-left:2px dashed var(--line);padding:2px 0 2px 10px}
+.slot{display:grid;grid-template-columns:88px minmax(0,1fr);gap:12px;padding:14px 0;border-bottom:1px solid var(--line)}
+@media (max-width:560px){.slot{grid-template-columns:1fr}}
+.slot-t{font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600;padding-top:4px}
+.slot-t small{display:block;font-family:var(--f-mono);letter-spacing:0;text-transform:none;font-weight:400}
+.opts{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}
+.opt{text-align:left;font:inherit;color:inherit;background:var(--surface);border:1px solid var(--line);border-radius:11px;padding:12px;cursor:pointer;display:flex;flex-direction:column;gap:6px;min-width:0}
+.opt:hover{border-color:var(--muted)}
+.opt[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft);box-shadow:inset 0 0 0 1px var(--accent)}
+.opt .row{display:flex;justify-content:space-between;gap:8px;align-items:center}
+.opt .cat{font-size:.7rem;letter-spacing:.07em;text-transform:uppercase;font-weight:600;color:var(--jade)}
+.opt .cat.match::after{content:" · your pick";color:var(--accent);text-transform:none;letter-spacing:0}
+.opt .pick{font-size:.75rem;font-weight:600;color:var(--accent)}
+.opt .name{font-weight:600;line-height:1.3}
+.opt .name small{display:block;font-weight:400;color:var(--muted);font-size:.8rem}
+.rating{font-family:var(--f-mono);font-size:.82rem;font-variant-numeric:tabular-nums;color:var(--ink)}
+.rating .stars{color:var(--warn);letter-spacing:1px}
+.rating span{color:var(--muted)}
+blockquote{margin:0;font-size:.85rem;color:var(--muted);border-left:2px solid var(--line);padding-left:9px}
+blockquote cite{display:block;font-style:normal;font-family:var(--f-mono);font-size:.74rem;margin-top:3px}
+.free{color:var(--muted);font-size:.9rem;padding-top:4px}
+
+.checkout{margin-top:28px;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.plan{border:1px solid var(--line);border-radius:12px;padding:16px;background:var(--surface);display:flex;flex-direction:column;gap:8px}
+.plan.rec{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}
+.plan .price{font-family:var(--f-display);font-size:1.7rem;font-weight:700;font-variant-numeric:tabular-nums}
+.plan .price small{font-family:var(--f-body);font-size:.8rem;font-weight:400;color:var(--muted)}
+.plan ul{margin:0;padding-left:18px;font-size:.86rem;color:var(--muted);display:flex;flex-direction:column;gap:3px}
+.plan .btn{margin-top:auto}
+.toast{margin-top:12px;font-size:.88rem;color:var(--jade)}
+
+/* Business tab */
+.biz{max-width:900px;display:flex;flex-direction:column;gap:30px;margin-top:8px}
+.biz p,.biz li{max-width:68ch}
+.biz h2{font-size:1.35rem;margin-bottom:8px}
+.biz .lead{font-size:1.05rem;color:var(--muted);margin:0}
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:12px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:640px;font-size:.9rem}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:.72rem;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);background:var(--sunk)}
+tr:last-child td{border-bottom:0}
+td.num{font-family:var(--f-mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+.tag{display:inline-block;font-size:.72rem;font-weight:600;padding:1px 8px;border-radius:999px;background:var(--jade-soft);color:var(--jade)}
+.tag.later{background:var(--sunk);color:var(--muted)}
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px}
+.card{border:1px solid var(--line);border-radius:12px;padding:16px;background:var(--surface)}
+.card h3{font-size:1rem;margin-bottom:6px}
+.card p,.card ul{margin:0;font-size:.9rem;color:var(--muted)}
+.card ul{padding-left:18px}
+.calc{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px}
+.calc div{border-top:2px solid var(--accent);padding-top:8px}
+.calc b{display:block;font-family:var(--f-display);font-size:1.5rem;font-variant-numeric:tabular-nums}
+.calc span{font-size:.82rem;color:var(--muted)}
+@media (prefers-reduced-motion:no-preference){.opt{transition:border-color .15s,background .15s}}
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div class="brand"><b>Seoulmate</b><span>Korea itineraries, picked by real travelers</span></div>
+    <nav class="tabs" role="tablist">
+      <button role="tab" id="tab-planner" aria-selected="true" data-view="planner">Trip planner</button>
+      <button role="tab" id="tab-business" aria-selected="false" data-view="business">수익 모델</button>
+    </nav>
+  </header>
+  <p class="notice">Prototype. Ratings, review counts and review quotes are illustrative sample data, not real reviews. The real service would show verified traveler reviews (see 수익 모델 → 리뷰 데이터).</p>
+
+  <!-- PLANNER -->
+  <section id="view-planner">
+    <div class="grid">
+      <form class="panel sticky" id="tripForm">
+        <h2>Your trip</h2>
+        <div class="field">
+          <span class="lbl">Dates in Korea</span>
+          <div class="dates">
+            <input type="date" id="arrive" value="2026-11-12" aria-label="Arrival date">
+            <input type="date" id="depart" value="2026-11-16" aria-label="Departure date">
+          </div>
+          <span class="hint" id="dayCount"></span>
+        </div>
+        <div class="field">
+          <span class="lbl">Cities, in visiting order</span>
+          <div class="chips" id="cityChips"></div>
+        </div>
+        <div class="field">
+          <span class="lbl">What you're into</span>
+          <div class="chips" id="catChips"></div>
+        </div>
+        <div class="field">
+          <span class="lbl">Pace</span>
+          <div class="seg">
+            <label><input type="radio" name="pace" id="pace-easy" value="2">Easy</label>
+            <label><input type="radio" name="pace" id="pace-bal" value="3" checked>Balanced</label>
+            <label><input type="radio" name="pace" id="pace-full" value="4">Packed</label>
+          </div>
+        </div>
+        <button class="btn" type="submit">Build my itinerary</button>
+      </form>
+
+      <div style="min-width:0">
+        <div class="trip-head">
+          <div>
+            <h1 id="tripTitle"></h1>
+            <p>Each stop shows up to three options. Read what other travelers said, then tap the one you want.</p>
+          </div>
+          <div class="meter" id="meter"></div>
+        </div>
+        <div id="days"></div>
+
+        <h2 style="margin-top:32px">Get the full plan</h2>
+        <div class="checkout">
+          <div class="plan">
+            <div class="lbl">Preview</div>
+            <div class="price">$0</div>
+            <ul><li>Day 1 in full</li><li>Other days: place names only</li></ul>
+            <button class="btn ghost" type="button" data-buy="Preview">Keep previewing</button>
+          </div>
+          <div class="plan rec">
+            <div class="lbl">Trip Plan · most picked</div>
+            <div class="price" id="pricePlan"></div>
+            <ul><li>Every day, with maps and transit steps</li><li>Opening hours, booking links, offline PDF</li><li>Free edits until departure</li></ul>
+            <button class="btn" type="button" data-buy="Trip Plan">Unlock plan</button>
+          </div>
+          <div class="plan">
+            <div class="lbl">Local Concierge</div>
+            <div class="price" id="priceConcierge"></div>
+            <ul><li>A Korean local reviews and tunes your plan</li><li>Restaurant reservations made for you</li><li>Chat support during the trip (EN/JP/CN)</li></ul>
+            <button class="btn ghost" type="button" data-buy="Local Concierge">Add a local</button>
+          </div>
+        </div>
+        <p class="toast" id="toast" aria-live="polite"></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- BUSINESS -->
+  <section id="view-business" hidden>
+    <div class="biz">
+      <div>
+        <h2>한 줄 요약</h2>
+        <p class="lead">일정 설계비로 첫 매출을 만들고, 실제 수익의 대부분은 일정 안에서 일어나는 예약 수수료와 현지 파트너에서 나오는 구조입니다. 리뷰 신뢰도가 곧 전환율이므로 "광고와 리뷰를 섞지 않는다"를 원칙으로 둡니다.</p>
+      </div>
+
+      <div>
+        <h2>수익원</h2>
+        <div class="tbl"><table>
+          <thead><tr><th>수익원</th><th>방식</th><th>가격 예시</th><th>시기</th></tr></thead>
+          <tbody>
+            <tr><td><b>일정 설계비</b> (B2C)</td><td>미리보기 무료 → 전체 일정 결제. 일수에 따라 가산</td><td class="num">$12 + $2/일</td><td><span class="tag">출시</span></td></tr>
+            <tr><td><b>로컬 컨시어지</b></td><td>한국인 에디터가 일정 검수·식당 예약·여행 중 채팅. 프리랜서 로컬에게 70% 지급, 30% 수수료</td><td class="num">$39 + $6/일</td><td><span class="tag">출시</span></td></tr>
+            <tr><td><b>예약 제휴 수수료</b></td><td>일정 속 투어·입장권·숙소·KTX 링크를 Klook, KKday, Trip.com, Agoda 등 제휴 프로그램으로 연결</td><td class="num">파트너별 상이</td><td><span class="tag">출시</span></td></tr>
+            <tr><td><b>여행 필수품 번들</b></td><td>eSIM, 교통카드, 공항 픽업, 짐 배송을 결제 단계에서 추가 판매</td><td class="num">건당 마진</td><td><span class="tag">3개월</span></td></tr>
+            <tr><td><b>현지 업체 노출</b></td><td>식당·공방·K-pop 댄스 클래스가 "Sponsored" 표시와 함께 후보에 노출. 순위·리뷰에는 영향 없음</td><td class="num">월정액 또는 CPA</td><td><span class="tag later">6개월</span></td></tr>
+            <tr><td><b>B2B 화이트라벨</b></td><td>호텔·게스트하우스·어학당·기업 연수팀에 자사 브랜드로 플래너 제공</td><td class="num">월 구독</td><td><span class="tag later">12개월</span></td></tr>
+          </tbody>
+        </table></div>
+      </div>
+
+      <div>
+        <h2>건당 수익 예시</h2>
+        <p class="hint">5일 일정, 유료 전환 고객 1명 기준의 가정치입니다. 실제 제휴 수수료율은 계약 후 확인해야 합니다.</p>
+        <div class="calc">
+          <div><b>$20</b><span>일정 설계비 (5일)</span></div>
+          <div><b>$15</b><span>투어·입장권 예약 $250 중 제휴 수수료 (약 6% 가정)</span></div>
+          <div><b>$8</b><span>eSIM·교통카드 번들 마진</span></div>
+          <div><b>≈ $43</b><span>고객당 매출 (컨시어지 제외)</span></div>
+        </div>
+      </div>
+
+      <div>
+        <h2>리뷰 데이터: "실제 외국인 리뷰"를 확보하는 방법</h2>
+        <div class="cols">
+          <div class="card"><h3>1. 자체 인증 리뷰 (핵심)</h3><p>예약·일정 이용이 확인된 여행자에게만 귀국 후 리뷰를 요청합니다. 국적, 방문 시기, 여행 유형(혼자/커플/가족)을 함께 표시하면 다른 외국인이 판단하기 쉽습니다. 작성 시 다음 여행 할인 쿠폰을 보상으로 줍니다.</p></div>
+          <div class="card"><h3>2. 공식 API (초기 보완)</h3><p>Google Places API, Tripadvisor Content API 같은 공식 경로로만 가져옵니다. 출처 표기와 캐싱 기간 제한 같은 이용 약관을 지켜야 하고, 웹 스크래핑은 약관 위반과 법적 분쟁 위험이 있어 쓰지 않습니다.</p></div>
+          <div class="card"><h3>3. 신뢰 장치</h3><ul><li>광고 업체도 리뷰·별점 정렬은 동일하게 적용</li><li>"Sponsored" 라벨 명시 (공정위 추천·보증 심사지침)</li><li>업체가 리뷰를 삭제·대가 작성 요청 불가</li></ul></div>
+        </div>
+      </div>
+
+      <div>
+        <h2>시작 전에 확인할 것</h2>
+        <div class="cols">
+          <div class="card"><h3>여행업 등록</h3><p>일정 판매를 넘어 예약을 직접 받거나 대행하면 관광진흥법상 여행업 등록이 필요할 수 있습니다. 제휴 링크만 쓰는 단계와 직접 예약 단계를 나눠 세무사·행정사와 확인하세요.</p></div>
+          <div class="card"><h3>해외 결제</h3><p>외국 카드 결제가 되는 PG(Stripe, PayPal, 국내 PG의 해외카드 결제)와 환불 규정(출발 전 전액 환불 등)을 미리 정합니다.</p></div>
+          <div class="card"><h3>첫 MVP 범위</h3><p>서울·부산 2개 도시, 5개 카테고리, 장소 150곳으로 시작해 Reddit r/koreatravel, 인스타그램 릴스로 반응을 확인한 뒤 도시를 늘리는 순서를 권합니다.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<script>
+const CITIES=[["seoul","Seoul","서울"],["busan","Busan","부산"],["jeju","Jeju","제주"],["gyeongju","Gyeongju","경주"],["jeonju","Jeonju","전주"]];
+const CATS=[["food","Food"],["local","Local life"],["culture","Culture"],["history","History"],["kpop","K-pop"],["nature","Nature"],["night","Nightlife"]];
+const SLOTS=[["am","Morning","9–12"],["pm","Afternoon","13–17"],["eve","Evening","18–22"],["late","Late","22+"]];
+const MOVES={"seoul>busan":"KTX, about 2h 40m","busan>seoul":"KTX, about 2h 40m","seoul>jeju":"Flight from Gimpo, about 1h 10m","busan>jeju":"Flight from Gimhae, about 1h","jeju>seoul":"Flight to Gimpo, about 1h 10m","jeju>busan":"Flight to Gimhae, about 1h","seoul>gyeongju":"KTX to Singyeongju, about 2h 10m","busan>gyeongju":"Train or bus, about 1h","gyeongju>busan":"Train or bus, about 1h","gyeongju>seoul":"KTX, about 2h 10m","seoul>jeonju":"KTX, about 1h 40m","jeonju>seoul":"KTX, about 1h 40m"};
+// [id, city, cat, slot, name, korean name, rating, reviewCount, sample quote, sample reviewer]
+const P=[
+["gbg","seoul","history","am","Gyeongbokgung Palace","경복궁",4.7,"18.2k","Go right at opening for the guard ceremony. Wearing hanbok gets you in free.","Emma · UK · couple"],
+["cdg","seoul","history","am","Changdeokgung Secret Garden","창덕궁 후원",4.8,"6.1k","The garden tour sells out, book online a few days ahead. Worth it in autumn.","Daniel · US · solo"],
+["bch","seoul","culture","am","Bukchon Hanok Village","북촌 한옥마을",4.4,"12.9k","Beautiful but people live here, so keep quiet. Mornings are calmer.","Mika · Japan · friends"],
+["jgs","seoul","culture","am","Jogyesa Temple & tea","조계사",4.6,"3.4k","Peaceful break in the middle of the city. The lanterns are stunning.","Priya · India · solo"],
+["bhs","seoul","nature","am","Bukhansan Baegundae hike","북한산 백운대",4.8,"4.7k","Steep at the top but the city view is unreal. Bring gloves for the ropes.","Lukas · Germany · solo"],
+["gjm","seoul","food","pm","Gwangjang Market","광장시장",4.5,"21.3k","Bindaetteok and mayak gimbap for under 10,000 won. Cash helps.","Sofia · Spain · couple"],
+["mwm","seoul","local","pm","Mangwon Market & Han River","망원시장",4.6,"2.8k","Feels like where Seoulites actually shop. Grab snacks and walk to the river.","Chloé · France · couple"],
+["isd","seoul","local","pm","Ikseon-dong hanok alleys","익선동",4.4,"5.6k","Tiny cafés inside old hanok. Great for photos on a weekday.","Hannah · Australia · friends"],
+["nmk","seoul","history","pm","National Museum of Korea","국립중앙박물관",4.8,"7.9k","Free entry and huge. The Room of Quiet Contemplation alone is worth the trip.","Wei · Singapore · family"],
+["lee","seoul","culture","pm","Leeum Museum of Art","리움미술관",4.7,"2.2k","Mix of old celadon and modern art. Book a time slot on their site.","Noah · Canada · solo"],
+["hkr","seoul","kpop","pm","HiKR Ground","하이커 그라운드",4.5,"1.9k","Free K-pop and Hallyu exhibits with photo zones. Fun for an hour.","Ana · Brazil · friends"],
+["kdc","seoul","kpop","pm","K-pop dance class, Hongdae","홍대 K-pop 댄스 클래스",4.9,"1.1k","Learned a full chorus in 90 minutes. The instructor filmed us at the end.","Jasmine · US · friends"],
+["ksr","seoul","kpop","pm","K-Star Road & agency walk","K스타로드",4.1,"3.0k","Cute bear statues for every group. Pair it with Garosu-gil shopping.","Linh · Vietnam · solo"],
+["hdb","seoul","kpop","eve","Hongdae street busking","홍대 버스킹 거리",4.6,"9.4k","Dance crews covering new songs every night. Weekends are the best.","Aiko · Japan · solo"],
+["eul","seoul","night","eve","Euljiro nogari alley","을지로 노가리 골목",4.5,"2.6k","Plastic stools, cheap beer, dried fish. This is the real Seoul night.","Tom · Netherlands · friends"],
+["nst","seoul","nature","eve","Namsan Seoul Tower at dusk","남산서울타워",4.5,"25.1k","Walk up the trail instead of the cable car line. Sunset is magic.","Olivia · US · couple"],
+["hrc","seoul","local","eve","Han River chimaek picnic","한강 치맥",4.7,"3.3k","Order fried chicken to the park, they deliver to the riverside. Iconic.","Mateo · Mexico · friends"],
+["gje","seoul","food","eve","Gwangjang night stalls","광장시장 야시장",4.4,"6.0k","Live octopus if you're brave, yukhoe if you're not. Busy but friendly.","Ben · UK · solo"],
+["sgb","seoul","night","late","Itaewon & Haebangchon bars","이태원·해방촌",4.3,"4.2k","Rooftop bars with views of Namsan. Mixed crowd, easy for foreigners.","Ryan · Ireland · friends"],
+["gcv","busan","culture","am","Gamcheon Culture Village","감천문화마을",4.5,"14.5k","Buy the stamp map at the entrance. Colorful lanes and sea views.","Isabella · Italy · couple"],
+["jgl","busan","food","am","Jagalchi Fish Market","자갈치시장",4.4,"8.8k","Pick your fish downstairs, they cook it upstairs. Freshest meal of my trip.","Kenji · Japan · family"],
+["hdy","busan","history","am","Haedong Yonggungsa Temple","해동용궁사",4.6,"10.2k","A temple right on the rocks over the sea. Go early to beat the tour buses.","Grace · Philippines · family"],
+["bbp","busan","nature","pm","Haeundae Blueline Park sky capsule","해운대 블루라인파크",4.7,"5.3k","The little capsule along the coast is adorable. Book a slot ahead.","Mia · Taiwan · couple"],
+["jpc","busan","local","pm","Jeonpo café street","전포카페거리",4.3,"2.1k","Converted workshops turned into cafés. Locals' favorite hangout.","Sara · Sweden · solo"],
+["bms","busan","history","pm","Beomeosa Temple","범어사",4.6,"2.7k","Mountain temple with almost no tourists. Peaceful and green.","James · New Zealand · solo"],
+["gal","busan","night","eve","Gwangalli Beach drone show","광안리 드론쇼",4.8,"7.4k","Saturday drone show over the bridge. Grab a seat on the sand by 7.","Hyejin · US (Korean-American) · friends"],
+["bpk","busan","food","eve","Bupyeong Kkangtong night market","부평깡통시장",4.4,"4.9k","Eomuk, hotteok, and dumplings in one street. Come hungry.","Liam · Canada · couple"],
+["sio","jeju","nature","am","Seongsan Ilchulbong sunrise","성산일출봉",4.7,"11.6k","Starts dark, ends with the best sunrise. 25 minutes up, worth every step.","Eva · Austria · couple"],
+["hls","jeju","nature","am","Hallasan Yeongsil trail","한라산 영실코스",4.8,"5.8k","Book the summit trail online or do Yeongsil without a booking. Gorgeous.","Marcus · Denmark · solo"],
+["hny","jeju","culture","pm","Haenyeo diver performance","해녀 공연",4.6,"3.1k","These women in their 70s dive for abalone. Moving and fascinating.","Julia · Poland · family"],
+["wjr","jeju","local","pm","Woljeongri beach cafés","월정리",4.4,"4.0k","Turquoise water and window seats facing the sea. Rent a car for this.","Yuki · Japan · friends"],
+["p43","jeju","history","pm","Jeju 4.3 Peace Park","제주4·3평화공원",4.7,"1.3k","Heavy but important history most visitors miss. Give it two hours.","David · Israel · solo"],
+["bpg","jeju","food","eve","Black pork street","흑돼지거리",4.5,"6.7k","Thick-cut black pork grilled at your table. Dip it in the anchovy sauce.","Chris · US · family"],
+["dmm","jeju","food","eve","Dongmun night market","동문야시장",4.4,"5.2k","Abalone gimbap and tangerine everything. Lively from 6pm.","Nina · Germany · couple"],
+["bgs","gyeongju","history","am","Bulguksa Temple","불국사",4.8,"9.3k","UNESCO site with stone pagodas. Add Seokguram if you have time.","Oliver · UK · family"],
+["drw","gyeongju","history","pm","Daereungwon tomb park","대릉원",4.6,"6.4k","Grassy royal tombs in the middle of town. Very photogenic in autumn.","Lena · Switzerland · couple"],
+["hrd","gyeongju","local","pm","Hwangridan-gil","황리단길",4.4,"4.5k","Hanok cafés and small shops. Try the Gyeongju bread warm.","Arjun · India · friends"],
+["dgw","gyeongju","culture","eve","Donggung Palace & Wolji Pond","동궁과 월지",4.8,"8.1k","Lit up at night with reflections on the pond. Unforgettable.","Camille · France · couple"],
+["gcf","gyeongju","food","eve","Gyochon village dinner","교촌마을",4.3,"1.6k","Traditional village with a famous old-family restaurant. Calm evening.","Ethan · US · family"],
+["jhv","jeonju","culture","am","Jeonju Hanok Village","전주 한옥마을",4.5,"13.4k","700 hanok in one place. Rent hanbok and stay overnight in one.","Mei · China · friends"],
+["gkj","jeonju","history","pm","Gyeonggijeon Shrine","경기전",4.6,"3.8k","Bamboo grove and the founder of Joseon's portrait. Quiet and lovely.","Paul · Belgium · solo"],
+["jbb","jeonju","food","pm","Jeonju bibimbap lunch","전주비빔밥",4.5,"5.5k","The birthplace of bibimbap. Brass bowl version is the one to order.","Anna · Russia · couple"],
+["nbm","jeonju","food","eve","Nambu night market","남부시장 야시장",4.4,"3.6k","Friday and Saturday only. Street food from every corner of Korea.","Joon · Australia · friends"],
+["mkg","jeonju","night","eve","Makgeolli alley","막걸리 골목",4.6,"2.4k","Order one kettle and the side dishes keep coming. Amazing value.","Felix · Germany · friends"]
+];
+const byId=Object.fromEntries(P.map(p=>[p[0],p]));
+const state={cities:["seoul","busan"],cats:["food","kpop","history"],plan:[],picks:{}};
+
+function chip(container,list,sel,name){
+  container.innerHTML=list.map(([id,en,ko])=>`<label class="chip"><input type="checkbox" id="${name}-${id}" value="${id}" ${sel.includes(id)?"checked":""}>${en}${ko?` <span class="ko">${ko}</span>`:""}</label>`).join("");
+}
+chip(document.getElementById("cityChips"),CITIES,state.cities,"city");
+chip(document.getElementById("catChips"),CATS,state.cats,"cat");
+document.getElementById("cityChips").addEventListener("change",e=>{
+  const v=e.target.value; if(e.target.checked){state.cities.push(v)}else{state.cities=state.cities.filter(c=>c!==v)}
+  updateHint();
+});
+document.getElementById("catChips").addEventListener("change",()=>{
+  state.cats=[...document.querySelectorAll("#catChips input:checked")].map(i=>i.value);
+});
+
+function days(){
+  const a=new Date(arrive.value+"T00:00"),d=new Date(depart.value+"T00:00");
+  const n=Math.round((d-a)/864e5)+1; return isNaN(n)?0:Math.max(0,Math.min(n,14));
+}
+function updateHint(){
+  const n=days(); const order=state.cities.map(c=>CITIES.find(x=>x[0]===c)[1]).join(" → ");
+  document.getElementById("dayCount").textContent=n?`${n} day${n>1?"s":""}${order?" · "+order:""}`:"Pick a departure date after arrival";
+}
+arrive.addEventListener("change",updateHint); depart.addEventListener("change",updateHint);
+
+function build(){
+  const n=days(); const cities=state.cities.length?state.cities:["seoul"];
+  const pace=+document.querySelector("input[name=pace]:checked").value;
+  const used=new Set(); state.plan=[]; state.picks={};
+  const k=Math.min(cities.length,n); const base=Math.floor(n/k); let extra=n-base*k;
+  const alloc=cities.slice(0,k).map(()=>base+(extra-->0?1:0));
+  let dayIdx=0;
+  alloc.forEach((cnt,ci)=>{
+    for(let i=0;i<cnt;i++){
+      const city=cities[ci]; const slots=SLOTS.slice(0,pace);
+      const date=new Date(arrive.value+"T00:00"); date.setDate(date.getDate()+dayIdx);
+      const move=(i===0&&ci>0)?{from:cities[ci-1],to:city}:null;
+      const daySlots=slots.map(([sid])=>{
+        const score=p=>(state.cats.includes(p[2])?10:0)+p[6];
+        let c=P.filter(p=>p[1]===city&&p[3]===sid&&!used.has(p[0])).sort((a,b)=>score(b)-score(a)).slice(0,3);
+        if(!c.length&&sid!=="late") c=P.filter(p=>p[1]===city&&!used.has(p[0])).sort((a,b)=>score(b)-score(a)).slice(0,2);
+        c.forEach(p=>used.add(p[0]));
+        return {sid,opts:c.map(p=>p[0])};
+      });
+      daySlots.forEach((s,si)=>{if(s.opts.length) state.picks[dayIdx+"-"+si]=s.opts[0]});
+      state.plan.push({city,date,move,slots:daySlots}); dayIdx++;
+    }
+  });
+  render();
+}
+
+function stars(r){const f=Math.round(r);return "★".repeat(f)+"☆".repeat(5-f)}
+function render(){
+  const n=state.plan.length;
+  const names=[...new Set(state.plan.map(d=>d.city))].map(c=>CITIES.find(x=>x[0]===c)[1]);
+  tripTitle.textContent=n?`${n} days in ${names.join(" & ")}`:"Add your dates to start";
+  const fmt=d=>d.toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"});
+  days_el.innerHTML=state.plan.map((d,di)=>{
+    const cityName=CITIES.find(x=>x[0]===d.city);
+    const mv=d.move?`<div class="move">Travel day: ${CITIES.find(x=>x[0]===d.move.from)[1]} → ${cityName[1]} · ${MOVES[d.move.from+">"+d.move.to]||"Train or flight, plan about half a day"}</div>`:"";
+    const slots=d.slots.map((s,si)=>{
+      const meta=SLOTS.find(x=>x[0]===s.sid);
+      const body=s.opts.length?`<div class="opts">${s.opts.map(id=>{
+        const p=byId[id]; const on=state.picks[di+"-"+si]===id; const cat=CATS.find(c=>c[0]===p[2])[1];
+        return `<button type="button" class="opt" aria-pressed="${on}" data-key="${di}-${si}" data-id="${id}">
+          <div class="row"><span class="cat ${state.cats.includes(p[2])?"match":""}">${cat}</span>${on?'<span class="pick">Selected</span>':""}</div>
+          <div class="name">${p[4]}<small>${p[5]}</small></div>
+          <div class="rating"><span class="stars" aria-hidden="true">${stars(p[6])}</span> ${p[6].toFixed(1)} <span>· ${p[7]} sample reviews</span></div>
+          <blockquote>“${p[8]}”<cite>${p[9]}</cite></blockquote>
+        </button>`}).join("")}</div>`:`<div class="free">Free time. Ask your concierge for a tip, or rest up.</div>`;
+      return `<div class="slot"><div class="slot-t">${meta[1]}<small>${meta[2]}</small></div>${body}</div>`;
+    }).join("");
+    return `<article class="day"><div class="day-h"><h3>Day ${di+1}</h3><span class="date">${fmt(d.date)}</span><span class="city">${cityName[1]} ${cityName[2]}</span></div>${mv}${slots}</article>`;
+  }).join("");
+  const total=Object.keys(state.picks).length;
+  meter.textContent=`${total} stops chosen · ${n} days`;
+  pricePlan.innerHTML=`$${12+2*n}<small> one-time · ${n} days</small>`;
+  priceConcierge.innerHTML=`$${39+6*n}<small> one-time · ${n} days</small>`;
+}
+const days_el=document.getElementById("days");
+days_el.addEventListener("click",e=>{
+  const b=e.target.closest(".opt"); if(!b) return;
+  state.picks[b.dataset.key]=b.dataset.id; render();
+  const again=days_el.querySelector(`.opt[data-key="${b.dataset.key}"][data-id="${b.dataset.id}"]`); again&&again.focus();
+});
+tripForm.addEventListener("submit",e=>{e.preventDefault();build()});
+document.querySelectorAll("[data-buy]").forEach(b=>b.addEventListener("click",()=>{
+  toast.textContent=`Demo only: in the live service "${b.dataset.buy}" would open checkout. No payment is taken here.`;
+}));
+
+function show(view){
+  document.querySelectorAll("nav.tabs button").forEach(t=>t.setAttribute("aria-selected",t.dataset.view===view));
+  document.getElementById("view-planner").hidden=view!=="planner";
+  document.getElementById("view-business").hidden=view!=="business";
+  try{history.replaceState(null,"","#"+view)}catch(_){}
+}
+document.querySelectorAll("nav.tabs button").forEach(t=>t.addEventListener("click",()=>show(t.dataset.view)));
+updateHint(); build();
+if(location.hash==="#business") show("business");
+</script>
