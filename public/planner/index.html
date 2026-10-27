@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Korea trip planner | Seoulmate</title>
+<meta name="description" content="Build a free day-by-day Korea itinerary for Seoul, Busan, Jeju, Gyeongju and Jeonju based on your dates and interests.">
+<link rel="canonical" href="https://seoulmate-korea.vercel.app/planner/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Seoulmate">
+<meta property="og:title" content="Korea trip planner">
+<meta property="og:description" content="Build a free day-by-day Korea itinerary for Seoul, Busan, Jeju, Gyeongju and Jeonju based on your dates and interests.">
+<meta property="og:url" content="https://seoulmate-korea.vercel.app/planner/">
+<meta name="twitter:card" content="summary">
+<link rel="alternate" type="application/rss+xml" title="Seoulmate guides" href="https://seoulmate-korea.vercel.app/feed.xml">
+<link rel="icon" href="/static/icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Noto+Sans+KR:wght@400;600&display=swap">
+<link rel="stylesheet" href="/static/style.css">
+<script>window.SEOULMATE_GUIDES={"gyeongju": [{"title": "Gyeongju with Kids in November: 5 Family-Friendly Spots (Stroller Tips & Rainy-Day Options)", "url": "/guides/gyeongju-with-kids/"}, {"title": "Gyeongju Fall Foliage 2026: 5 Best Ginkgo & Autumn Spots (+ How to Get There from Seoul)", "url": "/guides/gyeongju-fall-foliage-guide/"}]};</script>
+<script src="/static/planner.js" defer></script>
+</head>
+<body>
+<header class="site-head"><div class="wrap">
+<a class="logo" href="/">Seoul<span>mate</span></a>
+<nav class="nav" aria-label="Main"><a href="/planner/" aria-current="page">Plan a trip</a><a href="/guides/">Travel guides</a><a href="/about/">About</a></nav>
+</div></header>
+<main class="wrap">
+<div class="grid">
+  <form class="panel sticky" id="tripForm">
+    <h2>Your trip</h2>
+    <div class="field">
+      <span class="lbl">Dates in Korea</span>
+      <div class="dates">
+        <input type="date" id="arrive" aria-label="Arrival date">
+        <input type="date" id="depart" aria-label="Departure date">
+      </div>
+      <span class="hint" id="dayCount"></span>
+    </div>
+    <div class="field"><span class="lbl">Cities, in visiting order</span><div class="chips" id="cityChips"></div></div>
+    <div class="field"><span class="lbl">What you're into</span><div class="chips" id="catChips"></div></div>
+    <div class="field">
+      <span class="lbl">Pace</span>
+      <div class="seg">
+        <label><input type="radio" name="pace" id="pace-easy" value="2">Easy</label>
+        <label><input type="radio" name="pace" id="pace-bal" value="3" checked>Balanced</label>
+        <label><input type="radio" name="pace" id="pace-full" value="4">Packed</label>
+      </div>
+    </div>
+    <button class="btn" type="submit">Build my itinerary</button>
+  </form>
+  <div style="min-width:0">
+    <div class="trip-head">
+      <div><h1 id="tripTitle">Your Korea itinerary</h1>
+      <p>Each stop has up to three options. Check traveler reviews on Google Maps, then tap the one you want.</p></div>
+      <div class="meter" id="meter"></div>
+    </div>
+    <div id="days"></div>
+    <div class="tools">
+      <button class="btn ghost" type="button" id="copyPlan">Copy itinerary</button>
+      <button class="btn ghost" type="button" id="printPlan">Print or save as PDF</button>
+    </div>
+    <p class="toast" id="toast" aria-live="polite"></p>
+    <h2 class="no-print" style="margin-top:28px">Want the full plan?</h2>
+    <div class="checkout">
+      <div class="plan"><span class="lbl">Free</span><div class="price">$0</div>
+        <ul><li>This planner, any dates and cities</li><li>Copy or print your plan</li></ul></div>
+      <div class="plan rec"><span class="lbl">Trip Plan</span><div class="price" id="pricePlan"></div>
+        <ul><li>Maps and transit steps for every day</li><li>Opening hours and booking links</li><li>Free edits until departure</li></ul>
+        <span class="soon">Launching soon</span></div>
+      <div class="plan"><span class="lbl">Local Concierge</span><div class="price" id="priceConcierge"></div>
+        <ul><li>A Seoul local reviews and tunes your plan</li><li>Restaurant reservations made for you</li><li>Chat support during your trip</li></ul>
+        <span class="soon">Launching soon</span></div>
+    </div>
+  </div>
+</div>
+</main>
+<footer class="site-foot"><div class="wrap">
+<span>© 2026 Seoulmate · Made in Seoul for travelers to Korea</span>
+<nav aria-label="Footer"><a href="/guides/">Guides</a><a href="/about/">About</a><a href="/privacy/">Privacy</a><a href="/disclosure/">Affiliate disclosure</a><a href="/feed.xml">RSS</a></nav>
+</div></footer>
+</body>
+</html>
