@@ -30,7 +30,8 @@ CITIES = {
     "yeosu": ("Yeosu", "여수"), "suwon": ("Suwon", "수원"), "daegu": ("Daegu", "대구"),
     "tongyeong": ("Tongyeong", "통영"), "gapyeong": ("Gapyeong", "가평"), "pohang": ("Pohang", "포항"),
 }
-PLANNER_CITIES = ["seoul", "busan", "jeju", "gyeongju", "jeonju"]
+PLANNER_CITIES = ["seoul", "busan", "jeju", "gyeongju", "jeonju", "incheon", "suwon", "gapyeong",
+                  "gangneung", "sokcho", "andong", "daegu", "yeosu", "tongyeong"]
 
 
 def log(msg):
@@ -366,7 +367,8 @@ def page_planner(posts):
     for p in posts:
         for c in p["cities"]:
             guides.setdefault(c, []).append({"title": p["title"], "url": p["url"]})
-    body = """<div class="grid">
+    body = """<p class="hint no-print" style="margin:0 0 14px">14 destinations: Seoul, Busan, Jeju, Gyeongju, Jeonju, Incheon, Suwon, Gapyeong &amp; Nami Island, Gangneung, Sokcho &amp; Seoraksan, Andong, Daegu, Yeosu and Tongyeong.</p>
+<div class="grid">
   <form class="panel sticky" id="tripForm">
     <h2>Your trip</h2>
     <div class="field">
@@ -415,7 +417,7 @@ def page_planner(posts):
   </div>
 </div>"""
     extra = f'<script>window.SEOULMATE_GUIDES={json.dumps(guides, ensure_ascii=False)};</script>\n<script src="/static/planner.js" defer></script>'
-    return layout("Korea trip planner", "Build a free day-by-day Korea itinerary for Seoul, Busan, Jeju, Gyeongju and Jeonju based on your dates and interests.",
+    return layout("Korea trip planner", "Build a free day-by-day Korea itinerary for Seoul, Busan, Jeju, Gyeongju, Gangneung, Sokcho, Yeosu and more, based on your dates and interests.",
                   "/planner/", body, "planner", head_extra=extra)
 
 

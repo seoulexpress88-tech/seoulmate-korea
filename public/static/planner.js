@@ -1,10 +1,19 @@
 // Seoulmate trip planner. Pure client-side: builds a day-by-day plan from the place list below.
 // window.SEOULMATE_GUIDES (injected by build.py) maps city id -> [{title,url}] so days can link to guides.
 (function(){
-const CITIES=[["seoul","Seoul","서울"],["busan","Busan","부산"],["jeju","Jeju","제주"],["gyeongju","Gyeongju","경주"],["jeonju","Jeonju","전주"]];
+const CITIES=[["seoul","Seoul","서울"],["busan","Busan","부산"],["jeju","Jeju","제주"],["gyeongju","Gyeongju","경주"],["jeonju","Jeonju","전주"],
+["incheon","Incheon","인천"],["suwon","Suwon","수원"],["gapyeong","Gapyeong & Nami","가평"],["gangneung","Gangneung","강릉"],["sokcho","Sokcho & Seoraksan","속초"],
+["andong","Andong","안동"],["daegu","Daegu","대구"],["yeosu","Yeosu","여수"],["tongyeong","Tongyeong","통영"]];
 const CATS=[["food","Food"],["local","Local life"],["culture","Culture"],["history","History"],["kpop","K-pop"],["nature","Nature"],["night","Nightlife"]];
 const SLOTS=[["am","Morning","9–12"],["pm","Afternoon","13–17"],["eve","Evening","18–22"],["late","Late","22+"]];
-const MOVES={"seoul>busan":"KTX, about 2h 40m","busan>seoul":"KTX, about 2h 40m","seoul>jeju":"Flight from Gimpo, about 1h 10m","busan>jeju":"Flight from Gimhae, about 1h","jeju>seoul":"Flight to Gimpo, about 1h 10m","jeju>busan":"Flight to Gimhae, about 1h","seoul>gyeongju":"KTX to Singyeongju, about 2h 10m","busan>gyeongju":"Train or bus, about 1h","gyeongju>busan":"Train or bus, about 1h","gyeongju>seoul":"KTX, about 2h 10m","seoul>jeonju":"KTX, about 1h 40m","jeonju>seoul":"KTX, about 1h 40m"};
+const MOVES={"seoul>busan":"KTX, about 2h 40m","busan>seoul":"KTX, about 2h 40m","seoul>jeju":"Flight from Gimpo, about 1h 10m","busan>jeju":"Flight from Gimhae, about 1h","jeju>seoul":"Flight to Gimpo, about 1h 10m","jeju>busan":"Flight to Gimhae, about 1h","seoul>gyeongju":"KTX to Singyeongju, about 2h 10m","busan>gyeongju":"Train or bus, about 1h","gyeongju>busan":"Train or bus, about 1h","gyeongju>seoul":"KTX, about 2h 10m","seoul>jeonju":"KTX, about 1h 40m","jeonju>seoul":"KTX, about 1h 40m",
+"seoul>incheon":"Subway Line 1 or AREX, about 1h","seoul>suwon":"Subway Line 1 or bus, about 1h","seoul>gapyeong":"ITX-Cheongchun train, about 1h",
+"seoul>gangneung":"KTX from Seoul Station, about 2h","seoul>sokcho":"Express bus, about 2h 30m","seoul>andong":"KTX-Eum from Cheongnyangni, about 2h",
+"seoul>daegu":"KTX, about 1h 50m","seoul>yeosu":"KTX to Yeosu-Expo, about 3h","seoul>tongyeong":"Express bus, about 4h",
+"busan>daegu":"KTX, about 50m","busan>tongyeong":"Intercity bus, about 1h 40m","busan>yeosu":"Intercity bus, about 3h",
+"daegu>gyeongju":"Train or bus, about 1h","andong>gyeongju":"Train or bus, about 1h 30m","andong>daegu":"Train or bus, about 1h 30m",
+"gangneung>sokcho":"Intercity bus, about 1h","gapyeong>gangneung":"KTX, about 1h 20m","jeonju>yeosu":"KTX, about 1h 20m","suwon>busan":"KTX, about 2h 20m"};
+const moveText=(a,b)=>MOVES[a+">"+b]||MOVES[b+">"+a]||"train or bus, check KTX and express bus times";
 // [id, city, category, slot, name, korean name, practical tip]
 const P=[
 ["gbg","seoul","history","am","Gyeongbokgung Palace","경복궁","Arrive at opening for the gatekeeper ceremony. Visitors wearing hanbok enter free."],
@@ -50,7 +59,53 @@ const P=[
 ["gkj","jeonju","history","pm","Gyeonggijeon Shrine","경기전","Bamboo grove and the royal portrait of King Taejo, founder of Joseon."],
 ["jbb","jeonju","food","pm","Jeonju bibimbap lunch","전주비빔밥","Order the brass-bowl version, the local classic."],
 ["nbm","jeonju","food","eve","Nambu night market","남부시장 야시장","Runs on Friday and Saturday evenings only."],
-["mkg","jeonju","night","eve","Makgeolli alley","막걸리 골목","Order a kettle of makgeolli and side dishes arrive with each round."]
+["mkg","jeonju","night","eve","Makgeolli alley","막걸리 골목","Order a kettle of makgeolli and side dishes arrive with each round."],
+["icp","incheon","history","am","Incheon Open Port area","인천 개항장","Late-1800s Japanese and Western-style buildings from when Incheon first opened to foreign trade."],
+["icc","incheon","food","pm","Incheon Chinatown","인천 차이나타운","Korean jajangmyeon was born here. Have a bowl, then walk the Fairy Tale Village next door."],
+["ics","incheon","nature","eve","Songdo Central Park","송도 센트럴파크","Water taxis and a futuristic skyline. Best around sunset."],
+["icw","incheon","local","eve","Wolmido seaside promenade","월미도","Seafood restaurants, small rides and harbor views. An easy evening near the airport."],
+["swh","suwon","history","am","Suwon Hwaseong Fortress","수원 화성","UNESCO-listed walls about 5.7 km around. Walk a section and try traditional archery at Yeonmudae."],
+["swp","suwon","culture","pm","Hwaseong Haenggung Palace","화성행궁","The king's temporary palace. Weekend martial arts shows run in front of the gate."],
+["swl","suwon","local","pm","Haenggung-dong café streets","행리단길","Small cafés and shops inside the fortress walls, popular with young locals."],
+["swg","suwon","food","eve","Suwon galbi","수원 왕갈비","Suwon is known for extra-large marinated beef ribs grilled at the table."],
+["swn","suwon","nature","eve","Banghwasuryujeong at night","방화수류정 야경","The pavilion and fortress walls are lit after dark. Locals picnic on the lawn."],
+["gpn","gapyeong","nature","am","Nami Island","남이섬","A short ferry from Gapyeong Wharf. Famous for its tree-lined paths from Winter Sonata."],
+["gpr","gapyeong","local","am","Gangchon Rail Park","강촌레일파크","Pedal a rail bike along an old railway line through the valley. Book ahead on weekends."],
+["gpp","gapyeong","culture","pm","Petite France & Italian Village","쁘띠프랑스·이탈리아마을","Colorful theme village used as a K-drama set. Good for photos."],
+["gpg","gapyeong","nature","eve","Garden of Morning Calm","아침고요수목원","A large garden by day; in winter it hosts a lighting festival after dark."],
+["gpd","gapyeong","food","eve","Dakgalbi dinner","닭갈비","Spicy stir-fried chicken cooked at your table, the region's signature dish. Add rice at the end."],
+["gnc","gangneung","food","am","Chodang sundubu village","초당 순두부마을","Silky tofu made with seawater. Many restaurants open early for breakfast."],
+["gnb","gangneung","nature","am","Gyeongpo Beach & Lake","경포해변·경포호","A wide beach next to a calm lake with a flat walking and cycling path."],
+["gna","gangneung","local","pm","Anmok Coffee Street","안목 커피거리","Seaside cafés with ocean views. Gangneung calls itself Korea's coffee city."],
+["gnh","gangneung","history","pm","Ojukheon House","오죽헌","Birthplace of scholar Yi I and his mother Shin Saimdang, both pictured on Korean banknotes."],
+["gnk","gangneung","kpop","pm","Jumunjin breakwater & BTS bus stop","주문진 방사제·BTS 버스정류장","The Goblin drama breakwater and, nearby at Hyangho Beach, the bus stop from a BTS album cover."],
+["gnm","gangneung","food","eve","Gangneung Jungang Market","강릉 중앙시장","Try squid sundae and crispy dakgangjeong chicken to go."],
+["skr","sokcho","nature","am","Seoraksan National Park","설악산 국립공원","Take the cable car to Gwongeumseong, or hike to Ulsanbawi rock (about 4 hours round trip)."],
+["sks","sokcho","history","pm","Sinheungsa Temple","신흥사","At the park entrance, with a giant bronze Buddha. Pair it with the morning hike."],
+["ska","sokcho","culture","pm","Abai Village & hand-pulled ferry","아바이마을·갯배","Founded by refugees from North Korea. Cross the harbor on the tiny hand-pulled ferry."],
+["skm","sokcho","food","eve","Sokcho Jungang Market","속초 관광수산시장","Sweet crispy dakgangjeong and squid sundae are the local favorites."],
+["skb","sokcho","local","eve","Sokcho Beach & Sokcho Eye","속초해변·속초아이","A beachside Ferris wheel with sea views, lit up at night."],
+["adh","andong","history","am","Hahoe Folk Village","하회마을","A UNESCO-listed clan village where families still live. Cross by boat to Buyongdae cliff for the view."],
+["adb","andong","history","pm","Byeongsan Seowon","병산서원","A Confucian academy with a famous open pavilion facing the river and cliffs."],
+["adm","andong","culture","pm","Hahoe Byeolsingut mask dance","하회별신굿탈놀이","Short traditional mask dance shows near the village on scheduled days. Check times first."],
+["adj","andong","food","eve","Andong jjimdak alley","안동 찜닭골목","Braised chicken with glass noodles, invented in Andong's old market. One plate feeds two or three."],
+["adw","andong","nature","eve","Woryeonggyo Bridge","월영교","Korea's longest wooden footbridge, lit up at night over the lake."],
+["dgm","daegu","history","am","Modern history alleys & Gyesan Cathedral","근대골목·계산성당","A walking route through early-1900s houses, a cathedral and the 3.1 Movement stairs."],
+["dgd","daegu","history","am","Donghwasa Temple","동화사","A large temple on Palgongsan mountain with a giant stone Buddha."],
+["dgk","daegu","culture","pm","Kim Gwang-seok Road","김광석 다시그리기길","A mural alley dedicated to a beloved folk singer, with live music on weekends."],
+["dgl","daegu","local","pm","Dongseong-ro","동성로","Daegu's main shopping and café district, busy with students."],
+["dgs","daegu","food","eve","Seomun Night Market","서문시장 야시장","One of Korea's biggest night markets. Try kalguksu and grilled skewers."],
+["dga","daegu","nature","eve","Apsan Observatory","앞산전망대","Ride the cable car up for a night view over the whole city."],
+["ysh","yeosu","history","am","Hyangiram Hermitage","향일암","A cliffside hermitage facing the sea, famous for sunrise. Expect stairs."],
+["yso","yeosu","nature","am","Odongdo Island","오동도","Walk the causeway to a small island of camellia trees and sea cliffs."],
+["ysc","yeosu","nature","pm","Yeosu Maritime Cable Car","여수 해상케이블카","Crosses the harbor over the sea. Glass-floor cabins are available."],
+["ysg","yeosu","food","pm","Ganjang gejang lunch","간장게장","Soy-marinated raw crab, a southern specialty. Rice in the shell is the best part."],
+["ysn","yeosu","night","eve","Yeosu night sea & pocha street","여수 밤바다·낭만포차","Seaside tent bars along the harbor, made famous by the song Yeosu Night Sea."],
+["tys","tongyeong","history","am","Sebyeonggwan Hall","세병관","A huge Joseon naval command hall linked to Admiral Yi Sun-sin."],
+["tyd","tongyeong","culture","am","Dongpirang Mural Village","동피랑 벽화마을","A hillside village of murals overlooking the harbor."],
+["tyc","tongyeong","nature","pm","Tongyeong Cable Car","통영 케이블카","Up Mireuksan for views over the islands of Hallyeosu Waterway."],
+["tyl","tongyeong","local","pm","Skyline Luge Tongyeong","스카이라인 루지 통영","Downhill luge carts with sea views. Fun for all ages."],
+["tym","tongyeong","food","eve","Jungang Market & chungmu gimbap","중앙시장·충무김밥","Try chungmu gimbap: plain rice rolls with spicy squid and radish on the side."]
 ];
 const byId=Object.fromEntries(P.map(p=>[p[0],p]));
 const cityOf=id=>CITIES.find(x=>x[0]===id);
@@ -124,7 +179,7 @@ function render(){
   const fmt=d=>d.toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"});
   $("days").innerHTML=state.plan.map((d,di)=>{
     const c=cityOf(d.city);
-    const mv=d.move?`<div class="move">Travel day: ${cityOf(d.move.from)[1]} → ${c[1]} · ${MOVES[d.move.from+">"+d.move.to]||"train or flight, allow about half a day"}</div>`:"";
+    const mv=d.move?`<div class="move">Travel day: ${cityOf(d.move.from)[1]} → ${c[1]} · ${moveText(d.move.from,d.move.to)}</div>`:"";
     const g=(GUIDES[d.city]||[])[0];
     const guide=(g&&(di===0||state.plan[di-1].city!==d.city))?`<div class="move no-print">Read first: <a href="${esc(g.url)}">${esc(g.title)}</a></div>`:"";
     const slots=d.slots.map((s,si)=>{
