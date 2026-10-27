@@ -4,6 +4,9 @@
   "installCommand": null,
   "outputDirectory": "public",
   "trailingSlash": true,
+  "redirects": [
+    { "source": "/guides/city/:city/", "destination": "/destinations/:city/", "permanent": true }
+  ],
   "headers": [
     {
       "source": "/static/(.*)",

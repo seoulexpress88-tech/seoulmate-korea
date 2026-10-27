@@ -119,7 +119,8 @@ const state={cities:qCity.length?qCity:["seoul","busan"],cats:qCat.length?qCat:[
 // Default dates: two weeks from today, five days long
 const iso=d=>d.toISOString().slice(0,10);
 const start=new Date();start.setDate(start.getDate()+14);
-const end=new Date(start);end.setDate(end.getDate()+4);
+const qDays=Math.min(14,Math.max(1,parseInt(qs.get("days"),10)||5));
+const end=new Date(start);end.setDate(end.getDate()+qDays-1);
 $("arrive").value=iso(start);$("depart").value=iso(end);
 
 function chips(el,list,sel,name){

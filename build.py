@@ -7,6 +7,7 @@
 Standard library only. Output goes to public/, which Vercel serves as-is.
 """
 import datetime as dt
+import hashlib
 import html
 import json
 import re
@@ -22,16 +23,23 @@ LOG = ROOT / "logs" / "publish.log"
 CFG = json.loads((ROOT / "site.json").read_text(encoding="utf-8"))
 BASE = CFG["base_url"].rstrip("/")
 
-# Cities we recognise in post labels/titles. The first five are also supported by the planner.
-CITIES = {
-    "seoul": ("Seoul", "서울"), "busan": ("Busan", "부산"), "jeju": ("Jeju", "제주"),
-    "gyeongju": ("Gyeongju", "경주"), "jeonju": ("Jeonju", "전주"), "gangneung": ("Gangneung", "강릉"),
-    "incheon": ("Incheon", "인천"), "sokcho": ("Sokcho", "속초"), "andong": ("Andong", "안동"),
-    "yeosu": ("Yeosu", "여수"), "suwon": ("Suwon", "수원"), "daegu": ("Daegu", "대구"),
-    "tongyeong": ("Tongyeong", "통영"), "gapyeong": ("Gapyeong", "가평"), "pohang": ("Pohang", "포항"),
-}
-PLANNER_CITIES = ["seoul", "busan", "jeju", "gyeongju", "jeonju", "incheon", "suwon", "gapyeong",
-                  "gangneung", "sokcho", "andong", "daegu", "yeosu", "tongyeong"]
+# Destination data (city info, festivals, seasons) and the projected Korea outline for the map.
+DEST = json.loads((ROOT / "data" / "cities.json").read_text(encoding="utf-8"))
+KMAP = json.loads((ROOT / "data" / "korea_map.json").read_text(encoding="utf-8"))
+DESTS = {c["id"]: c for c in DEST["cities"]}
+PLANNER_CITIES = list(DESTS)
+# Cities we recognise in post labels/titles: every destination plus a few without a destination page yet.
+CITIES = {c["id"]: (c["name"], c["ko"]) for c in DEST["cities"]}
+CITIES["pohang"] = ("Pohang", "포항")
+CAT_NAMES = {"food": "Food", "local": "Local life", "culture": "Culture", "history": "History",
+             "kpop": "K-pop", "nature": "Nature", "night": "Nightlife"}
+# Cache-busting version for /static files, so browsers pick up CSS/JS changes after each deploy.
+ASSET_V = hashlib.sha1(b"".join(f.read_bytes() for f in sorted((ROOT / "static").glob("*")))).hexdigest()[:8]
+MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+
+
+def city_url(cid):
+    return f"/destinations/{cid}/" if cid in DESTS else f"/guides/?city={cid}"
 
 
 def log(msg):
@@ -186,7 +194,7 @@ def fmt_date(d):
 
 def layout(title, desc, path, body, active="", head_extra="", page_title=None):
     full = page_title or (f"{title} | {CFG['name']}" if title != CFG["name"] else f"{CFG['name']} · {CFG['tagline']}")
-    nav = [("/planner/", "Plan a trip", "planner"), ("/guides/", "Travel guides", "guides"), ("/about/", "About", "about")]
+    nav = [("/planner/", "Plan a trip", "planner"), ("/destinations/", "Destinations", "destinations"), ("/guides/", "Travel guides", "guides"), ("/about/", "About", "about")]
     nav_html = "".join(f'<a href="{u}"{" aria-current=\"page\"" if k == active else ""}>{t}</a>' for u, t, k in nav)
     year = dt.date.today().year
     return f"""<!doctype html>
@@ -197,7 +205,7 @@ def layout(title, desc, path, body, active="", head_extra="", page_title=None):
 <title>{esc(full)}</title>
 <meta name="description" content="{esc(desc)}">
 <link rel="canonical" href="{BASE}{path}">
-<meta property="og:type" content="{'article' if path.startswith('/guides/') and path.count('/') == 3 and not path.startswith('/guides/city/') else 'website'}">
+<meta property="og:type" content="{'article' if path.startswith('/guides/') and path.count('/') == 3 else 'website'}">
 <meta property="og:site_name" content="{esc(CFG['name'])}">
 <meta property="og:title" content="{esc(title)}">
 <meta property="og:description" content="{esc(desc)}">
@@ -209,7 +217,7 @@ def layout(title, desc, path, body, active="", head_extra="", page_title=None):
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Noto+Sans+KR:wght@400;600&display=swap">
-<link rel="stylesheet" href="/static/style.css">
+<link rel="stylesheet" href="/static/style.css?v={ASSET_V}">
 {head_extra}
 </head>
 <body>
@@ -245,19 +253,122 @@ def cards(posts):
     return '<div class="cards">' + "".join(card(p) for p in posts) + "</div>"
 
 
+def proj(lon, lat):
+    return ((lon - KMAP["lon0"]) * KMAP["c"] * KMAP["k"], (KMAP["lat1"] - lat) * KMAP["k"])
+
+
+def korea_map(active=None, interactive=True):
+    """Inline SVG map of South Korea with a pin for every destination."""
+    pins = []
+    for c in DEST["cities"]:
+        x, y = proj(c["lon"], c["lat"])
+        pos = c.get("label", "right")
+        tx, ty, anchor = {"right": (x + 10, y + 5, "start"), "left": (x - 10, y + 5, "end"),
+                          "top": (x, y - 12, "middle"), "bottom": (x, y + 20, "middle")}[pos]
+        cls = "pin is-active" if c["id"] == active else "pin"
+        label = f'<text x="{tx:.1f}" y="{ty:.1f}" text-anchor="{anchor}">{esc(c.get("short", c["name"]))}</text>'
+        dot = f'<circle class="halo" cx="{x:.1f}" cy="{y:.1f}" r="13"/><circle class="dot" cx="{x:.1f}" cy="{y:.1f}" r="6.5"/>'
+        if interactive:
+            pins.append(f'<a class="{cls}" href="{city_url(c["id"])}" data-city="{c["id"]}" aria-label="{esc(c["name"])}">{dot}{label}</a>')
+        else:
+            pins.append(f'<g class="{cls}">{dot}{label}</g>')
+    return (f'<svg class="kmap" viewBox="0 0 {KMAP["width"]} {KMAP["height"]}" role="img" aria-label="Map of South Korea with destinations">'
+            f'<rect class="sea" width="{KMAP["width"]}" height="{KMAP["height"]}"/>'
+            f'<path class="land-other" d="{KMAP["neighbours"]}"/><path class="land" d="{KMAP["korea"]}"/>'
+            f'<text class="sea-label" x="{KMAP["width"] * 0.80:.0f}" y="{KMAP["height"] * 0.42:.0f}">East Sea</text>'
+            f'<text class="sea-label" x="{KMAP["width"] * 0.08:.0f}" y="{KMAP["height"] * 0.62:.0f}">Yellow Sea</text>'
+            + "".join(pins) + "</svg>")
+
+
+def festival_items(festivals, city=None):
+    out = []
+    for f in festivals:
+        where = f'<a href="{city_url(city["id"])}">{esc(city["name"])}</a> · ' if city else ""
+        out.append(f'<li class="fest" data-months="{",".join(map(str, f["months"]))}"><span class="fest-when">{esc(f["when"])}</span>'
+                   f'<b>{esc(f["name"])}</b> <span class="ko">{esc(f["ko"])}</span><p>{where}{esc(f["about"])}</p></li>')
+    return "".join(out)
+
+
+def city_panel(c, posts):
+    n = sum(c["id"] in p["cities"] for p in posts)
+    cats = " ".join(f"<span>{CAT_NAMES[k]}</span>" for k in c["best_for"])
+    fest = "".join(f'<li><b>{esc(f["when"])}</b> {esc(f["name"])}</li>' for f in c["festivals"][:3])
+    guides = f'<a href="{city_url(c["id"])}#guides">{n} guide{"s" if n != 1 else ""}</a>' if n else "Guides coming soon"
+    return f"""<div class="cpanel" data-panel="{c['id']}"{'' if c['id'] == 'seoul' else ' hidden'}>
+  <div class="cpanel-h"><h3>{esc(c['name'])}</h3><span class="ko">{esc(c['ko'])}</span></div>
+  <p class="cpanel-tag">{esc(c['tagline'])}</p>
+  <dl class="facts"><div><dt>From Seoul</dt><dd>{esc(c['from_seoul'])}</dd></div><div><dt>Stay</dt><dd>{esc(c['stay'])}</dd></div></dl>
+  <div class="bestfor">{cats}</div>
+  <p class="cpanel-hl"><span class="lbl">Don't miss</span> {esc(" · ".join(c['highlights']))}</p>
+  <div><span class="lbl">Festivals &amp; seasons</span><ul class="mini-fest">{fest}</ul></div>
+  <div class="cpanel-actions"><a class="btn" href="/planner/?city={c['id']}">Plan days here</a><a class="btn ghost" href="{city_url(c['id'])}">About {esc(c['name'])}</a></div>
+  <p class="hint">{guides}</p>
+</div>"""
+
+
+def map_section(posts, heading="Where to go in Korea", intro=True):
+    chips = "".join(f'<button type="button" class="city-chip" data-city="{c["id"]}"{" aria-pressed=\"true\"" if c["id"] == "seoul" else " aria-pressed=\"false\""}>{esc(c["name"])}</button>' for c in DEST["cities"])
+    lead = '<p class="hint" style="margin:-8px 0 14px">Tap a city on the map to see what it\'s like, how far it is from Seoul and when its festivals happen.</p>' if intro else ""
+    return f"""<section class="section" id="map">
+  <div class="section-h"><h2>{heading}</h2><a href="/destinations/">All destinations →</a></div>
+  {lead}
+  <div class="mapwrap">
+    <div class="mapcol">{korea_map()}<div class="city-chips" aria-label="Choose a city">{chips}</div></div>
+    <div class="panelcol">{"".join(city_panel(c, posts) for c in DEST["cities"])}</div>
+  </div>
+</section>"""
+
+
+def whats_on_section():
+    month = dt.date.today().month
+    chips = "".join(f'<button type="button" class="month" data-month="{i + 1}" aria-pressed="{"true" if i + 1 == month else "false"}">{m}</button>' for i, m in enumerate(MONTHS))
+    items = "".join(festival_items(c["festivals"], c) for c in DEST["cities"])
+    seasons = "".join(f'<p class="season" data-months="{",".join(map(str, s["months"]))}"><b>{s["name"]} · {s["temp"]}</b> {esc(s["tip"])}</p>' for s in DEST["seasons"])
+    return f"""<section class="section" id="whats-on">
+  <div class="section-h"><h2>What's on when you visit</h2></div>
+  <div class="months" role="group" aria-label="Travel month">{chips}</div>
+  {seasons}
+  <ul class="fest-list">{items}</ul>
+  <p class="hint fest-empty" hidden>No big festivals in our list this month. Check the season tip above.</p>
+  <p class="hint">Festival dates change every year and some follow the lunar calendar. Always confirm on the official site before you book.</p>
+</section>"""
+
+
+IDEAS = [
+    ("First time in Korea", "5 days · Seoul, Busan", "The classics: palaces, markets, K-pop streets and the beach city.", "seoul,busan", "food,history,kpop", 5),
+    ("K-pop & city nights", "4 days · Seoul", "Dance class, idol streets, busking in Hongdae and late-night eats.", "seoul", "kpop,night,food", 4),
+    ("Mountains & east coast", "5 days · Seoul, Gangneung, Sokcho", "Seoraksan hikes, seaside cafés and sunrise over the East Sea.", "seoul,gangneung,sokcho", "nature,food,local", 5),
+    ("Heritage trail", "6 days · Seoul, Andong, Gyeongju, Busan", "Royal palaces, a living clan village and the Silla capital.", "seoul,andong,gyeongju,busan", "history,culture", 6),
+    ("Foodie road trip", "5 days · Seoul, Jeonju, Yeosu", "Market food, Jeonju bibimbap and south-coast seafood.", "seoul,jeonju,yeosu", "food,local,night", 5),
+    ("Island & sea", "5 days · Busan, Tongyeong, Jeju", "Harbors, cable cars over islands and volcanic Jeju.", "busan,tongyeong,jeju", "nature,food", 5),
+]
+
+
+def ideas_section():
+    cards_html = "".join(f"""<a class="card idea" href="/planner/?city={c}&amp;cat={k}&amp;days={d}">
+<span class="eyebrow">{esc(sub)}</span><h3>{esc(t)}</h3><p>{esc(about)}</p><span class="meta">Open in planner →</span></a>""" for t, sub, about, c, k, d in IDEAS)
+    return f"""<section class="section" id="ideas">
+  <div class="section-h"><h2>Trip ideas to start from</h2><a href="/planner/">Start from scratch →</a></div>
+  <div class="cards">{cards_html}</div>
+</section>"""
+
+
+def essentials_section():
+    tips = [("Maps", "Use Naver Map or KakaoMap. Google Maps has limited walking and driving directions in Korea."),
+            ("Transit card", "Buy a T-money card at any convenience store and top it up with cash. It works on subways, buses and taxis."),
+            ("Payments", "Cards work almost everywhere. Keep some cash for traditional markets and street stalls."),
+            ("Language", "Download Papago for translation. It reads menus and signs from your camera.")]
+    items = "".join(f'<div class="ess"><b>{t}</b><p>{esc(x)}</p></div>' for t, x in tips)
+    return f'<section class="section"><div class="section-h"><h2>First-timer essentials</h2></div><div class="ess-grid">{items}</div></section>'
+
+
 def page_home(posts):
-    counts = {c: sum(c in p["cities"] for p in posts) for c in CITIES}
-    city_ids = list(dict.fromkeys(PLANNER_CITIES + [c for c in CITIES if counts[c]]))
-    city_html = "".join(
-        f'<a class="city" href="{"/guides/city/" + c + "/" if counts[c] else "/planner/?city=" + c}"><b>{CITIES[c][0]}</b>'
-        f'<span>{CITIES[c][1]} · {counts[c]} guide{"s" if counts[c] != 1 else ""}</span></a>'
-        for c in city_ids)
     body = f"""
 <section class="hero">
   <div>
     <h1>Plan Korea around what you love.</h1>
     <p>Tell us your dates, cities and interests: food, K-pop, history, local life. Get a day-by-day plan with options for every stop, then read our local guides before you go.</p>
-    <div class="actions"><a class="btn" href="/planner/">Build my itinerary</a><a class="btn ghost" href="/guides/">Read travel guides</a></div>
+    <div class="actions"><a class="btn" href="/planner/">Build my itinerary</a><a class="btn ghost" href="#map">Explore the map</a></div>
   </div>
   <div class="hero-card" aria-label="Example itinerary">
     <span class="lbl">Example · 3 days, Seoul &amp; Busan</span>
@@ -266,22 +377,34 @@ def page_home(posts):
     <div class="day"><b>Day 3</b><span>KTX to Busan → Gamcheon Village → Gwangalli drone show</span></div>
   </div>
 </section>
+{map_section(posts)}
+{whats_on_section()}
+{ideas_section()}
 <section class="section">
   <div class="section-h"><h2>Latest guides</h2><a href="/guides/">All guides →</a></div>
   {cards(posts[:6])}
 </section>
-<section class="section">
-  <div class="section-h"><h2>Explore by city</h2></div>
-  <div class="cities">{city_html}</div>
-</section>"""
+{essentials_section()}"""
     ld = {"@context": "https://schema.org", "@type": "WebSite", "name": CFG["name"], "url": BASE + "/", "description": CFG["description"]}
-    return layout(CFG["name"], CFG["description"], "/", body, head_extra=jsonld(ld))
+    return layout(CFG["name"], CFG["description"], "/", body,
+                  head_extra=jsonld(ld) + f'\n<script src="/static/home.js?v={ASSET_V}" defer></script>')
+
+
+def page_destinations(posts):
+    grid = "".join(f"""<a class="card" href="{city_url(c['id'])}"><span class="eyebrow">{esc(c['ko'])} · {esc(c['from_seoul'])}</span>
+<h3>{esc(c['name'])}</h3><p>{esc(c['tagline'])}</p><span class="meta">{' · '.join(CAT_NAMES[k] for k in c['best_for'])}</span></a>""" for c in DEST["cities"])
+    body = f"""<div class="page-h"><h1>Destinations in Korea</h1>
+<p>Fourteen places foreign travelers love, from Seoul's palaces to Jeju's volcanoes. Pick a city on the map to compare.</p></div>
+{map_section(posts, "Map", intro=False)}
+<section class="section"><div class="section-h"><h2>All destinations</h2></div><div class="cards">{grid}</div></section>"""
+    return layout("Destinations in Korea", "Where to go in Korea: 14 destinations with travel times from Seoul, highlights and festival seasons.",
+                  "/destinations/", body, "destinations", head_extra=f'<script src="/static/home.js?v={ASSET_V}" defer></script>')
 
 
 def city_filters(posts, current=None):
     used = [c for c in CITIES if any(c in p["cities"] for p in posts)]
     items = [f'<a href="/guides/"{" aria-current=\"page\"" if current is None else ""}>All</a>']
-    items += [f'<a href="/guides/city/{c}/"{" aria-current=\"page\"" if c == current else ""}>{CITIES[c][0]}</a>' for c in used]
+    items += [f'<a href="{city_url(c)}#guides"{" aria-current=\"page\"" if c == current else ""}>{CITIES[c][0]}</a>' for c in used]
     return '<nav class="filters" aria-label="Filter by city">' + "".join(items) + "</nav>"
 
 
@@ -293,16 +416,31 @@ def page_guides(posts):
     return layout("Korea travel guides", "Practical Korea travel guides for foreign visitors: sights, food, transport and local tips.", "/guides/", body, "guides")
 
 
-def page_city(cid, posts, all_posts):
-    en, ko = CITIES[cid]
-    plan = f'<p><a class="btn" href="/planner/?city={cid}">Plan days in {en}</a></p>' if cid in PLANNER_CITIES else ""
-    body = f"""<p class="crumbs"><a href="/guides/">Guides</a> / {esc(en)}</p>
-<div class="page-h"><h1>{esc(en)} travel guides <span class="hint">{ko}</span></h1>
-<p>Everything we've written about {esc(en)}: where to go, what to eat and how to get around.</p></div>
-{city_filters(all_posts, cid)}
-{plan}
-{cards(posts)}"""
-    return layout(f"{en} travel guides", f"{en}, Korea travel guides for foreign visitors: sights, food, transport and local tips.", f"/guides/city/{cid}/", body, "guides")
+def page_city(c, posts):
+    cid, en = c["id"], c["name"]
+    cats = " ".join(f"<span>{CAT_NAMES[k]}</span>" for k in c["best_for"])
+    hl = "".join(f"<li>{esc(h)}</li>" for h in c["highlights"])
+    guides = cards(posts) if posts else f'<div class="empty">Guides for {esc(en)} are coming soon. New guides are published every morning.</div>'
+    body = f"""<p class="crumbs"><a href="/destinations/">Destinations</a> / {esc(en)}</p>
+<div class="city-hero">
+  <div>
+    <div class="page-h"><h1>{esc(en)} <span class="hint">{esc(c['ko'])}</span></h1><p>{esc(c['tagline'])}</p></div>
+    <dl class="facts"><div><dt>From Seoul</dt><dd>{esc(c['from_seoul'])}</dd></div><div><dt>How long</dt><dd>{esc(c['stay'])}</dd></div></dl>
+    <div class="bestfor">{cats}</div>
+    <h2 class="sub">Don't miss</h2><ul class="hl">{hl}</ul>
+    <p><a class="btn" href="/planner/?city={cid}">Plan days in {esc(en)}</a></p>
+  </div>
+  <div class="locator">{korea_map(active=cid, interactive=False)}</div>
+</div>
+<section class="section"><div class="section-h"><h2>Festivals &amp; seasons</h2></div>
+  <ul class="fest-list static">{festival_items(c['festivals'])}</ul>
+  <p class="hint">Dates change every year. Confirm on the official site before you book.</p>
+</section>
+<section class="section" id="guides"><div class="section-h"><h2>{esc(en)} guides</h2></div>{guides}</section>"""
+    ld = {"@context": "https://schema.org", "@type": "TouristDestination", "name": f"{en}, South Korea", "description": c["tagline"],
+          "geo": {"@type": "GeoCoordinates", "latitude": c["lat"], "longitude": c["lon"]}, "url": BASE + city_url(cid)}
+    return layout(f"{en} travel guide", f"{en}, Korea: {c['tagline']} Travel time from Seoul, highlights and festival seasons.",
+                  city_url(cid), body, "destinations", head_extra=jsonld(ld))
 
 
 def jsonld(obj):
@@ -315,7 +453,7 @@ def page_post(p, posts):
     city = p["cities"][0] if p["cities"] else None
     crumbs = '<a href="/guides/">Guides</a>'
     if city:
-        crumbs += f' / <a href="/guides/city/{city}/">{CITIES[city][0]}</a>'
+        crumbs += f' / <a href="{city_url(city)}">{CITIES[city][0]}</a>'
     checked = (f'<div class="callout">Prices, opening hours and transit times change often. We last checked them on '
                f'{fmt_date(p["facts_checked"])}. Please confirm on the official site or Naver Map before you go.</div>') if p.get("facts_checked") else ""
     plan_city = next((c for c in p["cities"] if c in PLANNER_CITIES), None)
@@ -416,7 +554,7 @@ def page_planner(posts):
     </div>
   </div>
 </div>"""
-    extra = f'<script>window.SEOULMATE_GUIDES={json.dumps(guides, ensure_ascii=False)};</script>\n<script src="/static/planner.js" defer></script>'
+    extra = f'<script>window.SEOULMATE_GUIDES={json.dumps(guides, ensure_ascii=False)};</script>\n<script src="/static/planner.js?v={ASSET_V}" defer></script>'
     return layout("Korea trip planner", "Build a free day-by-day Korea itinerary for Seoul, Busan, Jeju, Gyeongju, Gangneung, Sokcho, Yeosu and more, based on your dates and interests.",
                   "/planner/", body, "planner", head_extra=extra)
 
@@ -453,8 +591,8 @@ DISCLOSURE = """<p>Some links on this site are affiliate links, for example to K
 
 def sitemap(posts):
     today = dt.date.today().isoformat()
-    urls = [("/", today), ("/planner/", today), ("/guides/", posts[0]["date"] if posts else today), ("/about/", today)]
-    urls += [(f"/guides/city/{c}/", today) for c in CITIES if any(c in p["cities"] for p in posts)]
+    urls = [("/", today), ("/planner/", today), ("/destinations/", today), ("/guides/", posts[0]["date"] if posts else today), ("/about/", today)]
+    urls += [(city_url(c), today) for c in DESTS]
     urls += [(p["url"], p.get("updated", p["date"])) for p in posts]
     items = "".join(f"<url><loc>{BASE}{u}</loc><lastmod>{d}</lastmod></url>" for u, d in urls)
     return f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">{items}</urlset>\n'
@@ -486,10 +624,9 @@ def build():
     write("index.html", page_home(posts))
     write("planner/index.html", page_planner(posts))
     write("guides/index.html", page_guides(posts))
-    for c in CITIES:
-        cp = [p for p in posts if c in p["cities"]]
-        if cp:
-            write(f"guides/city/{c}/index.html", page_city(c, cp, posts))
+    write("destinations/index.html", page_destinations(posts))
+    for c in DEST["cities"]:
+        write(f"destinations/{c['id']}/index.html", page_city(c, [p for p in posts if c["id"] in p["cities"]]))
     for p in posts:
         write(f"guides/{p['slug']}/index.html", page_post(p, posts))
     contact = f'Email <a href="mailto:{esc(CFG["contact_email"])}">{esc(CFG["contact_email"])}</a>.' if CFG.get("contact_email") else "Contact details will be listed here soon."

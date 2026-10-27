@@ -1,0 +1,682 @@
+{
+ "_note": "Festival 'months' are the usual months. Dates change every year, so the site always tells readers to confirm before going.",
+ "cities": [
+  {
+   "id": "seoul",
+   "name": "Seoul",
+   "ko": "서울",
+   "lat": 37.5665,
+   "lon": 126.978,
+   "label": "top",
+   "tagline": "Palaces, street food, K-pop and nightlife in one huge, easy-to-navigate capital.",
+   "best_for": [
+    "food",
+    "kpop",
+    "history",
+    "night"
+   ],
+   "from_seoul": "You'll probably land here",
+   "stay": "3–5 days",
+   "highlights": [
+    "Gyeongbokgung Palace",
+    "Gwangjang Market",
+    "Hongdae"
+   ],
+   "festivals": [
+    {
+     "name": "Yeouido Spring Flower Festival",
+     "ko": "여의도 봄꽃축제",
+     "months": [
+      4
+     ],
+     "when": "Early April",
+     "about": "Cherry blossoms along the Han River and Yunjung-ro."
+    },
+    {
+     "name": "Lotus Lantern Festival",
+     "ko": "연등회",
+     "months": [
+      4,
+      5
+     ],
+     "when": "Before Buddha's Birthday (April or May)",
+     "about": "A UNESCO-listed lantern parade through downtown Seoul."
+    },
+    {
+     "name": "Seoul International Fireworks Festival",
+     "ko": "서울세계불꽃축제",
+     "months": [
+      9,
+      10
+     ],
+     "when": "Late September or early October",
+     "about": "One evening of huge fireworks over Yeouido. Arrive by mid-afternoon."
+    },
+    {
+     "name": "Seoul Lantern Festival",
+     "ko": "서울빛초롱축제",
+     "months": [
+      11,
+      12
+     ],
+     "when": "Late autumn into winter",
+     "about": "Light installations along Cheonggyecheon Stream, free to walk."
+    }
+   ]
+  },
+  {
+   "id": "busan",
+   "name": "Busan",
+   "ko": "부산",
+   "lat": 35.1796,
+   "lon": 129.0756,
+   "label": "right",
+   "tagline": "Korea's beach city: seafood markets, hillside villages and temples by the sea.",
+   "best_for": [
+    "food",
+    "nature",
+    "culture",
+    "night"
+   ],
+   "from_seoul": "KTX about 2h 40m",
+   "stay": "2–3 days",
+   "highlights": [
+    "Gamcheon Culture Village",
+    "Haeundae & Blueline Park",
+    "Jagalchi Fish Market"
+   ],
+   "festivals": [
+    {
+     "name": "Haeundae Sand Festival",
+     "ko": "해운대 모래축제",
+     "months": [
+      5,
+      6
+     ],
+     "when": "Late May or early June",
+     "about": "Giant sand sculptures on Haeundae Beach."
+    },
+    {
+     "name": "Busan Sea Festival",
+     "ko": "부산바다축제",
+     "months": [
+      8
+     ],
+     "when": "Early August",
+     "about": "Beach concerts and events across the city's beaches."
+    },
+    {
+     "name": "Busan International Film Festival",
+     "ko": "부산국제영화제",
+     "months": [
+      9,
+      10
+     ],
+     "when": "Late September or early October",
+     "about": "Asia's biggest film festival, with open-air screenings and star sightings."
+    },
+    {
+     "name": "Busan Fireworks Festival",
+     "ko": "부산불꽃축제",
+     "months": [
+      11,
+      12
+     ],
+     "when": "Usually November",
+     "about": "Fireworks over Gwangan Bridge, seen from Gwangalli Beach."
+    }
+   ]
+  },
+  {
+   "id": "jeju",
+   "name": "Jeju",
+   "ko": "제주",
+   "lat": 33.38,
+   "lon": 126.55,
+   "label": "right",
+   "tagline": "A volcanic island of craters, beaches, tangerine farms and women free-divers.",
+   "best_for": [
+    "nature",
+    "local",
+    "food"
+   ],
+   "from_seoul": "Flight about 1h 10m",
+   "stay": "3–4 days",
+   "highlights": [
+    "Seongsan Ilchulbong",
+    "Hallasan",
+    "Black pork"
+   ],
+   "festivals": [
+    {
+     "name": "Jeju Fire Festival",
+     "ko": "제주들불축제",
+     "months": [
+      3
+     ],
+     "when": "March",
+     "about": "A traditional spring festival at Saebyeol Oreum. The program changes year to year."
+    },
+    {
+     "name": "Canola flower season",
+     "ko": "유채꽃",
+     "months": [
+      3,
+      4
+     ],
+     "when": "Late March to April",
+     "about": "Yellow canola fields, often alongside cherry blossoms, around Seogwipo."
+    },
+    {
+     "name": "Tangerine season",
+     "ko": "감귤 수확철",
+     "months": [
+      11,
+      12,
+      1
+     ],
+     "when": "November to January",
+     "about": "Farms open for tangerine picking. Look for 귤따기 signs."
+    }
+   ]
+  },
+  {
+   "id": "gyeongju",
+   "name": "Gyeongju",
+   "ko": "경주",
+   "lat": 35.8562,
+   "lon": 129.2247,
+   "label": "right",
+   "tagline": "The 1,000-year capital of the Silla kingdom, a museum without walls.",
+   "best_for": [
+    "history",
+    "culture",
+    "nature"
+   ],
+   "from_seoul": "KTX about 2h 10m",
+   "stay": "1–2 days",
+   "highlights": [
+    "Bulguksa Temple",
+    "Daereungwon tombs",
+    "Donggung Palace at night"
+   ],
+   "festivals": [
+    {
+     "name": "Cherry blossoms at Bomun Lake",
+     "ko": "보문호 벚꽃",
+     "months": [
+      3,
+      4
+     ],
+     "when": "Late March to early April",
+     "about": "One of Korea's best cherry blossom spots, around Bomun Lake and Daereungwon."
+    },
+    {
+     "name": "Silla Culture Festival",
+     "ko": "신라문화제",
+     "months": [
+      10
+     ],
+     "when": "October",
+     "about": "Parades and performances celebrating Silla history."
+    },
+    {
+     "name": "Autumn foliage",
+     "ko": "단풍",
+     "months": [
+      10,
+      11
+     ],
+     "when": "Late October to mid-November",
+     "about": "Ginkgo and maple peak at Bulguksa, Tongiljeon and Ungok Seowon."
+    }
+   ]
+  },
+  {
+   "id": "jeonju",
+   "name": "Jeonju",
+   "ko": "전주",
+   "lat": 35.8242,
+   "lon": 127.148,
+   "label": "left",
+   "tagline": "Korea's food capital, with a hanok village of about 700 traditional houses.",
+   "best_for": [
+    "food",
+    "culture",
+    "history"
+   ],
+   "from_seoul": "KTX about 1h 40m",
+   "stay": "1–2 days",
+   "highlights": [
+    "Jeonju Hanok Village",
+    "Bibimbap",
+    "Nambu night market"
+   ],
+   "festivals": [
+    {
+     "name": "Jeonju International Film Festival",
+     "ko": "전주국제영화제",
+     "months": [
+      4,
+      5
+     ],
+     "when": "Late April to early May",
+     "about": "A festival for independent and arthouse film."
+    },
+    {
+     "name": "Jeonju Bibimbap Festival",
+     "ko": "전주비빔밥축제",
+     "months": [
+      10
+     ],
+     "when": "October",
+     "about": "Giant communal bibimbap and food events in the hanok village."
+    }
+   ]
+  },
+  {
+   "id": "incheon",
+   "name": "Incheon",
+   "ko": "인천",
+   "lat": 37.4563,
+   "lon": 126.7052,
+   "label": "left",
+   "tagline": "Where most visitors land: a historic port, Chinatown and a futuristic new city.",
+   "best_for": [
+    "food",
+    "history",
+    "local"
+   ],
+   "from_seoul": "Subway or AREX about 1h",
+   "stay": "Half day to 1 day",
+   "highlights": [
+    "Chinatown",
+    "Open Port area",
+    "Songdo Central Park"
+   ],
+   "festivals": [
+    {
+     "name": "Incheon Pentaport Rock Festival",
+     "ko": "인천펜타포트 락 페스티벌",
+     "months": [
+      8
+     ],
+     "when": "Early August",
+     "about": "Korea's biggest rock festival, three days in Songdo."
+    }
+   ]
+  },
+  {
+   "id": "suwon",
+   "name": "Suwon",
+   "ko": "수원",
+   "lat": 37.2636,
+   "lon": 127.0286,
+   "label": "right",
+   "tagline": "A UNESCO-listed fortress city, an easy half-day trip from Seoul.",
+   "best_for": [
+    "history",
+    "food",
+    "local"
+   ],
+   "from_seoul": "Subway about 1h",
+   "stay": "Half day to 1 day",
+   "highlights": [
+    "Hwaseong Fortress",
+    "Hwaseong Haenggung",
+    "Suwon galbi"
+   ],
+   "festivals": [
+    {
+     "name": "Suwon Hwaseong Cultural Festival",
+     "ko": "수원화성문화제",
+     "months": [
+      9,
+      10
+     ],
+     "when": "Late September or early October",
+     "about": "A reenactment of King Jeongjo's royal procession and fortress events."
+    }
+   ]
+  },
+  {
+   "id": "gapyeong",
+   "name": "Gapyeong & Nami",
+   "ko": "가평",
+   "lat": 37.8315,
+   "lon": 127.5105,
+   "label": "right",
+   "tagline": "Riverside day trip from Seoul: Nami Island, gardens and a K-drama theme village.",
+   "best_for": [
+    "nature",
+    "culture",
+    "local"
+   ],
+   "from_seoul": "ITX train about 1h",
+   "stay": "1 day",
+   "highlights": [
+    "Nami Island",
+    "Petite France",
+    "Garden of Morning Calm"
+   ],
+   "festivals": [
+    {
+     "name": "Jarasum Jazz Festival",
+     "ko": "자라섬재즈페스티벌",
+     "months": [
+      10
+     ],
+     "when": "October",
+     "about": "Outdoor jazz on a river island, with picnics on the lawn."
+    },
+    {
+     "name": "Garden of Morning Calm lights",
+     "ko": "오색별빛정원전",
+     "months": [
+      12,
+      1,
+      2,
+      3
+     ],
+     "when": "Winter evenings",
+     "about": "The whole garden lit up after dark."
+    }
+   ],
+   "short": "Gapyeong"
+  },
+  {
+   "id": "gangneung",
+   "name": "Gangneung",
+   "ko": "강릉",
+   "lat": 37.7519,
+   "lon": 128.8761,
+   "label": "right",
+   "tagline": "East coast beaches, Korea's coffee town and sunrise over the sea.",
+   "best_for": [
+    "nature",
+    "local",
+    "food",
+    "kpop"
+   ],
+   "from_seoul": "KTX about 2h",
+   "stay": "1–2 days",
+   "highlights": [
+    "Anmok Coffee Street",
+    "Gyeongpo Beach",
+    "BTS bus stop"
+   ],
+   "festivals": [
+    {
+     "name": "Gangneung Danoje Festival",
+     "ko": "강릉단오제",
+     "months": [
+      5,
+      6
+     ],
+     "when": "May or June (lunar calendar)",
+     "about": "A UNESCO-listed traditional festival with rituals, mask plays and a huge market."
+    },
+    {
+     "name": "Gangneung Coffee Festival",
+     "ko": "강릉커피축제",
+     "months": [
+      10
+     ],
+     "when": "October",
+     "about": "Roasters and cafés from across the country."
+    },
+    {
+     "name": "New Year sunrise",
+     "ko": "해맞이",
+     "months": [
+      1
+     ],
+     "when": "January 1",
+     "about": "Crowds gather at Gyeongpo and Jeongdongjin for the first sunrise."
+    }
+   ]
+  },
+  {
+   "id": "sokcho",
+   "name": "Sokcho & Seoraksan",
+   "ko": "속초",
+   "lat": 38.207,
+   "lon": 128.5918,
+   "label": "right",
+   "tagline": "Korea's most famous mountains meet a seafood harbor town.",
+   "best_for": [
+    "nature",
+    "food",
+    "culture"
+   ],
+   "from_seoul": "Express bus about 2h 30m",
+   "stay": "1–2 days",
+   "highlights": [
+    "Seoraksan National Park",
+    "Abai Village ferry",
+    "Jungang Market"
+   ],
+   "festivals": [
+    {
+     "name": "Seoraksan autumn foliage",
+     "ko": "설악산 단풍",
+     "months": [
+      10
+     ],
+     "when": "Early to late October",
+     "about": "Usually the first big foliage in Korea. Weekends are very busy."
+    },
+    {
+     "name": "New Year sunrise",
+     "ko": "해맞이",
+     "months": [
+      1
+     ],
+     "when": "January 1",
+     "about": "First-sunrise gatherings at Sokcho Beach."
+    }
+   ],
+   "short": "Sokcho"
+  },
+  {
+   "id": "andong",
+   "name": "Andong",
+   "ko": "안동",
+   "lat": 36.5684,
+   "lon": 128.7294,
+   "label": "right",
+   "tagline": "Korea's Confucian heartland, with a living UNESCO village and mask dances.",
+   "best_for": [
+    "history",
+    "culture",
+    "food"
+   ],
+   "from_seoul": "KTX-Eum about 2h",
+   "stay": "1 day",
+   "highlights": [
+    "Hahoe Folk Village",
+    "Byeongsan Seowon",
+    "Andong jjimdak"
+   ],
+   "festivals": [
+    {
+     "name": "Andong Maskdance Festival",
+     "ko": "안동국제탈춤페스티벌",
+     "months": [
+      9,
+      10
+     ],
+     "when": "Late September to early October",
+     "about": "Mask dance troupes from Korea and abroad, plus the Hahoe village fire show."
+    }
+   ]
+  },
+  {
+   "id": "daegu",
+   "name": "Daegu",
+   "ko": "대구",
+   "lat": 35.8714,
+   "lon": 128.6014,
+   "label": "left",
+   "tagline": "A big, local-feeling city of night markets, modern history and mountain temples.",
+   "best_for": [
+    "food",
+    "history",
+    "local"
+   ],
+   "from_seoul": "KTX about 1h 50m",
+   "stay": "1–2 days",
+   "highlights": [
+    "Seomun Night Market",
+    "Modern history alleys",
+    "Apsan Observatory"
+   ],
+   "festivals": [
+    {
+     "name": "Daegu Chimac Festival",
+     "ko": "대구치맥페스티벌",
+     "months": [
+      7
+     ],
+     "when": "July",
+     "about": "Fried chicken and beer (chimaek) with concerts, in Korea's hottest city."
+    }
+   ]
+  },
+  {
+   "id": "yeosu",
+   "name": "Yeosu",
+   "ko": "여수",
+   "lat": 34.7604,
+   "lon": 127.6622,
+   "label": "left",
+   "tagline": "A romantic south-coast harbor known for its night sea and island views.",
+   "best_for": [
+    "nature",
+    "food",
+    "night"
+   ],
+   "from_seoul": "KTX about 3h",
+   "stay": "1–2 days",
+   "highlights": [
+    "Hyangiram sunrise",
+    "Maritime cable car",
+    "Nangman pocha"
+   ],
+   "festivals": [
+    {
+     "name": "Yeongchwisan Azalea Festival",
+     "ko": "영취산 진달래축제",
+     "months": [
+      4
+     ],
+     "when": "Early April",
+     "about": "Hillsides covered in pink azaleas."
+    },
+    {
+     "name": "Yeosu Turtle Ship Festival",
+     "ko": "여수거북선축제",
+     "months": [
+      5
+     ],
+     "when": "May",
+     "about": "Celebrates Admiral Yi Sun-sin and his turtle ships."
+    },
+    {
+     "name": "Hyangiram Sunrise Festival",
+     "ko": "향일암 일출제",
+     "months": [
+      12,
+      1
+     ],
+     "when": "December 31 to January 1",
+     "about": "Watch the first sunrise of the year from the cliffside hermitage."
+    }
+   ]
+  },
+  {
+   "id": "tongyeong",
+   "name": "Tongyeong",
+   "ko": "통영",
+   "lat": 34.8544,
+   "lon": 128.4332,
+   "label": "right",
+   "tagline": "The 'Naples of Korea': islands, seafood and an artistic harbor town.",
+   "best_for": [
+    "nature",
+    "food",
+    "culture"
+   ],
+   "from_seoul": "Express bus about 4h",
+   "stay": "1–2 days",
+   "highlights": [
+    "Dongpirang Mural Village",
+    "Cable car",
+    "Chungmu gimbap"
+   ],
+   "festivals": [
+    {
+     "name": "Tongyeong International Music Festival",
+     "ko": "통영국제음악제",
+     "months": [
+      3,
+      4
+     ],
+     "when": "Spring",
+     "about": "Classical music in honor of composer Isang Yun, born in Tongyeong."
+    },
+    {
+     "name": "Hansan Daecheop Festival",
+     "ko": "한산대첩축제",
+     "months": [
+      8
+     ],
+     "when": "August",
+     "about": "Reenacts Admiral Yi's 1592 naval victory, with boats on the harbor."
+    }
+   ]
+  }
+ ],
+ "seasons": [
+  {
+   "months": [
+    3,
+    4,
+    5
+   ],
+   "name": "Spring",
+   "temp": "5–20°C",
+   "tip": "Cherry blossoms move north from late March to mid-April. Bring a light jacket."
+  },
+  {
+   "months": [
+    6,
+    7,
+    8
+   ],
+   "name": "Summer",
+   "temp": "22–32°C",
+   "tip": "Hot and humid, with a rainy season from late June to July. Beaches open in July."
+  },
+  {
+   "months": [
+    9,
+    10,
+    11
+   ],
+   "name": "Autumn",
+   "temp": "5–25°C",
+   "tip": "The best season for most visitors. Foliage peaks from mid-October to mid-November."
+  },
+  {
+   "months": [
+    12,
+    1,
+    2
+   ],
+   "name": "Winter",
+   "temp": "−10–5°C",
+   "tip": "Cold and dry. Pack layers; ski resorts and winter lights are at their best."
+  }
+ ]
+}
