@@ -203,6 +203,7 @@ def layout(title, desc, path, body, active="", head_extra="", page_title=None):
 <meta property="og:url" content="{BASE}{path}">
 <meta name="twitter:card" content="summary">
 <link rel="alternate" type="application/rss+xml" title="{esc(CFG['name'])} guides" href="{BASE}/feed.xml">
+{f'<meta name="google-site-verification" content="{esc(CFG["google_site_verification"])}">' if CFG.get("google_site_verification") and path == "/" else ""}
 <link rel="icon" href="/static/icon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
