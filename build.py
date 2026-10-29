@@ -32,6 +32,8 @@ PLANNER_CITIES = list(DESTS)
 CITIES = {c["id"]: (c["name"], c["ko"]) for c in DEST["cities"]}
 CITIES["pohang"] = ("Pohang", "포항")
 CITIES["damyang"] = ("Damyang", "담양")
+CITIES["daejeon"] = ("Daejeon", "대전")
+CITIES["suncheon"] = ("Suncheon", "순천")
 CAT_NAMES = {"food": "Food", "local": "Local life", "culture": "Culture", "history": "History",
              "kpop": "K-pop", "nature": "Nature", "night": "Nightlife"}
 # Cache-busting version for /static files, so browsers pick up CSS/JS changes after each deploy.
