@@ -4,7 +4,7 @@
 const CITIES=[["seoul","Seoul","서울"],["busan","Busan","부산"],["jeju","Jeju","제주"],["gyeongju","Gyeongju","경주"],["jeonju","Jeonju","전주"],
 ["incheon","Incheon","인천"],["suwon","Suwon","수원"],["gapyeong","Gapyeong & Nami","가평"],["gangneung","Gangneung","강릉"],["sokcho","Sokcho & Seoraksan","속초"],
 ["andong","Andong","안동"],["daegu","Daegu","대구"],["yeosu","Yeosu","여수"],["tongyeong","Tongyeong","통영"]];
-const CATS=[["food","Food"],["local","Local life"],["culture","Culture"],["history","History"],["kpop","K-pop"],["nature","Nature"],["night","Nightlife"]];
+const CATS=[["food","Food"],["local","Local life"],["culture","Culture"],["history","History"],["kpop","K-pop"],["sports","Sports"],["nature","Nature"],["night","Nightlife"]];
 const SLOTS=[["am","Morning","9–12"],["pm","Afternoon","13–17"],["eve","Evening","18–22"],["late","Late","22+"]];
 const MOVES={"seoul>busan":"KTX, about 2h 40m","busan>seoul":"KTX, about 2h 40m","seoul>jeju":"Flight from Gimpo, about 1h 10m","busan>jeju":"Flight from Gimhae, about 1h","jeju>seoul":"Flight to Gimpo, about 1h 10m","jeju>busan":"Flight to Gimhae, about 1h","seoul>gyeongju":"KTX to Singyeongju, about 2h 10m","busan>gyeongju":"Train or bus, about 1h","gyeongju>busan":"Train or bus, about 1h","gyeongju>seoul":"KTX, about 2h 10m","seoul>jeonju":"KTX, about 1h 40m","jeonju>seoul":"KTX, about 1h 40m",
 "seoul>incheon":"Subway Line 1 or AREX, about 1h","seoul>suwon":"Subway Line 1 or bus, about 1h","seoul>gapyeong":"ITX-Cheongchun train, about 1h",
@@ -105,7 +105,26 @@ const P=[
 ["tyd","tongyeong","culture","am","Dongpirang Mural Village","동피랑 벽화마을","A hillside village of murals overlooking the harbor."],
 ["tyc","tongyeong","nature","pm","Tongyeong Cable Car","통영 케이블카","Up Mireuksan for views over the islands of Hallyeosu Waterway."],
 ["tyl","tongyeong","local","pm","Skyline Luge Tongyeong","스카이라인 루지 통영","Downhill luge carts with sea views. Fun for all ages."],
-["tym","tongyeong","food","eve","Jungang Market & chungmu gimbap","중앙시장·충무김밥","Try chungmu gimbap: plain rice rolls with spicy squid and radish on the side."]
+["tym","tongyeong","food","eve","Jungang Market & chungmu gimbap","중앙시장·충무김밥","Try chungmu gimbap: plain rice rolls with spicy squid and radish on the side."],
+// Sports. An 8th field lists the months the place is in season; outside them the planner skips it.
+["kbo","seoul","sports","eve","KBO baseball at Jamsil Stadium","잠실야구장","Home of the Doosan Bears and LG Twins. Sit in the cheering zone, learn the player songs and bring fried chicken.",[3,4,5,6,7,8,9,10]],
+["gcd","seoul","sports","eve","Kiwoom Heroes at Gocheok Sky Dome","고척스카이돔","Korea's only domed ballpark, so games go ahead even when it rains.",[3,4,5,6,7,8,9,10]],
+["fcs","seoul","sports","eve","FC Seoul at Seoul World Cup Stadium","서울월드컵경기장","K League football in the 2002 World Cup stadium. Tickets are cheap and usually available on match day.",[3,4,5,6,7,8,9,10,11]],
+["vbl","seoul","sports","eve","V-League volleyball at Jangchung Arena","장충체육관","Pro volleyball with loud, friendly crowds. The women's league is especially popular.",[10,11,12,1,2,3]],
+["lck","seoul","sports","pm","LoL Park esports arena","롤파크","Watch live League of Legends (LCK) matches in Jongno. Tickets for T1 games sell out fast, so check the schedule early."],
+["tkd","seoul","sports","am","Taekwondo experience class","태권도 체험","Beginner classes for visitors teach basic kicks and board-breaking in about an hour. Book a day ahead."],
+["hrb","seoul","sports","pm","Han River cycling","한강 자전거","Rent a Seoul public bike (Ttareungyi) with the app and ride the flat riverside paths from Yeouido."],
+["sjk","busan","sports","eve","Lotte Giants at Sajik Stadium","사직야구장","Busan has Korea's most passionate baseball fans. Join the songs in the cheering zone.",[3,4,5,6,7,8,9,10]],
+["sjs","busan","sports","am","Surf lesson at Songjeong Beach","송정해수욕장 서핑","Busan's surf beach, with beginner lessons and board rental most of the year (wetsuits in the cold months)."],
+["ssg","incheon","sports","eve","SSG Landers baseball, Incheon","인천SSG랜더스필드","A big, modern ballpark known for its food. An easy trip from Seoul or the airport.",[3,4,5,6,7,8,9,10]],
+["ktw","suwon","sports","eve","KT Wiz baseball, Suwon","수원KT위즈파크","Home of the KT Wiz. The team app sells tickets in English and takes overseas cards.",[3,4,5,6,7,8,9,10]],
+["dsl","daegu","sports","eve","Samsung Lions Park, Daegu","삼성라이온즈파크","A newer ballpark with grass and picnic seats and one of the loudest cheering sections.",[3,4,5,6,7,8,9,10]],
+["gop","gangneung","sports","pm","Gangneung Olympic Park","강릉올림픽파크","Walk around the 2018 Winter Olympics ice venues and the Olympic museum."],
+["ypg","gangneung","sports","am","Ski day at Yongpyong or Phoenix","용평·휘닉스 스키장","The 2018 Olympic ski resorts in Pyeongchang are about 40 minutes away. Rentals and English lessons are available.",[12,1,2,3]],
+["yys","sokcho","sports","am","Surfing at Yangyang","양양 서핑","Korea's surf capital, about 40 minutes south of Sokcho. Beginner lessons run most of the year; autumn has the best waves."],
+["gpw","gapyeong","sports","pm","Water sports on the Bukhan River","북한강 수상레저","Wakeboarding and banana boats, a classic summer weekend for Seoulites.",[6,7,8,9]],
+["jhr","jeju","sports","pm","Horse riding on Jeju","제주 승마","Jeju has a long horse-breeding tradition; many ranches offer short beginner rides."],
+["jol","jeju","sports","am","Jeju Olle Trail walk","제주올레길","Walk part of a coastal route. Route 7 near Seogwipo is a favorite."]
 ];
 const byId=Object.fromEntries(P.map(p=>[p[0],p]));
 const cityOf=id=>CITIES.find(x=>x[0]===id);
@@ -160,8 +179,9 @@ function build(){
       const date=new Date($("arrive").value+"T00:00");date.setDate(date.getDate()+di);
       const move=(i===0&&ci>0)?{from:cities[ci-1],to:city}:null;
       const slots=SLOTS.slice(0,pace).map(([sid])=>{
-        let c=P.filter(p=>p[1]===city&&p[3]===sid&&!used.has(p[0])).sort((a,b)=>score(b)-score(a)).slice(0,3);
-        if(!c.length&&sid!=="late")c=P.filter(p=>p[1]===city&&!used.has(p[0])).sort((a,b)=>score(b)-score(a)).slice(0,2);
+        const ok=p=>p[1]===city&&!used.has(p[0])&&(!p[7]||p[7].includes(date.getMonth()+1));
+        let c=P.filter(p=>ok(p)&&p[3]===sid).sort((a,b)=>score(b)-score(a)).slice(0,3);
+        if(!c.length&&sid!=="late")c=P.filter(ok).sort((a,b)=>score(b)-score(a)).slice(0,2);
         c.forEach(p=>used.add(p[0]));
         return {sid,opts:c.map(p=>p[0])};
       });

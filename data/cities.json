@@ -12,6 +12,7 @@
    "best_for": [
     "food",
     "kpop",
+    "sports",
     "history",
     "night"
    ],
@@ -23,6 +24,31 @@
     "Hongdae"
    ],
    "festivals": [
+    {
+     "name": "KBO baseball season",
+     "ko": "프로야구 시즌",
+     "months": [
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10
+     ],
+     "when": "Late March to October (playoffs into November)",
+     "about": "Night games at Jamsil and Gocheok Sky Dome on most days except Mondays. Cheap seats, loud chants, chicken and beer."
+    },
+    {
+     "name": "Seoul Marathon",
+     "ko": "서울마라톤",
+     "months": [
+      3
+     ],
+     "when": "March",
+     "about": "One of Asia's oldest marathons, through central Seoul. Entries open months ahead."
+    },
     {
      "name": "Yeouido Spring Flower Festival",
      "ko": "여의도 봄꽃축제",
@@ -75,6 +101,7 @@
    "best_for": [
     "food",
     "nature",
+    "sports",
     "culture",
     "night"
    ],
@@ -86,6 +113,22 @@
     "Jagalchi Fish Market"
    ],
    "festivals": [
+    {
+     "name": "Lotte Giants home games",
+     "ko": "롯데 자이언츠 홈경기",
+     "months": [
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10
+     ],
+     "when": "Late March to October",
+     "about": "Sajik Stadium is famous for Korea's most passionate baseball crowd."
+    },
     {
      "name": "Haeundae Sand Festival",
      "ko": "해운대 모래축제",
@@ -285,6 +328,7 @@
    "best_for": [
     "food",
     "history",
+    "sports",
     "local"
    ],
    "from_seoul": "Subway or AREX about 1h",
@@ -317,6 +361,7 @@
    "best_for": [
     "history",
     "food",
+    "sports",
     "local"
    ],
    "from_seoul": "Subway about 1h",
@@ -395,6 +440,7 @@
    "best_for": [
     "nature",
     "local",
+    "sports",
     "food",
     "kpop"
    ],
@@ -433,6 +479,18 @@
      ],
      "when": "January 1",
      "about": "Crowds gather at Gyeongpo and Jeongdongjin for the first sunrise."
+    },
+    {
+     "name": "Ski season in Pyeongchang",
+     "ko": "평창 스키 시즌",
+     "months": [
+      12,
+      1,
+      2,
+      3
+     ],
+     "when": "About December to March",
+     "about": "Yongpyong and Phoenix, the 2018 Olympic resorts, are about 40 minutes away. Opening dates are announced in November."
     }
    ]
   },
@@ -447,6 +505,7 @@
    "best_for": [
     "nature",
     "food",
+    "sports",
     "culture"
    ],
    "from_seoul": "Express bus about 2h 30m",
@@ -474,6 +533,20 @@
      ],
      "when": "January 1",
      "about": "First-sunrise gatherings at Sokcho Beach."
+    },
+    {
+     "name": "Surf season in Yangyang",
+     "ko": "양양 서핑 시즌",
+     "months": [
+      5,
+      6,
+      7,
+      8,
+      9,
+      10
+     ],
+     "when": "Late spring to autumn",
+     "about": "Surf schools line Jukdo and Ingu beaches; autumn brings the most consistent waves."
     }
    ],
    "short": "Sokcho"
@@ -522,6 +595,7 @@
    "best_for": [
     "food",
     "history",
+    "sports",
     "local"
    ],
    "from_seoul": "KTX about 1h 50m",

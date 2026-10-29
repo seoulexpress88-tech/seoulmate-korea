@@ -35,7 +35,7 @@ CITIES["damyang"] = ("Damyang", "담양")
 CITIES["daejeon"] = ("Daejeon", "대전")
 CITIES["suncheon"] = ("Suncheon", "순천")
 CAT_NAMES = {"food": "Food", "local": "Local life", "culture": "Culture", "history": "History",
-             "kpop": "K-pop", "nature": "Nature", "night": "Nightlife"}
+             "kpop": "K-pop", "sports": "Sports", "nature": "Nature", "night": "Nightlife"}
 # Cache-busting version for /static files, so browsers pick up CSS/JS changes after each deploy.
 ASSET_V = hashlib.sha1(b"".join(f.read_bytes() for f in sorted((ROOT / "static").glob("*")))).hexdigest()[:8]
 MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
@@ -344,6 +344,8 @@ IDEAS = [
     ("Heritage trail", "6 days · Seoul, Andong, Gyeongju, Busan", "Royal palaces, a living clan village and the Silla capital.", "seoul,andong,gyeongju,busan", "history,culture", 6),
     ("Foodie road trip", "5 days · Seoul, Jeonju, Yeosu", "Market food, Jeonju bibimbap and south-coast seafood.", "seoul,jeonju,yeosu", "food,local,night", 5),
     ("Island & sea", "5 days · Busan, Tongyeong, Jeju", "Harbors, cable cars over islands and volcanic Jeju.", "busan,tongyeong,jeju", "nature,food", 5),
+    ("Sports fan's Korea", "5 days · Seoul, Busan", "Baseball chants, K League football, esports and a taekwondo class (baseball runs March to October).", "seoul,busan", "sports,food,night", 5),
+    ("Winter snow trip", "4 days · Seoul, Gangneung", "Ski the 2018 Olympic slopes, then the East Sea and soft tofu (December to March).", "seoul,gangneung", "sports,nature,food", 4),
 ]
 
 
