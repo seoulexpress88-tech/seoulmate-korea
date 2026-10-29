@@ -8,6 +8,7 @@ Agents record their work here; only the owner decides approvals.
   py ops/ops.py approval list [--status pending]
   py ops/ops.py approval decide A-0002 --decision approved|rejected --by owner [--note "..."]
   py ops/ops.py report add --agent research --title "..." (--body "..." | --body-file path) [--task T-0003]
+  py ops/ops.py revenue add --agent lead --amount 1200000 --source "Local Concierge 3건" [--date 2026-11-02]
   py ops/ops.py status
   py ops/ops.py serve [--port 8790]        # dashboard at http://localhost:8790
 
@@ -59,9 +60,9 @@ class Locked:
 
 
 def load():
-    if BOARD.exists():
-        return json.loads(BOARD.read_text(encoding="utf-8"))
-    return {"tasks": [], "approvals": [], "reports": [], "seq": {"T": 0, "A": 0, "R": 0}}
+    b = json.loads(BOARD.read_text(encoding="utf-8")) if BOARD.exists() else {"tasks": [], "approvals": [], "reports": [], "seq": {"T": 0, "A": 0, "R": 0}}
+    b.setdefault("revenue", [])
+    return b
 
 
 def save(b):
@@ -200,6 +201,20 @@ def report_add(a):
     print(rid, path)
 
 
+def revenue_add(a):
+    """Record actual revenue (money received), never estimates."""
+    need_agent(a.agent)
+    if a.amount <= 0:
+        raise SystemExit("amount must be a positive number of won")
+    with Locked():
+        b = load()
+        b["revenue"].append({"date": a.date or dt.date.today().isoformat(), "amount": a.amount, "source": a.source,
+                             "agent": a.agent, "at": now()})
+        save(b)
+    log(a.agent, "revenue", f"{a.amount:,}원 {a.source}")
+    print(f"recorded {a.amount:,} won")
+
+
 def status(_):
     b = load()
     pending = [r for r in b["approvals"] if r["status"] == "pending"]
@@ -278,6 +293,10 @@ def main():
     rp = sp.add_parser("report").add_subparsers(dest="sub", required=True)
     x = rp.add_parser("add"); x.add_argument("--agent", required=True); x.add_argument("--title", required=True); x.add_argument("--body")
     x.add_argument("--body-file"); x.add_argument("--task"); x.set_defaults(fn=report_add)
+
+    rv = sp.add_parser("revenue").add_subparsers(dest="sub", required=True)
+    x = rv.add_parser("add"); x.add_argument("--agent", required=True); x.add_argument("--amount", type=int, required=True)
+    x.add_argument("--source", required=True); x.add_argument("--date"); x.set_defaults(fn=revenue_add)
 
     sp.add_parser("status").set_defaults(fn=status)
     x = sp.add_parser("serve"); x.add_argument("--port", type=int, default=8790); x.set_defaults(fn=serve)

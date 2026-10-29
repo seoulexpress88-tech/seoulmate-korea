@@ -18,6 +18,13 @@ body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 var(--f)}
 header{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:8px;margin-bottom:18px}
 h1{font-size:1.5rem;margin:0}h2{font-size:1.1rem;margin:0 0 10px}
 .meta{font-family:var(--mono);font-size:.8rem;color:var(--muted)}
+.goal{background:var(--accent);color:var(--accent-ink);border-radius:16px;padding:18px 20px;margin-bottom:16px;display:grid;gap:10px}
+.goal .v{font-size:.9rem;opacity:.9}.goal .m{font-size:.85rem;opacity:.8}
+.goal .row{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:8px}
+.goal .t{font-size:1.25rem;font-weight:700}.goal .dd{font-family:var(--mono);font-size:1.1rem;font-weight:500}
+.bar{height:12px;border-radius:999px;background:rgb(255 255 255 / .25);overflow:hidden}
+.bar i{display:block;height:100%;background:var(--accent-ink);border-radius:999px;min-width:2px}
+.goal .amt{font-family:var(--mono);font-variant-numeric:tabular-nums}
 .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:22px}
 .kpi{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
 .kpi b{display:block;font-size:1.6rem;font-variant-numeric:tabular-nums}.kpi span{font-size:.82rem;color:var(--muted)}
@@ -58,6 +65,7 @@ pre{white-space:pre-wrap;background:var(--surface);border:1px solid var(--line);
 <body>
 <div class="wrap">
   <header><h1>Seoulmate 팀 대시보드</h1><span class="meta" id="updated">불러오는 중…</span></header>
+  <div class="goal" id="goal"></div>
   <div class="kpis" id="kpis"></div>
 
   <section><h2>승인 대기</h2><p class="meta" style="margin:-6px 0 10px">팀원은 여기서 대표님이 승인한 일만 실행합니다. 반려할 때는 이유를 적어 주세요.</p><div id="approvals"></div></section>
@@ -82,6 +90,13 @@ async function load(){
   let b;try{b=await (await fetch("/api/board",{cache:"no-store"})).json()}catch(e){$("updated").textContent="대시보드 서버에 연결할 수 없어요";return}
   team=Object.fromEntries(b.team.agents.map(a=>[a.id,a]));
   const who=id=>team[id]?`${team[id].emoji} ${team[id].name}`:(id==="owner"?"👤 대표":id);
+  const c=b.team.company;
+  if(c){const g=c.goal, rev=(b.revenue||[]).filter(r=>r.date>=g.start&&r.date<=g.end).reduce((s,r)=>s+r.amount,0);
+    const days=Math.floor((new Date(g.end+"T23:59:59")-new Date())/864e5), pct=Math.min(100,rev/g.target*100);
+    $("goal").innerHTML=`<div class="v">비전 · ${esc(c.vision)}</div><div class="row"><span class="t">🎯 ${esc(g.title)}</span><span class="dd">${days>=0?"D-"+days:"기간 종료"} · ${g.start} ~ ${g.end}</span></div>
+      <div class="bar" role="progressbar" aria-valuenow="${pct.toFixed(1)}" aria-valuemin="0" aria-valuemax="100"><i style="width:${pct}%"></i></div>
+      <div class="row amt"><span>실제 매출 ${rev.toLocaleString("ko-KR")}원 (${pct.toFixed(1)}%)</span><span>목표 ${g.target.toLocaleString("ko-KR")}원 · 남은 금액 ${Math.max(0,g.target-rev).toLocaleString("ko-KR")}원</span></div>
+      <div class="m">미션 · ${esc(c.mission)}</div>`}
   const pend=b.approvals.filter(a=>a.status==="pending");
   const open=b.tasks.filter(t=>t.status!=="done");
   const today=new Date().toISOString().slice(0,10);

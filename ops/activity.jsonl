@@ -2,3 +2,9 @@
 {"at": "2026-10-29 19:18", "agent": "lead", "event": "task_update", "text": "doing 에이전트 파일과 대시보드 작성 완료, 대표 확인 대기", "ref": "T-0001"}
 {"at": "2026-10-29 19:18", "agent": "lead", "event": "approval_request", "text": "팀 구성과 승인 제도 확정(에이전트 6명, 대시보드, 운영 규칙)", "ref": "A-0001"}
 {"at": "2026-10-29 19:18", "agent": "lead", "event": "report", "text": "팀 출범 준비 보고", "ref": "R-0001"}
+{"at": "2026-10-29 19:20", "agent": "owner", "event": "approval_approved", "text": "팀 구성과 승인 제도 확정(에이전트 6명, 대시보드, 운영 규칙)", "ref": "A-0001"}
+{"at": "2026-10-29 19:20", "agent": "lead", "event": "task_update", "text": "done 대표 승인 완료, 팀 운영 시작", "ref": "T-0001"}
+{"at": "2026-10-29 19:27", "agent": "lead", "event": "task_add", "text": "1개월 1억 목표 우선순위 제안", "ref": "T-0002"}
+{"at": "2026-10-29 19:27", "agent": "lead", "event": "task_update", "text": "doing", "ref": "T-0002"}
+{"at": "2026-10-29 19:27", "agent": "lead", "event": "report", "text": "1개월 1억 원 목표: 우선순위 후보 3가지", "ref": "R-0002"}
+{"at": "2026-10-29 19:27", "agent": "lead", "event": "approval_request", "text": "이번 달 우선순위 확정: ①고단가 상품·결제 오픈 + ②단체·B2B 영업 동시 진행, ③유입은 최소 운영", "ref": "A-0002"}

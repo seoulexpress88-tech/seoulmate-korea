@@ -1,17 +1,69 @@
 {
   "owner": "대표(사용자)",
   "agents": [
-    {"id": "lead", "agent": "seoulmate-lead", "name": "한결", "en": "Hangyeol", "role": "총괄 팀장", "emoji": "🧭",
-     "ref": "agency-agents: project-management-studio-producer + specialized/agents-orchestrator"},
-    {"id": "dev", "agent": "seoulmate-dev", "name": "도윤", "en": "Doyun", "role": "개발자", "emoji": "🛠️",
-     "ref": "agency-agents: engineering-senior-developer"},
-    {"id": "planner", "agent": "seoulmate-planner", "name": "서아", "en": "Seoa", "role": "기획자", "emoji": "🗺️",
-     "ref": "agency-agents: product-manager"},
-    {"id": "research", "agent": "seoulmate-research", "name": "지후", "en": "Jihu", "role": "리서치 담당", "emoji": "🔭",
-     "ref": "agency-agents: product-trend-researcher"},
-    {"id": "marketer", "agent": "seoulmate-marketer", "name": "나래", "en": "Narae", "role": "마케터", "emoji": "📣",
-     "ref": "agency-agents: marketing-seo-specialist + marketing-growth-hacker"},
-    {"id": "compliance", "agent": "seoulmate-compliance", "name": "규리", "en": "Gyuri", "role": "컴플라이언스", "emoji": "⚖️",
-     "ref": "agency-agents: security-compliance-auditor"}
-  ]
+    {
+      "id": "lead",
+      "agent": "seoulmate-lead",
+      "name": "한결",
+      "en": "Hangyeol",
+      "role": "총괄 팀장",
+      "emoji": "🧭",
+      "ref": "agency-agents: project-management-studio-producer + specialized/agents-orchestrator"
+    },
+    {
+      "id": "dev",
+      "agent": "seoulmate-dev",
+      "name": "도윤",
+      "en": "Doyun",
+      "role": "개발자",
+      "emoji": "🛠️",
+      "ref": "agency-agents: engineering-senior-developer"
+    },
+    {
+      "id": "planner",
+      "agent": "seoulmate-planner",
+      "name": "서아",
+      "en": "Seoa",
+      "role": "기획자",
+      "emoji": "🗺️",
+      "ref": "agency-agents: product-manager"
+    },
+    {
+      "id": "research",
+      "agent": "seoulmate-research",
+      "name": "지후",
+      "en": "Jihu",
+      "role": "리서치 담당",
+      "emoji": "🔭",
+      "ref": "agency-agents: product-trend-researcher"
+    },
+    {
+      "id": "marketer",
+      "agent": "seoulmate-marketer",
+      "name": "나래",
+      "en": "Narae",
+      "role": "마케터",
+      "emoji": "📣",
+      "ref": "agency-agents: marketing-seo-specialist + marketing-growth-hacker"
+    },
+    {
+      "id": "compliance",
+      "agent": "seoulmate-compliance",
+      "name": "규리",
+      "en": "Gyuri",
+      "role": "컴플라이언스",
+      "emoji": "⚖️",
+      "ref": "agency-agents: security-compliance-auditor"
+    }
+  ],
+  "company": {
+    "vision": "한국을 찾는 모든 외국인이 쓰는 여행 서비스",
+    "mission": "한국의 도시·문화·음식을 한눈에 보여 주고, 직접 즐길 수 있게 해서 외국인의 한국 여행을 더 풍성하게 만든다",
+    "goal": {
+      "title": "1개월 매출 1억 원",
+      "target": 100000000,
+      "start": "2026-10-29",
+      "end": "2026-11-28"
+    }
+  }
 }
