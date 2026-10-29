@@ -31,6 +31,7 @@ PLANNER_CITIES = list(DESTS)
 # Cities we recognise in post labels/titles: every destination plus a few without a destination page yet.
 CITIES = {c["id"]: (c["name"], c["ko"]) for c in DEST["cities"]}
 CITIES["pohang"] = ("Pohang", "포항")
+CITIES["damyang"] = ("Damyang", "담양")
 CAT_NAMES = {"food": "Food", "local": "Local life", "culture": "Culture", "history": "History",
              "kpop": "K-pop", "nature": "Nature", "night": "Nightlife"}
 # Cache-busting version for /static files, so browsers pick up CSS/JS changes after each deploy.
