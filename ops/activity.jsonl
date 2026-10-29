@@ -1,0 +1,4 @@
+{"at": "2026-10-29 19:18", "agent": "lead", "event": "task_add", "text": "팀 출범: 에이전트 6명과 대시보드 준비", "ref": "T-0001"}
+{"at": "2026-10-29 19:18", "agent": "lead", "event": "task_update", "text": "doing 에이전트 파일과 대시보드 작성 완료, 대표 확인 대기", "ref": "T-0001"}
+{"at": "2026-10-29 19:18", "agent": "lead", "event": "approval_request", "text": "팀 구성과 승인 제도 확정(에이전트 6명, 대시보드, 운영 규칙)", "ref": "A-0001"}
+{"at": "2026-10-29 19:18", "agent": "lead", "event": "report", "text": "팀 출범 준비 보고", "ref": "R-0001"}

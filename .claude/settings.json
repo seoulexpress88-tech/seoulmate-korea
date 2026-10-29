@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(py ops/ops.py task *)",
+      "Bash(py ops/ops.py report *)",
+      "Bash(py ops/ops.py approval request *)",
+      "Bash(py ops/ops.py approval list*)",
+      "Bash(py ops/ops.py status)",
+      "Bash(py \"C:/Users/goopo/Desktop/클로드코드/외국인 여행/ops/ops.py\" task *)",
+      "Bash(py \"C:/Users/goopo/Desktop/클로드코드/외국인 여행/ops/ops.py\" report *)",
+      "Bash(py \"C:/Users/goopo/Desktop/클로드코드/외국인 여행/ops/ops.py\" approval request *)",
+      "Bash(py \"C:/Users/goopo/Desktop/클로드코드/외국인 여행/ops/ops.py\" approval list*)"
+    ],
+    "ask": [
+      "Bash(py ops/ops.py approval decide *)"
+    ]
+  }
+}

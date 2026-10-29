@@ -43,3 +43,19 @@
   "Klook — KTX ticket / KORAIL PASS": "https://www.klook.com/...내 제휴 링크..."
 }
 ```
+
+## Seoulmate 팀 (AI 에이전트)
+
+| 이름 | 역할 | 파일 |
+|---|---|---|
+| 🧭 한결 | 총괄 팀장 | `.claude/agents/seoulmate-lead.md` |
+| 🗺️ 서아 | 기획자 | `.claude/agents/seoulmate-planner.md` |
+| 🔭 지후 | 리서치 담당 | `.claude/agents/seoulmate-research.md` |
+| 🛠️ 도윤 | 개발자 | `.claude/agents/seoulmate-dev.md` |
+| 📣 나래 | 마케터 | `.claude/agents/seoulmate-marketer.md` |
+| ⚖️ 규리 | 컴플라이언스 | `.claude/agents/seoulmate-compliance.md` |
+
+- 모델: 전원 Claude Opus 5.5 (`claude-opus-5-5`)
+- 직무 카드·페르소나: [msitarzewski/agency-agents](https://github.com/msitarzewski/agency-agents) (MIT)의 구조를 참고해 Seoulmate에 맞게 작성
+- 승인 제도와 보고 규칙: `CLAUDE.md`
+- 업무 대시보드: `3_팀_대시보드.bat` 더블클릭 → http://localhost:8790 (승인 대기 · 팀 현황 · 작업 보드 · 업무 보고 · 활동 기록, 승인/반려 버튼)

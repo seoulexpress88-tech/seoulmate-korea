@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Seoulmate 팀 대시보드</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: approvals first (the owner's job), then team status, board, reports and activity. */
+:root{--bg:#F3F5F4;--surface:#FFFFFF;--sunk:#E9EDEB;--ink:#17212A;--muted:#5B6670;--line:#D7DEDA;
+  --accent:#1F4E79;--accent-ink:#fff;--ok:#2C7A67;--ok-soft:#E1F0EB;--warn:#9A5B00;--warn-soft:#FBF0DC;--bad:#B42318;--bad-soft:#FDECEA;
+  --f:"Noto Sans KR",system-ui,sans-serif;--mono:"IBM Plex Mono",ui-monospace,monospace;color-scheme:light}
+@media (prefers-color-scheme:dark){:root{--bg:#0F151B;--surface:#17202A;--sunk:#121A22;--ink:#E6ECEF;--muted:#98A6B0;--line:#2A3641;
+  --accent:#86B6E6;--accent-ink:#0C1620;--ok:#6CC2AB;--ok-soft:#16302A;--warn:#F0B860;--warn-soft:#33270F;--bad:#FF8A80;--bad-soft:#3A1A18;color-scheme:dark}}
+*{box-sizing:border-box}[hidden]{display:none!important}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 var(--f)}
+.wrap{max-width:1240px;margin:0 auto;padding:20px max(16px,env(safe-area-inset-left)) 48px}
+header{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:8px;margin-bottom:18px}
+h1{font-size:1.5rem;margin:0}h2{font-size:1.1rem;margin:0 0 10px}
+.meta{font-family:var(--mono);font-size:.8rem;color:var(--muted)}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:22px}
+.kpi{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+.kpi b{display:block;font-size:1.6rem;font-variant-numeric:tabular-nums}.kpi span{font-size:.82rem;color:var(--muted)}
+.kpi.alert{border-color:var(--warn);background:var(--warn-soft)}
+section{margin-bottom:26px}
+.apr{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--warn);border-radius:12px;padding:14px;display:grid;gap:8px;margin-bottom:10px}
+.apr.high{border-left-color:var(--bad)}.apr.low{border-left-color:var(--ok)}
+.apr .top{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.pill{font-size:.75rem;font-weight:600;padding:2px 9px;border-radius:999px;background:var(--sunk);color:var(--muted)}
+.pill.high{background:var(--bad-soft);color:var(--bad)}.pill.medium{background:var(--warn-soft);color:var(--warn)}.pill.low{background:var(--ok-soft);color:var(--ok)}
+.apr .act{font-weight:700}.apr .why{color:var(--muted);font-size:.92rem}
+.apr .row{display:flex;flex-wrap:wrap;gap:8px}
+.apr input{flex:1;min-width:180px;font:inherit;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink)}
+button{font:600 .9rem var(--f);border:0;border-radius:8px;padding:8px 14px;cursor:pointer}
+.yes{background:var(--ok);color:var(--accent-ink)}.no{background:var(--bad-soft);color:var(--bad)}
+button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.empty{color:var(--muted);padding:14px;border:1px dashed var(--line);border-radius:12px}
+.team{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:10px}
+.ag{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px;display:grid;gap:4px;min-width:0}
+.ag .nm{font-weight:700}.ag .rl{font-size:.8rem;color:var(--muted)}
+.ag .st{font-size:.78rem;font-weight:600}.st.idle{color:var(--muted)}.st.work{color:var(--accent)}.st.wait{color:var(--warn)}
+.ag .cur{font-size:.85rem;overflow-wrap:anywhere}
+.board{display:grid;grid-template-columns:repeat(5,minmax(200px,1fr));gap:10px;overflow-x:auto;padding-bottom:4px}
+.col{background:var(--sunk);border-radius:12px;padding:10px;min-height:80px}
+.col h3{font-size:.8rem;margin:0 0 8px;color:var(--muted)}
+.tk{background:var(--surface);border:1px solid var(--line);border-radius:9px;padding:8px 10px;margin-bottom:8px;font-size:.88rem}
+.tk .id{font-family:var(--mono);font-size:.72rem;color:var(--muted)}
+.two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px}
+@media (max-width:860px){.two{grid-template-columns:1fr}}
+.list{background:var(--surface);border:1px solid var(--line);border-radius:12px;max-height:420px;overflow:auto}
+.li{padding:9px 12px;border-bottom:1px solid var(--line);font-size:.88rem}.li:last-child{border-bottom:0}
+.li .t{font-family:var(--mono);font-size:.74rem;color:var(--muted);margin-right:6px}
+.li button{background:none;padding:0;color:var(--accent);font-weight:600;text-align:left}
+pre{white-space:pre-wrap;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px;font:13px/1.6 var(--f);max-height:460px;overflow:auto}
+.hist .li{opacity:.8}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header><h1>Seoulmate 팀 대시보드</h1><span class="meta" id="updated">불러오는 중…</span></header>
+  <div class="kpis" id="kpis"></div>
+
+  <section><h2>승인 대기</h2><p class="meta" style="margin:-6px 0 10px">팀원은 여기서 대표님이 승인한 일만 실행합니다. 반려할 때는 이유를 적어 주세요.</p><div id="approvals"></div></section>
+
+  <section><h2>팀 현황</h2><div class="team" id="team"></div></section>
+
+  <section><h2>작업 보드</h2><div class="board" id="board"></div></section>
+
+  <div class="two">
+    <section><h2>업무 보고</h2><div class="list" id="reports"></div><pre id="reportView" hidden></pre></section>
+    <section><h2>활동 기록</h2><div class="list" id="activity"></div>
+      <h2 style="margin-top:18px">지난 승인 내역</h2><div class="list hist" id="history"></div></section>
+  </div>
+</div>
+<script>
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const RISK={high:"위험 높음",medium:"위험 보통",low:"위험 낮음"};
+const COLS=[["todo","할 일"],["doing","진행 중"],["waiting_approval","승인 대기"],["review","검토 / 보류"],["done","완료"]];
+let team={};
+async function load(){
+  let b;try{b=await (await fetch("/api/board",{cache:"no-store"})).json()}catch(e){$("updated").textContent="대시보드 서버에 연결할 수 없어요";return}
+  team=Object.fromEntries(b.team.agents.map(a=>[a.id,a]));
+  const who=id=>team[id]?`${team[id].emoji} ${team[id].name}`:(id==="owner"?"👤 대표":id);
+  const pend=b.approvals.filter(a=>a.status==="pending");
+  const open=b.tasks.filter(t=>t.status!=="done");
+  const today=new Date().toISOString().slice(0,10);
+  $("kpis").innerHTML=[[pend.length,"승인 대기",pend.length?"alert":""],[open.filter(t=>t.status==="doing").length,"진행 중 작업",""],
+    [b.tasks.filter(t=>t.status==="done").length,"완료한 작업",""],[b.reports.filter(r=>r.at.startsWith(today)).length,"오늘 업무 보고",""]]
+    .map(([n,l,c])=>`<div class="kpi ${c}"><b>${n}</b><span>${l}</span></div>`).join("");
+  $("approvals").innerHTML=pend.length?pend.map(a=>`<div class="apr ${a.risk}"><div class="top"><span class="pill ${a.risk}">${RISK[a.risk]||a.risk}</span>
+    <span class="meta">${a.id} · ${who(a.agent)} · ${esc(a.requested)}${a.task?" · "+a.task:""}</span></div>
+    <div class="act">${esc(a.action)}</div><div class="why">${esc(a.why)}</div>
+    ${a.files.length?`<div class="meta">파일: ${a.files.map(esc).join(", ")}</div>`:""}
+    <div class="row"><input id="n-${a.id}" placeholder="메모 (선택, 반려 시 이유)" aria-label="메모"><button class="yes" data-id="${a.id}" data-d="approved">승인</button><button class="no" data-id="${a.id}" data-d="rejected">반려</button></div></div>`).join("")
+    :`<div class="empty">지금 승인할 요청이 없어요.</div>`;
+  $("team").innerHTML=b.team.agents.map(ag=>{
+    const mine=open.filter(t=>t.agent===ag.id), wait=mine.find(t=>t.status==="waiting_approval"), doing=mine.find(t=>t.status==="doing");
+    const last=b.activity.find(x=>x.agent===ag.id);
+    const [cls,txt]=wait?["wait","승인 기다리는 중"]:doing?["work","작업 중"]:["idle","대기"];
+    const cur=wait||doing||mine[0];
+    return `<div class="ag"><span class="nm">${ag.emoji} ${ag.name} <span class="rl">${ag.role}</span></span><span class="st ${cls}">● ${txt} · 열린 작업 ${mine.length}</span>
+      <span class="cur">${cur?esc(cur.id+" "+cur.title):"맡은 작업 없음"}</span><span class="meta">${last?"최근 "+esc(last.at):"활동 없음"}</span></div>`}).join("");
+  $("board").innerHTML=COLS.map(([k,l])=>{const ts=b.tasks.filter(t=>k==="review"?["review","blocked"].includes(t.status):t.status===k).slice(-30).reverse();
+    return `<div class="col"><h3>${l} · ${ts.length}</h3>${ts.map(t=>`<div class="tk"><div class="id">${t.id} · ${who(t.agent)}${t.status==="blocked"?" · 보류":""}</div>${esc(t.title)}</div>`).join("")}</div>`}).join("");
+  $("reports").innerHTML=b.reports.length?b.reports.slice().reverse().map(r=>`<div class="li"><span class="t">${esc(r.at)}</span>${who(r.agent)} · <button data-r="${r.id}">${esc(r.title)}</button></div>`).join(""):`<div class="li">아직 보고가 없어요.</div>`;
+  $("activity").innerHTML=b.activity.length?b.activity.map(x=>`<div class="li"><span class="t">${esc(x.at)}</span>${who(x.agent)} · ${esc(x.event)} ${esc(x.ref)} ${esc(x.text)}</div>`).join(""):`<div class="li">활동 기록이 없어요.</div>`;
+  const hist=b.approvals.filter(a=>a.status!=="pending").reverse();
+  $("history").innerHTML=hist.length?hist.map(a=>`<div class="li"><span class="t">${esc(a.decided)}</span>${a.status==="approved"?"✅ 승인":"⛔ 반려"} · ${a.id} ${esc(a.action)}${a.note?" — "+esc(a.note):""}</div>`).join(""):`<div class="li">아직 없어요.</div>`;
+  $("updated").textContent="업데이트 "+new Date().toLocaleTimeString("ko-KR")+" · 15초마다 새로고침";
+}
+document.addEventListener("click",async e=>{
+  const btn=e.target.closest("button[data-d]");
+  if(btn){btn.disabled=true;
+    const r=await fetch("/api/approvals/"+btn.dataset.id,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({decision:btn.dataset.d,note:$("n-"+btn.dataset.id).value})});
+    if(!r.ok)alert((await r.json()).error);load();return}
+  const rb=e.target.closest("button[data-r]");
+  if(rb){const v=$("reportView");v.textContent=await (await fetch("/api/reports/"+rb.dataset.r)).text();v.hidden=false;v.scrollIntoView({behavior:"smooth",block:"nearest"})}
+});
+load();setInterval(load,15000);
+</script>
+</body>
+</html>

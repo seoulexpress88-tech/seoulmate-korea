@@ -1,0 +1,17 @@
+{
+  "owner": "대표(사용자)",
+  "agents": [
+    {"id": "lead", "agent": "seoulmate-lead", "name": "한결", "en": "Hangyeol", "role": "총괄 팀장", "emoji": "🧭",
+     "ref": "agency-agents: project-management-studio-producer + specialized/agents-orchestrator"},
+    {"id": "dev", "agent": "seoulmate-dev", "name": "도윤", "en": "Doyun", "role": "개발자", "emoji": "🛠️",
+     "ref": "agency-agents: engineering-senior-developer"},
+    {"id": "planner", "agent": "seoulmate-planner", "name": "서아", "en": "Seoa", "role": "기획자", "emoji": "🗺️",
+     "ref": "agency-agents: product-manager"},
+    {"id": "research", "agent": "seoulmate-research", "name": "지후", "en": "Jihu", "role": "리서치 담당", "emoji": "🔭",
+     "ref": "agency-agents: product-trend-researcher"},
+    {"id": "marketer", "agent": "seoulmate-marketer", "name": "나래", "en": "Narae", "role": "마케터", "emoji": "📣",
+     "ref": "agency-agents: marketing-seo-specialist + marketing-growth-hacker"},
+    {"id": "compliance", "agent": "seoulmate-compliance", "name": "규리", "en": "Gyuri", "role": "컴플라이언스", "emoji": "⚖️",
+     "ref": "agency-agents: security-compliance-auditor"}
+  ]
+}

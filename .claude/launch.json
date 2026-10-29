@@ -6,6 +6,12 @@
       "runtimeExecutable": "py",
       "runtimeArgs": ["-m", "http.server", "8765", "--directory", "public"],
       "port": 8765
+    },
+    {
+      "name": "ops-dashboard",
+      "runtimeExecutable": "py",
+      "runtimeArgs": ["ops/ops.py", "serve", "--port", "8790"],
+      "port": 8790
     }
   ]
 }
