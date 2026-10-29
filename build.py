@@ -38,6 +38,29 @@ CAT_NAMES = {"food": "Food", "local": "Local life", "culture": "Culture", "histo
              "kpop": "K-pop", "sports": "Sports", "nature": "Nature", "night": "Nightlife"}
 # Cache-busting version for /static files, so browsers pick up CSS/JS changes after each deploy.
 ASSET_V = hashlib.sha1(b"".join(f.read_bytes() for f in sorted((ROOT / "static").glob("*")))).hexdigest()[:8]
+# Guide topics, matched against each guide's title, labels and description.
+# A guide can override them with a "topics" list in its meta header.
+TOPICS = [
+    ("food", "Food", r"\bfood|\beat\b|restaurant|market|bibimbap|tteokgalbi|tofu|chicken|seafood|bakery|cockle|yellowtail|dinner|lunch|chimaek"),
+    ("local", "Local life", r"\blocal\b|market|caf[eé]|neighbo|alley|walking route"),
+    ("culture", "Culture", r"museum|hanok|\bart\b|mural|hanbok|culture|performance|\bfilm\b|village"),
+    ("history", "History", r"palace|temple|fortress|shrine|heritage|unesco|royal|historic|silla|joseon"),
+    ("kpop", "K-pop", r"k-pop|kpop|\bbts\b|idol|hallyu|k-drama"),
+    ("sports", "Sports", r"baseball|\bkbo\b|\bski|\bsurf|football|soccer|volleyball|esports|taekwondo|marathon|\bgolf|\bsports?\b"),
+    ("nature", "Nature", r"foliage|autumn leaves|fall leaves|forest|beach|mountain|\bhik|reed|garden|bamboo|island|wetland|\btrail|camellia|oreum|ginkgo|nature|tangerine"),
+    ("night", "Nightlife", r"\bnight|drone show|fireworks|\bbars?\b|pocha|after dark"),
+    ("family", "With kids", r"\bkids?\b|family|children"),
+    ("couples", "Couples", r"\bdate\b|couple|romantic"),
+    ("festivals", "Festivals", r"festival|fireworks|\bexpo\b"),
+]
+TOPIC_NAMES = dict((t[0], t[1]) for t in TOPICS)
+
+
+def detect_topics(p):
+    text = " ".join([p["title"], p.get("description", ""), " ".join(p.get("tags", []))]).lower()
+    return [tid for tid, _, rx in TOPICS if re.search(rx, text)]
+
+
 MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
 
 
@@ -147,6 +170,7 @@ def load_posts():
         meta["url"] = f"/guides/{meta['slug']}/"
         words = len(strip_tags(meta["body"]).split())
         meta["minutes"] = max(1, round(words / 220))
+        meta["topics"] = meta.get("topics") or detect_topics(meta)
         posts.append(meta)
     posts.sort(key=lambda p: (p["date"], p["slug"]), reverse=True)
     return posts
@@ -242,10 +266,14 @@ def layout(title, desc, path, body, active="", head_extra="", page_title=None):
 
 def card(p):
     city = CITIES[p["cities"][0]][0] if p["cities"] else "Korea"
-    return f"""<a class="card" href="{p['url']}">
+    shown = sorted(p["topics"], key=lambda t: t not in ("family", "couples"))[:3]  # audience first
+    topics = "".join(f"<span>{TOPIC_NAMES[t]}</span>" for t in shown)
+    text = esc(" ".join([p["title"], p["description"], " ".join(p["tags"])]).lower())
+    return f"""<a class="card" href="{p['url']}" data-cities="{' '.join(p['cities'])}" data-topics="{' '.join(p['topics'])}" data-text="{text}">
 <span class="eyebrow">{esc(city)}</span>
 <h3>{esc(p['title'])}</h3>
 <p>{esc(p['description'])}</p>
+<span class="card-topics">{topics}</span>
 <span class="meta">{fmt_date(p['date'])} · {p['minutes']} min read</span>
 </a>"""
 
@@ -387,6 +415,7 @@ def page_home(posts):
 {ideas_section()}
 <section class="section">
   <div class="section-h"><h2>Latest guides</h2><a href="/guides/">All guides →</a></div>
+  {topic_filters(posts)}
   {cards(posts[:6])}
 </section>
 {essentials_section()}"""
@@ -413,12 +442,43 @@ def city_filters(posts, current=None):
     return '<nav class="filters" aria-label="Filter by city">' + "".join(items) + "</nav>"
 
 
+def topic_url(tid):
+    return f"/guides/topic/{tid}/"
+
+
+def topic_filters(posts, current=None, label="Browse by topic"):
+    counts = {t: sum(t in p["topics"] for p in posts) for t in TOPIC_NAMES}
+    items = [f'<a href="{topic_url(t)}" data-topic="{t}"{" aria-current=\"page\"" if t == current else ""}>{n} <span class="n">{counts[t]}</span></a>'
+             for t, n in TOPIC_NAMES.items() if counts[t]]
+    return f'<nav class="filters" aria-label="{label}">' + "".join(items) + "</nav>"
+
+
 def page_guides(posts):
+    used = [c for c in CITIES if any(c in p["cities"] for p in posts)]
+    cities = "".join(f'<a href="{city_url(c)}#guides" data-city="{c}">{CITIES[c][0]} <span class="n">{sum(c in p["cities"] for p in posts)}</span></a>' for c in used)
     body = f"""<div class="page-h"><h1>Korea travel guides</h1>
 <p>Practical, locally written guides: what to see, where to eat, how to get there from Seoul or Busan, and what foreign visitors should know. New guides every morning.</p></div>
-{city_filters(posts)}
+<div class="finder">
+  <input type="search" id="guideSearch" placeholder="Search guides, e.g. ski, palace, Jeju" aria-label="Search guides">
+  <div class="frow"><span class="lbl">Topic</span>{topic_filters(posts)}</div>
+  <div class="frow"><span class="lbl">City</span><nav class="filters" aria-label="Filter by city">{cities}</nav></div>
+  <p class="hint" id="guideCount">{len(posts)} guides</p>
+</div>
+{cards(posts)}
+<div class="empty" id="guideEmpty" hidden>No guides match. Try another topic or city, or <a href="/guides/" id="guideReset">show all guides</a>.</div>"""
+    return layout("Korea travel guides", "Practical Korea travel guides for foreign visitors: sights, food, transport and local tips.", "/guides/", body, "guides",
+                  head_extra=f'<script src="/static/guides.js?v={ASSET_V}" defer></script>')
+
+
+def page_topic(tid, posts, all_posts):
+    name = TOPIC_NAMES[tid]
+    body = f"""<p class="crumbs"><a href="/guides/">Guides</a> / {esc(name)}</p>
+<div class="page-h"><h1>{esc(name)} guides for Korea</h1>
+<p>Every Seoulmate guide about {esc(name.lower())}, newest first. Pick another topic or <a href="/guides/">search all guides</a>.</p></div>
+{topic_filters(all_posts, tid)}
 {cards(posts)}"""
-    return layout("Korea travel guides", "Practical Korea travel guides for foreign visitors: sights, food, transport and local tips.", "/guides/", body, "guides")
+    return layout(f"{name} guides for Korea", f"Korea travel guides about {name.lower()} for foreign visitors: where to go, how to get there and local tips.",
+                  topic_url(tid), body, "guides")
 
 
 def page_city(c, posts):
@@ -466,7 +526,8 @@ def page_post(p, posts):
            f'<a class="btn" href="/planner/?city={plan_city}">Plan my {CITIES[plan_city][0]} days</a></div>') if plan_city else \
           ('<div class="plan-cta"><p><b>Planning a Korea trip?</b>Build a day-by-day itinerary around food, K-pop, history and local life.</p>'
            '<a class="btn" href="/planner/">Build my itinerary</a></div>')
-    tags = '<div class="tags">' + "".join(f"<span>{esc(t)}</span>" for t in p["tags"]) + "</div>" if p["tags"] else ""
+    tags = ('<div class="tags">' + "".join(f'<a href="{topic_url(t)}">{TOPIC_NAMES[t]}</a>' for t in p["topics"])
+            + "".join(f'<a href="{city_url(c)}">{CITIES[c][0]}</a>' for c in p["cities"]) + "</div>")
     disclosure = '<p class="disclosure">This post contains affiliate links. If you book through them we may earn a small commission at no extra cost to you.</p>' if used_aff else ""
     toc_html = ('<aside class="toc"><span class="lbl">On this page</span><ol>' +
                 "".join(f'<li><a href="#{h}">{esc(t)}</a></li>' for h, t in toc) + "</ol></aside>") if len(toc) > 2 else "<aside></aside>"
@@ -598,6 +659,7 @@ def sitemap(posts):
     today = dt.date.today().isoformat()
     urls = [("/", today), ("/planner/", today), ("/destinations/", today), ("/guides/", posts[0]["date"] if posts else today), ("/about/", today)]
     urls += [(city_url(c), today) for c in DESTS]
+    urls += [(topic_url(t), today) for t in TOPIC_NAMES if any(t in p["topics"] for p in posts)]
     urls += [(p["url"], p.get("updated", p["date"])) for p in posts]
     items = "".join(f"<url><loc>{BASE}{u}</loc><lastmod>{d}</lastmod></url>" for u, d in urls)
     return f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">{items}</urlset>\n'
@@ -632,6 +694,10 @@ def build():
     write("destinations/index.html", page_destinations(posts))
     for c in DEST["cities"]:
         write(f"destinations/{c['id']}/index.html", page_city(c, [p for p in posts if c["id"] in p["cities"]]))
+    for t in TOPIC_NAMES:
+        tp = [p for p in posts if t in p["topics"]]
+        if tp:
+            write(f"guides/topic/{t}/index.html", page_topic(t, tp, posts))
     for p in posts:
         write(f"guides/{p['slug']}/index.html", page_post(p, posts))
     contact = f'Email <a href="mailto:{esc(CFG["contact_email"])}">{esc(CFG["contact_email"])}</a>.' if CFG.get("contact_email") else "Contact details will be listed here soon."

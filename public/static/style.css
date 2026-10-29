@@ -229,3 +229,17 @@ h2.sub{font-size:1.1rem;margin-top:4px}
 ul.hl{margin:-6px 0 0;padding-left:1.2em}
 .locator .kmap .pin:not(.is-active) text{display:none}
 .locator .kmap .pin:not(.is-active) .dot{fill:var(--muted);opacity:.5}
+
+/* Guide finder: search + topic and city chips */
+.finder{display:flex;flex-direction:column;gap:10px;margin:18px 0 22px;padding:16px;border:1px solid var(--line);border-radius:14px;background:var(--surface)}
+.finder input[type=search]{width:100%;font:inherit;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink)}
+.frow{display:grid;grid-template-columns:52px minmax(0,1fr);gap:8px;align-items:start}
+.frow .lbl{padding-top:8px}
+.frow .filters,.finder .filters{margin:0}
+@media (max-width:560px){.frow{grid-template-columns:1fr}.frow .lbl{padding-top:0}}
+.filters a .n{font-family:var(--f-mono);font-size:.75em;opacity:.65;margin-left:2px}
+.finder .hint{margin:0}
+.card-topics{display:flex;flex-wrap:wrap;gap:5px}
+.card-topics span{font-size:.72rem;font-weight:600;padding:2px 8px;border-radius:999px;background:var(--sunk);color:var(--muted)}
+.tags a{font-size:.8rem;padding:3px 10px;border-radius:999px;background:var(--sunk);color:var(--muted);text-decoration:none}
+.tags a:hover{background:var(--accent-soft);color:var(--accent)}
