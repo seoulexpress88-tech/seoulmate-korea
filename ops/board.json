@@ -347,9 +347,9 @@
    "title": "플래너 일자별 동선 지도 + 이동 방법 (대표 요청)",
    "detail": "branch feature/route-map. 108개 장소 좌표, Leaflet+OpenStreetMap 지도, 정류 순서 번호, 구간별 도보/지하철/택시 추정, Google·Kakao 길찾기 링크. 무인 발행 git push 타임아웃 수정 포함",
    "agent": "dev",
-   "status": "doing",
+   "status": "done",
    "created": "2026-10-30 18:19",
-   "updated": "2026-10-30 18:29",
+   "updated": "2026-10-30 18:33",
    "notes": [
     {
      "at": "2026-10-30 18:19",
@@ -358,6 +358,25 @@
     {
      "at": "2026-10-30 18:29",
      "text": "A-0012 approved by owner"
+    },
+    {
+     "at": "2026-10-30 18:33",
+     "text": "A-0012 배포 완료, 사이트에서 지도·구간 안내 동작 확인"
+    }
+   ]
+  },
+  {
+   "id": "T-0020",
+   "title": "동선 이동시간 추정 보정 + 가까운 장소 우선 추천",
+   "detail": "branch fix/route-estimates. 21km 택시 85분→48분 등 장거리 추정 보정",
+   "agent": "dev",
+   "status": "doing",
+   "created": "2026-10-30 18:33",
+   "updated": "2026-10-30 18:34",
+   "notes": [
+    {
+     "at": "2026-10-30 18:34",
+     "text": "A-0013 approved by owner: 대표 채팅 승인"
     }
    ]
   }
@@ -554,6 +573,22 @@
    "decided": "2026-10-30 18:29",
    "by": "owner",
    "note": ""
+  },
+  {
+   "id": "A-0013",
+   "agent": "lead",
+   "task": "T-0020",
+   "action": "동선 이동시간 추정 보정과 '이전 장소에서 가까운 곳 우선 추천'(branch fix/route-estimates) 사이트 발행",
+   "why": "배포 후 확인 결과 장거리 이동시간이 과하게 길게 표시됨(부산 21km 택시 85분). 보정 후 48분. 기본 추천도 동선이 덜 왔다 갔다 하게 개선",
+   "risk": "low",
+   "files": [
+    "static/planner.js"
+   ],
+   "status": "approved",
+   "requested": "2026-10-30 18:33",
+   "decided": "2026-10-30 18:34",
+   "by": "owner",
+   "note": "대표 채팅 승인"
   }
  ],
  "reports": [
@@ -671,8 +706,8 @@
   }
  ],
  "seq": {
-  "T": 19,
-  "A": 12,
+  "T": 20,
+  "A": 13,
   "R": 14
  },
  "revenue": []

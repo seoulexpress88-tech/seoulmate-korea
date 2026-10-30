@@ -90,3 +90,8 @@
 {"at": "2026-10-30 18:19", "agent": "dev", "event": "task_update", "text": "review 로컬 확인 완료(데스크톱, 콘솔 오류 없음). 배포 승인 대기", "ref": "T-0019"}
 {"at": "2026-10-30 18:19", "agent": "lead", "event": "approval_request", "text": "동선 지도 기능(branch feature/route-map)을 main에 합치고 사이트에 발행. 쌓여 있던 미발행 커밋 4건(A-0007 문구 수정 포함)도 함께 올라감", "ref": "A-0012"}
 {"at": "2026-10-30 18:29", "agent": "owner", "event": "approval_approved", "text": "동선 지도 기능(branch feature/route-map)을 main에 합치고 사이트에 발행. 쌓여 있던 미발행 커밋 4건(A-0007 문구 수정 포함)도 함께 올라감", "ref": "A-0012"}
+{"at": "2026-10-30 18:33", "agent": "dev", "event": "task_update", "text": "done A-0012 배포 완료, 사이트에서 지도·구간 안내 동작 확인", "ref": "T-0019"}
+{"at": "2026-10-30 18:33", "agent": "dev", "event": "task_add", "text": "동선 이동시간 추정 보정 + 가까운 장소 우선 추천", "ref": "T-0020"}
+{"at": "2026-10-30 18:33", "agent": "dev", "event": "task_update", "text": "review", "ref": "T-0020"}
+{"at": "2026-10-30 18:33", "agent": "lead", "event": "approval_request", "text": "동선 이동시간 추정 보정과 '이전 장소에서 가까운 곳 우선 추천'(branch fix/route-estimates) 사이트 발행", "ref": "A-0013"}
+{"at": "2026-10-30 18:34", "agent": "owner", "event": "approval_approved", "text": "동선 이동시간 추정 보정과 '이전 장소에서 가까운 곳 우선 추천'(branch fix/route-estimates) 사이트 발행", "ref": "A-0013"}
