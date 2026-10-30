@@ -209,7 +209,18 @@ function build(){
         c.forEach(p=>used.add(p[0]));
         return {sid,opts:c.map(p=>p[0])};
       });
-      slots.forEach((s,si)=>{if(s.opts.length)state.picks[di+"-"+si]=s.opts[0]});
+      // Default picks: the best match first, then whichever option is closest to the previous stop.
+      let prev=null;
+      slots.forEach((s,si)=>{
+        if(!s.opts.length)return;
+        let pick=s.opts[0];
+        if(prev&&GEO[prev]){
+          const best=s.opts.filter(id=>GEO[id]&&state.cats.includes(byId[id][2]));
+          const pool=best.length?best:s.opts.filter(id=>GEO[id]);
+          if(pool.length)pick=pool.reduce((a,b)=>km(GEO[prev],GEO[a])<=km(GEO[prev],GEO[b])?a:b);
+        }
+        state.picks[di+"-"+si]=pick;prev=pick;
+      });
       state.plan.push({city,date,move,slots});di++;
     }
   });
@@ -259,7 +270,8 @@ function km(a,b){
 }
 // Rough guidance from straight-line distance; the map links give real routes.
 function legText(d,city){
-  const walk=Math.max(1,Math.round(d*1.3/4.5*60)), taxi=Math.round(5+d*1.4/22*60), transit=Math.round(12+d*1.3/22*60);
+  const fast=d>8;  // longer hops use expressways and express subway lines
+  const walk=Math.max(1,Math.round(d*1.3/4.5*60)), taxi=Math.round(5+d*1.3/(fast?38:24)*60), transit=Math.round(12+d*1.3/(fast?32:22)*60);
   if(d<0.3)return ["walk","Right next door · a few minutes on foot"];
   if(d<=1.2)return ["walk",`Walk · about ${walk} min`];
   if(d<=3)return ["walk",`Walk about ${walk} min, or a short taxi ride (~${taxi} min)`];
