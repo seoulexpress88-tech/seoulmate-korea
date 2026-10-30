@@ -215,13 +215,17 @@
    "title": "사이트 Local Concierge 문구에서 예약 대행 표현 제거",
    "detail": "서아 지적(R-0007): 플래너 요금 카드의 'Restaurant reservations made for you'가 여행업 해당 표현. 판매 전이지만 광고 문구라 수정",
    "agent": "dev",
-   "status": "doing",
+   "status": "review",
    "created": "2026-10-30 11:11",
-   "updated": "2026-10-30 11:31",
+   "updated": "2026-10-30 11:32",
    "notes": [
     {
      "at": "2026-10-30 11:31",
      "text": "A-0007 approved by owner: 대표 채팅 승인(한결 권고대로)"
+    },
+    {
+     "at": "2026-10-30 11:32",
+     "text": "문구 수정·빌드·커밋 완료. push는 세션 권한 검사에서 막혀 18:00 자동 발행 때 반영 예정"
     }
    ]
   },
@@ -253,15 +257,75 @@
    "title": "제휴 여행사 파트너십 문의 (상위 3곳) + Trazy 어필리에이트 신청",
    "detail": "지후 R-0009 기반. 등록증·보증보험·관광통역안내사 보유 확인 요청 포함",
    "agent": "lead",
-   "status": "doing",
+   "status": "review",
    "created": "2026-10-30 11:15",
-   "updated": "2026-10-30 11:31",
+   "updated": "2026-10-30 11:43",
    "notes": [
     {
      "at": "2026-10-30 11:31",
      "text": "A-0009 approved by owner: 대표 채팅 승인(한결 권고대로)"
+    },
+    {
+     "at": "2026-10-30 11:32",
+     "text": "서아 문의서 초안 작성 중"
+    },
+    {
+     "at": "2026-10-30 11:36",
+     "text": "문의서 완료, 대표 발송 대기"
+    },
+    {
+     "at": "2026-10-30 11:40",
+     "text": "규리 수정 반영 중"
+    },
+    {
+     "at": "2026-10-30 11:43",
+     "text": "v2 완료, 대표 발송 대기"
     }
    ]
+  },
+  {
+   "id": "T-0015",
+   "title": "SNS 3건 규리 수정 반영 후 게시 승인 재요청",
+   "detail": "",
+   "agent": "marketer",
+   "status": "waiting_approval",
+   "created": "2026-10-30 11:32",
+   "updated": "2026-10-30 11:36",
+   "notes": [
+    {
+     "at": "2026-10-30 11:33",
+     "text": "A-0008 반려 후속: SNS 3건만 규리 수정 반영"
+    }
+   ]
+  },
+  {
+   "id": "T-0016",
+   "title": "제휴 문의서 발송 전 확인 3건",
+   "detail": "",
+   "agent": "compliance",
+   "status": "done",
+   "created": "2026-10-30 11:36",
+   "updated": "2026-10-30 11:40",
+   "notes": [
+    {
+     "at": "2026-10-30 11:40",
+     "text": "검토서 ops/compliance/2026-10-30_제휴문의서-확인.md"
+    },
+    {
+     "at": "2026-10-30 11:40",
+     "text": "한결 확인: 3건 수정 후 가능"
+    }
+   ]
+  },
+  {
+   "id": "T-0017",
+   "title": "제휴 고지(/disclosure) 공정위 2024-12 지침에 맞게 수정",
+   "detail": "규리 R-0013: 글 끝 고지·'we may earn' 표현 부적합. 상단 고지, 링크 옆 표기 방식으로",
+   "agent": "dev",
+   "status": "waiting_approval",
+   "created": "2026-10-30 11:40",
+   "updated": "2026-10-30 11:40",
+   "notes": []
   }
  ],
  "approvals": [
@@ -405,6 +469,39 @@
    "decided": "2026-10-30 11:31",
    "by": "owner",
    "note": "대표 채팅 승인(한결 권고대로)"
+  },
+  {
+   "id": "A-0010",
+   "agent": "marketer",
+   "task": "T-0015",
+   "action": "SNS 3건 게시(Pinterest·Instagram·Reddit, 대표 계정)",
+   "why": "규리 수정(S1·S2·S7·S8) 반영 완료, 가이드 유입 기준선을 만들어 1억 목표의 개인 고객 경로를 연다",
+   "risk": "low",
+   "files": [
+    "ops/marketing/2026-10-30_SNS-3건-최종.md"
+   ],
+   "status": "pending",
+   "requested": "2026-10-30 11:36",
+   "decided": "",
+   "by": "",
+   "note": ""
+  },
+  {
+   "id": "A-0011",
+   "agent": "lead",
+   "task": "T-0017",
+   "action": "사이트 제휴 고지 페이지(/disclosure)와 글 하단 제휴 고지 문구를 공정위 2024-12 지침에 맞게 수정·발행",
+   "why": "규리 검토: 현재 '글 끝 고지'와 'we may earn' 표현은 지침 부적합. 아직 제휴 링크는 없지만 Trazy 링크를 붙이기 전 필수, 위반 시 표시광고법 위험",
+   "risk": "medium",
+   "files": [
+    "build.py (DISCLOSURE",
+    "page_post)"
+   ],
+   "status": "pending",
+   "requested": "2026-10-30 11:40",
+   "decided": "",
+   "by": "",
+   "note": ""
   }
  ],
  "reports": [
@@ -487,12 +584,44 @@
    "task": "T-0013",
    "at": "2026-10-30 11:20",
    "file": "reports/2026-10-30_R-0010_compliance_아웃리치-SNS-초안-검토.md"
+  },
+  {
+   "id": "R-0011",
+   "agent": "marketer",
+   "title": "SNS 3건 최종안",
+   "task": "T-0015",
+   "at": "2026-10-30 11:36",
+   "file": "reports/2026-10-30_R-0011_marketer_SNS-3건-최종안.md"
+  },
+  {
+   "id": "R-0012",
+   "agent": "planner",
+   "title": "제휴 문의서 3통 + Trazy 신청 체크리스트",
+   "task": "T-0014",
+   "at": "2026-10-30 11:36",
+   "file": "reports/2026-10-30_R-0012_planner_제휴-문의서-3통-Trazy-신청-체크리스트.md"
+  },
+  {
+   "id": "R-0013",
+   "agent": "compliance",
+   "title": "제휴 문의서 발송 전 확인",
+   "task": "T-0016",
+   "at": "2026-10-30 11:40",
+   "file": "reports/2026-10-30_R-0013_compliance_제휴-문의서-발송-전-확인.md"
+  },
+  {
+   "id": "R-0014",
+   "agent": "planner",
+   "title": "제휴 문의서 v2 (규리 수정 반영)",
+   "task": "T-0014",
+   "at": "2026-10-30 11:43",
+   "file": "reports/2026-10-30_R-0014_planner_제휴-문의서-v2-규리-수정-반영.md"
   }
  ],
  "seq": {
-  "T": 14,
-  "A": 9,
-  "R": 10
+  "T": 17,
+  "A": 11,
+  "R": 14
  },
  "revenue": []
 }

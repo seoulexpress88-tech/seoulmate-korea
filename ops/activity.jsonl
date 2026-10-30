@@ -66,3 +66,21 @@
 {"at": "2026-10-30 11:31", "agent": "owner", "event": "approval_rejected", "text": "B2B 소개 메일 1차 발송(우선순위 A 10곳) 및 이번 주 SNS 게시 3건", "ref": "A-0008"}
 {"at": "2026-10-30 11:31", "agent": "planner", "event": "task_update", "text": "done A-0006 승인", "ref": "T-0004"}
 {"at": "2026-10-30 11:31", "agent": "dev", "event": "task_update", "text": "doing", "ref": "T-0012"}
+{"at": "2026-10-30 11:32", "agent": "lead", "event": "task_update", "text": "doing 서아 문의서 초안 작성 중", "ref": "T-0014"}
+{"at": "2026-10-30 11:32", "agent": "dev", "event": "task_update", "text": "review 문구 수정·빌드·커밋 완료. push는 세션 권한 검사에서 막혀 18:00 자동 발행 때 반영 예정", "ref": "T-0012"}
+{"at": "2026-10-30 11:32", "agent": "marketer", "event": "task_add", "text": "SNS 3건 규리 수정 반영 후 게시 승인 재요청", "ref": "T-0015"}
+{"at": "2026-10-30 11:33", "agent": "marketer", "event": "task_update", "text": "doing A-0008 반려 후속: SNS 3건만 규리 수정 반영", "ref": "T-0015"}
+{"at": "2026-10-30 11:36", "agent": "marketer", "event": "report", "text": "SNS 3건 최종안", "ref": "R-0011"}
+{"at": "2026-10-30 11:36", "agent": "marketer", "event": "approval_request", "text": "SNS 3건 게시(Pinterest·Instagram·Reddit, 대표 계정)", "ref": "A-0010"}
+{"at": "2026-10-30 11:36", "agent": "planner", "event": "report", "text": "제휴 문의서 3통 + Trazy 신청 체크리스트", "ref": "R-0012"}
+{"at": "2026-10-30 11:36", "agent": "lead", "event": "task_update", "text": "review 문의서 완료, 대표 발송 대기", "ref": "T-0014"}
+{"at": "2026-10-30 11:36", "agent": "compliance", "event": "task_add", "text": "제휴 문의서 발송 전 확인 3건", "ref": "T-0016"}
+{"at": "2026-10-30 11:37", "agent": "compliance", "event": "task_update", "text": "doing", "ref": "T-0016"}
+{"at": "2026-10-30 11:40", "agent": "compliance", "event": "report", "text": "제휴 문의서 발송 전 확인", "ref": "R-0013"}
+{"at": "2026-10-30 11:40", "agent": "compliance", "event": "task_update", "text": "review 검토서 ops/compliance/2026-10-30_제휴문의서-확인.md", "ref": "T-0016"}
+{"at": "2026-10-30 11:40", "agent": "compliance", "event": "task_update", "text": "done 한결 확인: 3건 수정 후 가능", "ref": "T-0016"}
+{"at": "2026-10-30 11:40", "agent": "dev", "event": "task_add", "text": "제휴 고지(/disclosure) 공정위 2024-12 지침에 맞게 수정", "ref": "T-0017"}
+{"at": "2026-10-30 11:40", "agent": "lead", "event": "approval_request", "text": "사이트 제휴 고지 페이지(/disclosure)와 글 하단 제휴 고지 문구를 공정위 2024-12 지침에 맞게 수정·발행", "ref": "A-0011"}
+{"at": "2026-10-30 11:40", "agent": "lead", "event": "task_update", "text": "doing 규리 수정 반영 중", "ref": "T-0014"}
+{"at": "2026-10-30 11:43", "agent": "planner", "event": "report", "text": "제휴 문의서 v2 (규리 수정 반영)", "ref": "R-0014"}
+{"at": "2026-10-30 11:43", "agent": "lead", "event": "task_update", "text": "review v2 완료, 대표 발송 대기", "ref": "T-0014"}
