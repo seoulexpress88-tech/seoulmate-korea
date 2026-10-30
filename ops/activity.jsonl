@@ -8,3 +8,61 @@
 {"at": "2026-10-29 19:27", "agent": "lead", "event": "task_update", "text": "doing", "ref": "T-0002"}
 {"at": "2026-10-29 19:27", "agent": "lead", "event": "report", "text": "1개월 1억 원 목표: 우선순위 후보 3가지", "ref": "R-0002"}
 {"at": "2026-10-29 19:27", "agent": "lead", "event": "approval_request", "text": "이번 달 우선순위 확정: ①고단가 상품·결제 오픈 + ②단체·B2B 영업 동시 진행, ③유입은 최소 운영", "ref": "A-0002"}
+{"at": "2026-10-29 19:31", "agent": "owner", "event": "approval_approved", "text": "이번 달 우선순위 확정: ①고단가 상품·결제 오픈 + ②단체·B2B 영업 동시 진행, ③유입은 최소 운영", "ref": "A-0002"}
+{"at": "2026-10-29 19:31", "agent": "lead", "event": "task_update", "text": "done 우선순위 확정: ①+② 동시, ③ 최소 운영", "ref": "T-0002"}
+{"at": "2026-10-29 19:31", "agent": "compliance", "event": "task_add", "text": "여행업 등록 필요 여부 + 등록 여행사 제휴 판매 방안 검토", "ref": "T-0003"}
+{"at": "2026-10-29 19:31", "agent": "planner", "event": "task_add", "text": "고단가 상품 2종 기획과 가격안 (Private Day / Custom Trip + Concierge)", "ref": "T-0004"}
+{"at": "2026-10-29 19:31", "agent": "research", "event": "task_add", "text": "단체·B2B 영업 리드 100곳 목록", "ref": "T-0005"}
+{"at": "2026-10-29 19:31", "agent": "planner", "event": "task_add", "text": "단체·B2B 영문 제안서 (맞춤 일정 + 현지 운영)", "ref": "T-0006"}
+{"at": "2026-10-29 19:31", "agent": "marketer", "event": "task_add", "text": "B2B 연락 문구·이메일 시퀀스 초안 + 개인 고객 유입 계획(③ 최소 운영)", "ref": "T-0007"}
+{"at": "2026-10-29 19:31", "agent": "dev", "event": "task_add", "text": "결제 링크·상품 판매 페이지 구현 준비", "ref": "T-0008"}
+{"at": "2026-10-29 19:32", "agent": "compliance", "event": "task_update", "text": "doing", "ref": "T-0003"}
+{"at": "2026-10-29 19:32", "agent": "planner", "event": "task_update", "text": "doing", "ref": "T-0004"}
+{"at": "2026-10-29 19:32", "agent": "research", "event": "task_update", "text": "doing", "ref": "T-0005"}
+{"at": "2026-10-29 19:39", "agent": "research", "event": "report", "text": "B2B 영업 리드 목록", "ref": "R-0003"}
+{"at": "2026-10-29 19:39", "agent": "research", "event": "task_update", "text": "review 리드 목록 완료", "ref": "T-0005"}
+{"at": "2026-10-29 19:39", "agent": "planner", "event": "report", "text": "고단가 상품 2종 기획·가격안", "ref": "R-0004"}
+{"at": "2026-10-29 19:39", "agent": "planner", "event": "task_update", "text": "review 기획 완료, 가격 승인 필요", "ref": "T-0004"}
+{"at": "2026-10-29 19:41", "agent": "compliance", "event": "report", "text": "여행업·판매 구조 검토", "ref": "R-0005"}
+{"at": "2026-10-29 19:41", "agent": "compliance", "event": "task_update", "text": "review 검토 완료, 한결 확인 대기", "ref": "T-0003"}
+{"at": "2026-10-29 19:41", "agent": "lead", "event": "task_add", "text": "1주차 결과 종합과 판매 구조 결정 요청", "ref": "T-0009"}
+{"at": "2026-10-29 19:41", "agent": "lead", "event": "task_update", "text": "doing", "ref": "T-0009"}
+{"at": "2026-10-29 19:41", "agent": "lead", "event": "report", "text": "1주차 1일차 종합: 판매 구조부터 정해야 합니다", "ref": "R-0006"}
+{"at": "2026-10-29 19:41", "agent": "lead", "event": "approval_request", "text": "판매 구조 확정: 등록 종합여행사와 제휴해 즉시 판매(동행·예약 대행·단체는 제휴사 계약) + 직접 종합여행업 등록 준비 병행. 우리가 직접 파는 것은 일정 설계·정보 채팅 상품만", "ref": "A-0003"}
+{"at": "2026-10-29 19:41", "agent": "lead", "event": "approval_request", "text": "Vercel Pro 요금제 전환 (월 $20)", "ref": "A-0004"}
+{"at": "2026-10-29 19:41", "agent": "lead", "event": "approval_request", "text": "전문가 상담 예약: 행정사(여행업 해당 여부·등록 절차), 세무사(수수료 매출·부가세)", "ref": "A-0005"}
+{"at": "2026-10-29 19:41", "agent": "compliance", "event": "task_update", "text": "done 한결 확인, 결정은 A-0003~5", "ref": "T-0003"}
+{"at": "2026-10-29 19:41", "agent": "planner", "event": "task_update", "text": "review 판매 구조 결정(A-0003) 후 가격 수정", "ref": "T-0004"}
+{"at": "2026-10-29 19:41", "agent": "research", "event": "task_update", "text": "done 한결 확인", "ref": "T-0005"}
+{"at": "2026-10-30 11:05", "agent": "owner", "event": "approval_approved", "text": "판매 구조 확정: 등록 종합여행사와 제휴해 즉시 판매(동행·예약 대행·단체는 제휴사 계약) + 직접 종합여행업 등록 준비 병행. 우리가 직접 파는 것은 일정 설계·정보 채팅 상품만", "ref": "A-0003"}
+{"at": "2026-10-30 11:05", "agent": "owner", "event": "approval_approved", "text": "Vercel Pro 요금제 전환 (월 $20)", "ref": "A-0004"}
+{"at": "2026-10-30 11:05", "agent": "owner", "event": "approval_approved", "text": "전문가 상담 예약: 행정사(여행업 해당 여부·등록 절차), 세무사(수수료 매출·부가세)", "ref": "A-0005"}
+{"at": "2026-10-30 11:06", "agent": "lead", "event": "task_update", "text": "done A-0003~5 승인. Vercel Pro 전환과 전문가 상담 예약은 대표 계정·결제 필요", "ref": "T-0009"}
+{"at": "2026-10-30 11:06", "agent": "lead", "event": "task_add", "text": "Vercel Pro 전환 (대표 직접 결제)", "ref": "T-0010"}
+{"at": "2026-10-30 11:06", "agent": "research", "event": "task_add", "text": "외국인 대상 종합여행사 제휴 후보 10곳 + 행정사·세무사 상담처 후보", "ref": "T-0011"}
+{"at": "2026-10-30 11:06", "agent": "planner", "event": "task_update", "text": "doing A-0003 승인: 제휴 구조에 맞춰 상품·가격 수정", "ref": "T-0004"}
+{"at": "2026-10-30 11:06", "agent": "marketer", "event": "task_update", "text": "doing A-0003 승인: 제휴 구조 기준 B2B 소개 메일 초안", "ref": "T-0007"}
+{"at": "2026-10-30 11:06", "agent": "research", "event": "task_update", "text": "doing", "ref": "T-0011"}
+{"at": "2026-10-30 11:10", "agent": "planner", "event": "report", "text": "상품 구조 v2 (제휴 구조 반영)", "ref": "R-0007"}
+{"at": "2026-10-30 11:10", "agent": "planner", "event": "approval_request", "text": "상품 구조 v2와 가격안 확정", "ref": "A-0006"}
+{"at": "2026-10-30 11:11", "agent": "dev", "event": "task_add", "text": "사이트 Local Concierge 문구에서 예약 대행 표현 제거", "ref": "T-0012"}
+{"at": "2026-10-30 11:11", "agent": "lead", "event": "approval_request", "text": "사이트 플래너 요금 카드 문구 수정·발행: 'Restaurant reservations made for you' 삭제, 일정 설계·정보 채팅 범위로 고침", "ref": "A-0007"}
+{"at": "2026-10-30 11:11", "agent": "marketer", "event": "report", "text": "B2B 아웃리치 초안 + 이번 주 SNS 초안", "ref": "R-0008"}
+{"at": "2026-10-30 11:12", "agent": "marketer", "event": "approval_request", "text": "B2B 소개 메일 1차 발송(우선순위 A 10곳) 및 이번 주 SNS 게시 3건", "ref": "A-0008"}
+{"at": "2026-10-30 11:12", "agent": "compliance", "event": "task_add", "text": "B2B 아웃리치 메일·SNS 초안 컴플라이언스 검토 (A-0008 사전 검토)", "ref": "T-0013"}
+{"at": "2026-10-30 11:12", "agent": "compliance", "event": "task_update", "text": "doing 아웃리치·SNS 초안 검토 시작", "ref": "T-0013"}
+{"at": "2026-10-30 11:15", "agent": "research", "event": "report", "text": "제휴 여행사·전문가 후보", "ref": "R-0009"}
+{"at": "2026-10-30 11:15", "agent": "research", "event": "task_update", "text": "review 조사 완료", "ref": "T-0011"}
+{"at": "2026-10-30 11:15", "agent": "research", "event": "task_update", "text": "done 한결 확인", "ref": "T-0011"}
+{"at": "2026-10-30 11:15", "agent": "lead", "event": "task_add", "text": "제휴 여행사 파트너십 문의 (상위 3곳) + Trazy 어필리에이트 신청", "ref": "T-0014"}
+{"at": "2026-10-30 11:15", "agent": "lead", "event": "approval_request", "text": "제휴 후보 3곳(VIP Travel, Korea Tour Company, KoreaTravelEasy) 공식 파트너 창구로 제휴 문의 + Trazy 어필리에이트 신청", "ref": "A-0009"}
+{"at": "2026-10-30 11:20", "agent": "compliance", "event": "report", "text": "아웃리치·SNS 초안 검토", "ref": "R-0010"}
+{"at": "2026-10-30 11:20", "agent": "compliance", "event": "task_update", "text": "review 검토서 작성 완료: 메일 보류(조건부), SNS 수정 후 가능. 위험 높음 1건(제휴 미확정 표기) 한결 전달 필요", "ref": "T-0013"}
+{"at": "2026-10-30 11:20", "agent": "compliance", "event": "task_update", "text": "done 한결 확인: 메일 보류(높음), SNS 수정 후 가능", "ref": "T-0013"}
+{"at": "2026-10-30 11:20", "agent": "marketer", "event": "task_update", "text": "규리 검토(R-0010): 메일 보류, SNS 3건 수정 후 가능. A-0008은 반려 후 SNS만 재요청 권장", "ref": "T-0007"}
+{"at": "2026-10-30 11:31", "agent": "owner", "event": "approval_approved", "text": "상품 구조 v2와 가격안 확정", "ref": "A-0006"}
+{"at": "2026-10-30 11:31", "agent": "owner", "event": "approval_approved", "text": "사이트 플래너 요금 카드 문구 수정·발행: 'Restaurant reservations made for you' 삭제, 일정 설계·정보 채팅 범위로 고침", "ref": "A-0007"}
+{"at": "2026-10-30 11:31", "agent": "owner", "event": "approval_approved", "text": "제휴 후보 3곳(VIP Travel, Korea Tour Company, KoreaTravelEasy) 공식 파트너 창구로 제휴 문의 + Trazy 어필리에이트 신청", "ref": "A-0009"}
+{"at": "2026-10-30 11:31", "agent": "owner", "event": "approval_rejected", "text": "B2B 소개 메일 1차 발송(우선순위 A 10곳) 및 이번 주 SNS 게시 3건", "ref": "A-0008"}
+{"at": "2026-10-30 11:31", "agent": "planner", "event": "task_update", "text": "done A-0006 승인", "ref": "T-0004"}
+{"at": "2026-10-30 11:31", "agent": "dev", "event": "task_update", "text": "doing", "ref": "T-0012"}

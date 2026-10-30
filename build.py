@@ -615,7 +615,7 @@ def page_planner(posts):
         <ul><li>Maps and transit steps for every day</li><li>Opening hours and booking links</li><li>Free edits until departure</li></ul>
         <span class="soon">Launching soon</span></div>
       <div class="plan"><span class="lbl">Local Concierge</span><div class="price" id="priceConcierge"></div>
-        <ul><li>A Seoul local reviews and tunes your plan</li><li>Restaurant reservations made for you</li><li>Chat support during your trip</li></ul>
+        <ul><li>A Seoul local reviews and tunes your plan</li><li>Restaurant and experience picks matched to your plan</li><li>Chat support during your trip</li></ul>
         <span class="soon">Launching soon</span></div>
     </div>
   </div>
