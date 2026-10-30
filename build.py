@@ -10,6 +10,7 @@ import datetime as dt
 import hashlib
 import html
 import json
+import os
 import re
 import shutil
 import subprocess
@@ -620,7 +621,10 @@ def page_planner(posts):
     </div>
   </div>
 </div>"""
-    extra = f'<script>window.SEOULMATE_GUIDES={json.dumps(guides, ensure_ascii=False)};</script>\n<script src="/static/planner.js?v={ASSET_V}" defer></script>'
+    extra = (f'<script>window.SEOULMATE_GUIDES={json.dumps(guides, ensure_ascii=False)};</script>\n'
+             '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">\n'
+             '<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js" defer></script>\n'
+             f'<script src="/static/planner.js?v={ASSET_V}" defer></script>')
     return layout("Korea trip planner", "Build a free day-by-day Korea itinerary for Seoul, Busan, Jeju, Gyeongju, Gangneung, Sokcho, Yeosu and more, based on your dates and interests.",
                   "/planner/", body, "planner", head_extra=extra)
 
@@ -714,7 +718,12 @@ def build():
 
 
 def git(*args):
-    return subprocess.run(["git", *args], cwd=ROOT, capture_output=True, text=True, encoding="utf-8")
+    # Never wait for a login prompt in unattended runs; give up after 2 minutes and log it instead.
+    env = {**os.environ, "GIT_TERMINAL_PROMPT": "0", "GCM_INTERACTIVE": "never"}
+    try:
+        return subprocess.run(["git", *args], cwd=ROOT, capture_output=True, text=True, encoding="utf-8", env=env, timeout=120)
+    except subprocess.TimeoutExpired:
+        return subprocess.CompletedProcess(["git", *args], 1, "", f"git {' '.join(args)} timed out after 120s")
 
 
 def publish():

@@ -126,6 +126,30 @@ const P=[
 ["jhr","jeju","sports","pm","Horse riding on Jeju","제주 승마","Jeju has a long horse-breeding tradition; many ranches offer short beginner rides."],
 ["jol","jeju","sports","am","Jeju Olle Trail walk","제주올레길","Walk part of a coastal route. Route 7 near Seogwipo is a favorite."]
 ];
+// Map coordinates [lat, lng, area]. area=1 means a representative point for a neighborhood or generic activity.
+const GEO={gbg:[37.5796,126.9770],cdg:[37.5794,126.9910],bch:[37.5826,126.9830],jgs:[37.5740,126.9817],bhs:[37.6588,126.9779],
+gjm:[37.5700,126.9996],mwm:[37.5560,126.9056],isd:[37.5741,126.9895],nmk:[37.5239,126.9803],lee:[37.5383,126.9990],hkr:[37.5689,126.9848],
+kdc:[37.5563,126.9236,1],ksr:[37.5265,127.0430],hdb:[37.5547,126.9227],eul:[37.5663,126.9917],nst:[37.5512,126.9882],hrc:[37.5284,126.9330,1],
+gje:[37.5702,127.0000],sgb:[37.5395,126.9900,1],kbo:[37.5122,127.0719],gcd:[37.4982,126.8671],fcs:[37.5683,126.8972],vbl:[37.5583,127.0070],
+lck:[37.5704,126.9831],tkd:[37.5636,126.9834,1],hrb:[37.5284,126.9330,1],
+gcv:[35.0975,129.0107],jgl:[35.0967,129.0306],hdy:[35.1883,129.2233],bbp:[35.1585,129.1703],jpc:[35.1555,129.0640],bms:[35.2837,129.0683],
+gal:[35.1532,129.1187],bpk:[35.1018,129.0262],sjk:[35.1940,129.0615],sjs:[35.1786,129.1999],
+sio:[33.4581,126.9426],hls:[33.3427,126.4951],hny:[33.5222,126.8601,1],wjr:[33.5565,126.7958],p43:[33.4495,126.6114],bpg:[33.5090,126.5277],
+dmm:[33.5125,126.5279],jhr:[33.4300,126.6600,1],jol:[33.2398,126.5450],
+bgs:[35.7900,129.3320],drw:[35.8383,129.2116],hrd:[35.8376,129.2089],dgw:[35.8346,129.2266],gcf:[35.8296,129.2152],
+jhv:[35.8150,127.1530],gkj:[35.8155,127.1497],jbb:[35.8170,127.1480,1],nbm:[35.8135,127.1458],mkg:[35.7997,127.1290,1],
+icp:[37.4740,126.6183],icc:[37.4757,126.6181],ics:[37.3925,126.6391],icw:[37.4755,126.5985],ssg:[37.4370,126.6933],
+swh:[37.2871,127.0200],swp:[37.2820,127.0135],swl:[37.2830,127.0160],swg:[37.2730,127.0300,1],swn:[37.2876,127.0203],ktw:[37.2997,127.0097],
+gpn:[37.7911,127.5255],gpr:[37.8136,127.6213],gpp:[37.7186,127.4967],gpg:[37.7433,127.3527],gpd:[37.8315,127.5105,1],gpw:[37.7362,127.4235,1],
+gnc:[37.7907,128.9150],gnb:[37.8055,128.9087],gna:[37.7724,128.9476],gnh:[37.7795,128.8785],gnk:[37.8950,128.8293],gnm:[37.7545,128.8986],
+gop:[37.7745,128.8972],ypg:[37.6447,128.6807],
+skr:[38.1726,128.4893],sks:[38.1716,128.4876],ska:[38.2016,128.5913],skm:[38.2050,128.5900],skb:[38.1910,128.6015],yys:[37.9734,128.7593],
+adh:[36.5394,128.5180],adb:[36.5390,128.5550],adm:[36.5410,128.5250,1],adj:[36.5651,128.7287],adw:[36.5761,128.7642],
+dgm:[35.8693,128.5862],dgd:[35.9890,128.6970],dgk:[35.8603,128.6060],dgl:[35.8690,128.5960],dgs:[35.8687,128.5806],dga:[35.8291,128.5843],dsl:[35.8410,128.6812],
+ysh:[34.5916,127.8047],yso:[34.7438,127.7660],ysc:[34.7350,127.7450],ysg:[34.7340,127.7360,1],ysn:[34.7395,127.7375],
+tys:[34.8466,128.4247],tyd:[34.8443,128.4281],tyc:[34.8268,128.4223],tyl:[34.8273,128.4253],tym:[34.8435,128.4250]};
+// Cities with a subway network; elsewhere taxis or a rental car are the practical way between stops.
+const METRO=["seoul","busan","incheon","daegu","suwon"];
 const byId=Object.fromEntries(P.map(p=>[p[0],p]));
 const cityOf=id=>CITIES.find(x=>x[0]===id);
 const GUIDES=window.SEOULMATE_GUIDES||{};
@@ -216,11 +240,63 @@ function render(){
         </div>`}).join("")}</div>`:`<div class="free">Free time. Rest up or explore the neighborhood.</div>`;
       return `<div class="slot"><div class="slot-t">${meta[1]}<small>${meta[2]}</small></div>${body}</div>`;
     }).join("");
-    return `<article class="pday"><div class="day-h"><h3>Day ${di+1}</h3><span class="date">${fmt(d.date)}</span><span class="cty">${c[1]} ${c[2]}</span></div>${mv}${guide}${slots}</article>`;
+    return `<article class="pday"><div class="day-h"><h3>Day ${di+1}</h3><span class="date">${fmt(d.date)}</span><span class="cty">${c[1]} ${c[2]}</span></div>${mv}${guide}${slots}${routeBlock(d,di)}</article>`;
   }).join("");
   $("meter").textContent=`${Object.keys(state.picks).length} stops chosen · ${n} days`;
   $("pricePlan").innerHTML=`$${12+2*n}<small> one-time · ${n} days</small>`;
   $("priceConcierge").innerHTML=`$${39+6*n}<small> one-time · ${n} days</small>`;
+  initMaps();
+}
+
+// ---- Route: the day's chosen stops in order, how to get between them, and a map
+function stopsOf(di){
+  return state.plan[di].slots.map((s,si)=>state.picks[di+"-"+si]).filter(id=>id&&GEO[id]).map(id=>({id,p:byId[id],g:GEO[id]}));
+}
+function km(a,b){
+  const r=Math.PI/180,dl=(b[0]-a[0])*r,dn=(b[1]-a[1])*r;
+  const h=Math.sin(dl/2)**2+Math.cos(a[0]*r)*Math.cos(b[0]*r)*Math.sin(dn/2)**2;
+  return 12742*Math.asin(Math.sqrt(h));
+}
+// Rough guidance from straight-line distance; the map links give real routes.
+function legText(d,city){
+  const walk=Math.max(1,Math.round(d*1.3/4.5*60)), taxi=Math.round(5+d*1.4/22*60), transit=Math.round(12+d*1.3/22*60);
+  if(d<0.3)return ["walk","Right next door · a few minutes on foot"];
+  if(d<=1.2)return ["walk",`Walk · about ${walk} min`];
+  if(d<=3)return ["walk",`Walk about ${walk} min, or a short taxi ride (~${taxi} min)`];
+  if(METRO.includes(city))return ["transit",`Subway or bus · about ${transit} min (taxi ~${taxi} min)`];
+  return ["car",`Taxi or rental car · about ${taxi} min (local buses are infrequent)`];
+}
+function routeBlock(d,di){
+  const st=stopsOf(di);
+  if(!st.length)return "";
+  const legs=st.slice(1).map((s,i)=>{
+    const a=st[i],dist=km(a.g,s.g),[mode,txt]=legText(dist,d.city);
+    const g=`https://www.google.com/maps/dir/?api=1&origin=${a.g[0]},${a.g[1]}&destination=${s.g[0]},${s.g[1]}&travelmode=${mode==="walk"?"walking":mode==="transit"?"transit":"driving"}`;
+    const k=`https://map.kakao.com/link/to/${encodeURIComponent(s.p[5])},${s.g[0]},${s.g[1]}`;
+    return `<li class="leg leg-${mode}"><span class="lg-n">${i+1} → ${i+2}</span><span class="lg-t"><b>${esc(a.p[4])} → ${esc(s.p[4])}</b>
+      ${txt} · ${dist<1?Math.round(dist*1000)+" m":dist.toFixed(1)+" km"}</span>
+      <span class="lg-a no-print"><a href="${g}" target="_blank" rel="noopener">Google Maps ↗</a><a href="${k}" target="_blank" rel="noopener">KakaoMap ↗</a></span></li>`}).join("");
+  const order=st.map((s,i)=>`<li><span class="num">${i+1}</span>${esc(s.p[4])}${s.g[2]?' <span class="hint">(area)</span>':""}</li>`).join("");
+  return `<div class="route">
+    <div class="route-map no-print" id="map-${di}" role="img" aria-label="Map of Day ${di+1} route"></div>
+    <div class="route-info"><span class="lbl">Day ${di+1} route</span><ol class="stops">${order}</ol>
+      ${legs?`<ul class="legs">${legs}</ul><p class="hint">Times are rough estimates from distance. Tap a map link for live transit routes.</p>`:""}</div>
+  </div>`;
+}
+let maps=[];
+function initMaps(){
+  maps.forEach(m=>m.remove());maps=[];
+  if(!window.L)return;
+  state.plan.forEach((d,di)=>{
+    const el=$("map-"+di),st=stopsOf(di);if(!el||!st.length)return;
+    const m=L.map(el,{scrollWheelZoom:false,attributionControl:true});
+    L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:18,attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'}).addTo(m);
+    const pts=st.map(s=>[s.g[0],s.g[1]]);
+    if(pts.length>1)L.polyline(pts,{color:getComputedStyle(document.documentElement).getPropertyValue("--accent").trim()||"#1F4E79",weight:3,dashArray:"6 6"}).addTo(m);
+    st.forEach((s,i)=>L.marker(pts[i],{icon:L.divIcon({className:"pin-num"+(s.g[2]?" area":""),html:String(i+1),iconSize:[26,26]}),title:s.p[4]}).addTo(m).bindPopup(`<b>${esc(s.p[4])}</b><br>${esc(s.p[5])}`));
+    pts.length>1?m.fitBounds(pts,{padding:[28,28],maxZoom:15}):m.setView(pts[0],14);
+    maps.push(m);
+  });
 }
 function choose(el){
   state.picks[el.dataset.key]=el.dataset.id;render();
@@ -233,7 +309,9 @@ $("tripForm").addEventListener("submit",e=>{e.preventDefault();build()});
 function asText(){
   return state.plan.map((d,di)=>{
     const lines=d.slots.map((s,si)=>{const id=state.picks[di+"-"+si];const meta=SLOTS.find(x=>x[0]===s.sid);return `  ${meta[1]}: ${id?byId[id][4]+" ("+byId[id][5]+")":"Free time"}`});
-    return `Day ${di+1} · ${d.date.toDateString()} · ${cityOf(d.city)[1]}\n${lines.join("\n")}`;
+    const st=stopsOf(di);
+    const legs=st.slice(1).map((s,i)=>`  ${i+1}→${i+2}: ${legText(km(st[i].g,s.g),d.city)[1]}`);
+    return `Day ${di+1} · ${d.date.toDateString()} · ${cityOf(d.city)[1]}\n${lines.join("\n")}${legs.length?"\n  Getting around:\n"+legs.join("\n"):""}`;
   }).join("\n\n");
 }
 $("copyPlan").addEventListener("click",()=>{
