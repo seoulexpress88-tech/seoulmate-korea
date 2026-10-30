@@ -84,3 +84,9 @@
 {"at": "2026-10-30 11:40", "agent": "lead", "event": "task_update", "text": "doing 규리 수정 반영 중", "ref": "T-0014"}
 {"at": "2026-10-30 11:43", "agent": "planner", "event": "report", "text": "제휴 문의서 v2 (규리 수정 반영)", "ref": "R-0014"}
 {"at": "2026-10-30 11:43", "agent": "lead", "event": "task_update", "text": "review v2 완료, 대표 발송 대기", "ref": "T-0014"}
+{"at": "2026-10-30 18:14", "agent": "lead", "event": "task_add", "text": "대표 지시: 전체 작업 일시 중단 (승인 문서 검토 중)", "ref": "T-0018"}
+{"at": "2026-10-30 18:14", "agent": "lead", "event": "task_update", "text": "blocked 대표 재개 지시 대기", "ref": "T-0018"}
+{"at": "2026-10-30 18:19", "agent": "dev", "event": "task_add", "text": "플래너 일자별 동선 지도 + 이동 방법 (대표 요청)", "ref": "T-0019"}
+{"at": "2026-10-30 18:19", "agent": "dev", "event": "task_update", "text": "review 로컬 확인 완료(데스크톱, 콘솔 오류 없음). 배포 승인 대기", "ref": "T-0019"}
+{"at": "2026-10-30 18:19", "agent": "lead", "event": "approval_request", "text": "동선 지도 기능(branch feature/route-map)을 main에 합치고 사이트에 발행. 쌓여 있던 미발행 커밋 4건(A-0007 문구 수정 포함)도 함께 올라감", "ref": "A-0012"}
+{"at": "2026-10-30 18:29", "agent": "owner", "event": "approval_approved", "text": "동선 지도 기능(branch feature/route-map)을 main에 합치고 사이트에 발행. 쌓여 있던 미발행 커밋 4건(A-0007 문구 수정 포함)도 함께 올라감", "ref": "A-0012"}

@@ -326,6 +326,40 @@
    "created": "2026-10-30 11:40",
    "updated": "2026-10-30 11:40",
    "notes": []
+  },
+  {
+   "id": "T-0018",
+   "title": "대표 지시: 전체 작업 일시 중단 (승인 문서 검토 중)",
+   "detail": "2026-10-30 대표 채팅 지시. 재개 지시 전까지 새 업무 배정·실행 없음",
+   "agent": "lead",
+   "status": "blocked",
+   "created": "2026-10-30 18:14",
+   "updated": "2026-10-30 18:14",
+   "notes": [
+    {
+     "at": "2026-10-30 18:14",
+     "text": "대표 재개 지시 대기"
+    }
+   ]
+  },
+  {
+   "id": "T-0019",
+   "title": "플래너 일자별 동선 지도 + 이동 방법 (대표 요청)",
+   "detail": "branch feature/route-map. 108개 장소 좌표, Leaflet+OpenStreetMap 지도, 정류 순서 번호, 구간별 도보/지하철/택시 추정, Google·Kakao 길찾기 링크. 무인 발행 git push 타임아웃 수정 포함",
+   "agent": "dev",
+   "status": "doing",
+   "created": "2026-10-30 18:19",
+   "updated": "2026-10-30 18:29",
+   "notes": [
+    {
+     "at": "2026-10-30 18:19",
+     "text": "로컬 확인 완료(데스크톱, 콘솔 오류 없음). 배포 승인 대기"
+    },
+    {
+     "at": "2026-10-30 18:29",
+     "text": "A-0012 approved by owner"
+    }
+   ]
   }
  ],
  "approvals": [
@@ -502,6 +536,24 @@
    "decided": "",
    "by": "",
    "note": ""
+  },
+  {
+   "id": "A-0012",
+   "agent": "lead",
+   "task": "T-0019",
+   "action": "동선 지도 기능(branch feature/route-map)을 main에 합치고 사이트에 발행. 쌓여 있던 미발행 커밋 4건(A-0007 문구 수정 포함)도 함께 올라감",
+   "why": "대표 요청 기능. 또한 10/29 저녁 이후 자동 발행의 GitHub 업로드가 멈춰 사이트가 갱신되지 않고 있어, 업로드가 로그인 창에서 멈추지 않도록 2분 제한을 둔 수정도 포함",
+   "risk": "medium",
+   "files": [
+    "static/planner.js",
+    "static/style.css",
+    "build.py"
+   ],
+   "status": "approved",
+   "requested": "2026-10-30 18:19",
+   "decided": "2026-10-30 18:29",
+   "by": "owner",
+   "note": ""
   }
  ],
  "reports": [
@@ -619,8 +671,8 @@
   }
  ],
  "seq": {
-  "T": 17,
-  "A": 11,
+  "T": 19,
+  "A": 12,
   "R": 14
  },
  "revenue": []
