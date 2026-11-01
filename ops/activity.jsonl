@@ -100,3 +100,8 @@
 {"at": "2026-11-01 13:42", "agent": "dev", "event": "task_update", "text": "review 로컬 확인 완료(가족·친구·커플·모바일), 커밋 88202fc", "ref": "T-0021"}
 {"at": "2026-11-01 13:42", "agent": "lead", "event": "approval_request", "text": "플래너 '누구와 가나요?' 선택 기능(branch feature/traveler-type)을 main에 합치고 사이트에 발행", "ref": "A-0014"}
 {"at": "2026-11-01 13:43", "agent": "owner", "event": "approval_approved", "text": "플래너 '누구와 가나요?' 선택 기능(branch feature/traveler-type)을 main에 합치고 사이트에 발행", "ref": "A-0014"}
+{"at": "2026-11-01 13:44", "agent": "dev", "event": "task_update", "text": "done A-0014 배포 완료, 실제 사이트 확인", "ref": "T-0021"}
+{"at": "2026-11-01 13:48", "agent": "dev", "event": "task_add", "text": "가이드 매칭 1단계 화면: /local-guides/ 페이지 + 플래너 가이드 요청 (branch feature/guide-matching-ui)", "ref": "T-0022"}
+{"at": "2026-11-01 13:48", "agent": "dev", "event": "task_update", "text": "review 로컬 확인 완료", "ref": "T-0022"}
+{"at": "2026-11-01 13:48", "agent": "lead", "event": "approval_request", "text": "가이드 매칭 1단계 화면(branch feature/guide-matching-ui)을 main에 합치고 사이트에 발행: 메뉴 'Local guides' 추가, /local-guides/ 안내 페이지(자격 배지 설명, 'Seoulmate는 연결만 하고 매칭 수수료를 받는다' 고지 문구 포함), 플래너 가이드 요청 옵션(전송 없음)", "ref": "A-0015"}
+{"at": "2026-11-01 13:54", "agent": "owner", "event": "approval_approved", "text": "가이드 매칭 1단계 화면(branch feature/guide-matching-ui)을 main에 합치고 사이트에 발행: 메뉴 'Local guides' 추가, /local-guides/ 안내 페이지(자격 배지 설명, 'Seoulmate는 연결만 하고 매칭 수수료를 받는다' 고지 문구 포함), 플래너 가이드 요청 옵션(전송 없음)", "ref": "A-0015"}
