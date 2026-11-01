@@ -195,6 +195,34 @@ $("cityChips").addEventListener("change",e=>{
 });
 $("catChips").addEventListener("change",()=>{state.cats=[...document.querySelectorAll("#catChips input:checked")].map(i=>i.value)});
 
+// Local guide: the traveler marks the days they want a licensed guide. Requests aren't sent anywhere yet.
+state.guide=qs.get("guide")==="1";state.noGuide=new Set();
+$("wantGuide").checked=state.guide;$("groupSize").hidden=!state.guide;
+$("wantGuide").addEventListener("change",e=>{state.guide=e.target.checked;$("groupSize").hidden=!state.guide;render()});
+["adults","kids"].forEach(id=>$(id).addEventListener("input",guideReq));
+$("days").addEventListener("change",e=>{
+  if(!e.target.matches(".gday input"))return;
+  const di=+e.target.dataset.day;e.target.checked?state.noGuide.delete(di):state.noGuide.add(di);guideReq();
+});
+const guideDays=()=>state.plan.map((d,di)=>di).filter(di=>!state.noGuide.has(di));
+const num=(id,min)=>Math.max(min,Math.min(30,parseInt($(id).value,10)||0));
+function guideReq(){
+  const el=$("guideReq");
+  if(!state.guide||!state.plan.length){el.innerHTML="";return}
+  const w=whoOf(state.who),days=guideDays(),a=num("adults",1),k=num("kids",0);
+  const fmt=d=>d.toLocaleDateString("en-US",{month:"short",day:"numeric"});
+  const items=days.map(di=>{const d=state.plan[di];const st=stopsOf(di).map(s=>esc(s.p[4])).join(" → ");
+    return `<li><b>Day ${di+1} · ${fmt(d.date)} · ${cityOf(d.city)[1]}</b>${st?`<br><span class="hint">${st}</span>`:""}</li>`}).join("");
+  el.innerHTML=`<section class="guide-req no-print" aria-labelledby="grH">
+    <h2 id="grH">Your guide request</h2>
+    <p class="hint">${a} adult${a>1?"s":""}${k?`, ${k} child${k>1?"ren":""}`:""}${w?` · ${esc(w[1])}`:""} · ${days.length} of ${state.plan.length} days. Untick a day above to leave it out.</p>
+    ${days.length?`<ul>${items}</ul>`:`<p>No days selected yet.</p>`}
+    <p class="hint">Licensed guides in these cities will send proposals with their price and suggested changes. Every guide shows the <span class="lic-badge">✓ Licensed guide</span> badge after we verify their national license.</p>
+    <button class="btn" type="button" disabled>Send to licensed guides · launching soon</button>
+    <p class="hint" style="margin-top:8px"><a href="/local-guides/">How guide matching works</a></p>
+  </section>`;
+}
+
 // Who's traveling: picking a type sets a suggested pace and interests, which the traveler can still change.
 $("whoChips").innerHTML=WHO.map(([id,label])=>`<label class="chip"><input type="radio" name="who" value="${id}" ${state.who===id?"checked":""}>${label}</label>`).join("");
 function setPace(v){const r=document.querySelector(`input[name=pace][value="${v}"]`);if(r)r.checked=true}
@@ -224,7 +252,7 @@ $("arrive").addEventListener("change",hint);$("depart").addEventListener("change
 function build(){
   const n=dayCount();const cities=state.cities.length?state.cities:["seoul"];
   const pace=+document.querySelector("input[name=pace]:checked").value;
-  const used=new Set();state.plan=[];state.picks={};
+  const used=new Set();state.plan=[];state.picks={};state.noGuide=new Set();
   if(!n){render();return}
   const k=Math.min(cities.length,n);const base=Math.floor(n/k);let extra=n-base*k;
   const alloc=cities.slice(0,k).map(()=>base+(extra-->0?1:0));
@@ -285,11 +313,13 @@ function render(){
         </div>`}).join("")}</div>`:`<div class="free">Free time. Rest up or explore the neighborhood.</div>`;
       return `<div class="slot"><div class="slot-t">${meta[1]}<small>${meta[2]}</small></div>${body}</div>`;
     }).join("");
-    return `<article class="pday"><div class="day-h"><h3>Day ${di+1}</h3><span class="date">${fmt(d.date)}</span><span class="cty">${c[1]} ${c[2]}</span></div>${mv}${guide}${slots}${routeBlock(d,di)}</article>`;
+    const gd=state.guide?`<label class="gday no-print"><input type="checkbox" data-day="${di}" ${state.noGuide.has(di)?"":"checked"}>Guide</label>`:"";
+    return `<article class="pday"><div class="day-h"><h3>Day ${di+1}</h3><span class="date">${fmt(d.date)}</span>${gd}<span class="cty">${c[1]} ${c[2]}</span></div>${mv}${guide}${slots}${routeBlock(d,di)}</article>`;
   }).join("");
   const w=whoOf(state.who);
   $("whoTips").innerHTML=w&&n?`<div class="who-tips"><b>Tips: ${esc(w[1])}</b><ul>${w[5].map(t=>`<li>${esc(t)}</li>`).join("")}</ul></div>`:"";
   $("meter").textContent=`${Object.keys(state.picks).length} stops chosen · ${n} days`;
+  guideReq();
   $("pricePlan").innerHTML=`$${12+2*n}<small> one-time · ${n} days</small>`;
   $("priceConcierge").innerHTML=`$${39+6*n}<small> one-time · ${n} days</small>`;
   initMaps();
@@ -356,7 +386,8 @@ $("tripForm").addEventListener("submit",e=>{e.preventDefault();build()});
 
 function asText(){
   const w=whoOf(state.who);
-  return (w?`Traveling as: ${w[1]}\n\n`:"")+state.plan.map((d,di)=>{
+  const g=state.guide?`Licensed guide wanted on: ${guideDays().map(di=>"Day "+(di+1)).join(", ")||"no days yet"} (${num("adults",1)} adults, ${num("kids",0)} children)\n\n`:"";
+  return (w?`Traveling as: ${w[1]}\n`:"")+(w&&!g?"\n":"")+g+state.plan.map((d,di)=>{
     const lines=d.slots.map((s,si)=>{const id=state.picks[di+"-"+si];const meta=SLOTS.find(x=>x[0]===s.sid);return `  ${meta[1]}: ${id?byId[id][4]+" ("+byId[id][5]+")":"Free time"}`});
     const st=stopsOf(di);
     const legs=st.slice(1).map((s,i)=>`  ${i+1}→${i+2}: ${legText(km(st[i].g,s.g),d.city)[1]}`);

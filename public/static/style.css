@@ -121,6 +121,24 @@ fieldset.who legend{padding:0;margin-bottom:6px}
 .who-tips{margin:0 0 16px;padding:12px 14px;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:10px;background:var(--surface);font-size:.9rem}
 .who-tips b{display:block;margin-bottom:4px}
 .who-tips ul{margin:0;padding-left:18px}
+fieldset.who>label.chip{align-self:flex-start;margin-bottom:8px}
+.group{display:flex;gap:12px;margin-bottom:6px}
+.group label{display:flex;align-items:center;gap:6px;font-size:.88rem}
+.group input{width:4.2em;padding:6px 8px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font:inherit}
+.lic-badge{display:inline-block;font-size:.78rem;font-weight:700;padding:2px 10px;border-radius:999px;background:var(--jade-soft);color:var(--jade);border:1px solid var(--jade)}
+.gday{margin-left:8px;display:inline-flex;align-items:center;gap:5px;font-size:.8rem;font-weight:600;color:var(--jade);cursor:pointer}
+.guide-req{margin-top:20px;padding:16px 18px;border:1px solid var(--jade);border-radius:12px;background:var(--surface)}
+.guide-req h2{margin:0 0 6px;font-size:1.15rem}
+.guide-req ul{margin:8px 0 12px;padding-left:18px;font-size:.9rem}
+.guide-req .btn[disabled]{opacity:.55;cursor:not-allowed}
+.soon-banner{margin:16px 0 0;padding:12px 14px;border-radius:10px;background:var(--warn-soft);color:var(--ink);max-width:68ch}
+.badge-demo{margin:0 0 10px}
+.gp-sample{position:relative;border:1px dashed var(--line);border-radius:12px;padding:16px;background:var(--surface);max-width:460px}
+.gp-tag{display:inline-block;font-size:.72rem;font-weight:600;color:var(--warn);margin-bottom:10px}
+.gp-head{display:flex;gap:12px;align-items:center;margin-bottom:10px}
+.gp-avatar{width:48px;height:48px;border-radius:50%;background:var(--sunk);flex:none}
+.gp-facts{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;margin:0;font-size:.9rem}
+.gp-facts dt{color:var(--muted)}.gp-facts dd{margin:0}
 .seg{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;background:var(--sunk);padding:4px;border-radius:9px}
 .seg label{position:relative;text-align:center;padding:6px;border-radius:6px;cursor:pointer;font-size:.86rem;color:var(--muted)}
 .seg input{position:absolute;opacity:0}

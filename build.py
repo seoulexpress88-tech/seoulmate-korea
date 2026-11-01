@@ -222,7 +222,7 @@ def fmt_date(d):
 
 def layout(title, desc, path, body, active="", head_extra="", page_title=None):
     full = page_title or (f"{title} | {CFG['name']}" if title != CFG["name"] else f"{CFG['name']} · {CFG['tagline']}")
-    nav = [("/planner/", "Plan a trip", "planner"), ("/destinations/", "Destinations", "destinations"), ("/guides/", "Travel guides", "guides"), ("/about/", "About", "about")]
+    nav = [("/planner/", "Plan a trip", "planner"), ("/local-guides/", "Local guides", "local-guides"), ("/destinations/", "Destinations", "destinations"), ("/guides/", "Travel guides", "guides"), ("/about/", "About", "about")]
     nav_html = "".join(f'<a href="{u}"{" aria-current=\"page\"" if k == active else ""}>{t}</a>' for u, t, k in nav)
     year = dt.date.today().year
     return f"""<!doctype html>
@@ -599,6 +599,15 @@ def page_planner(posts):
         <label><input type="radio" name="pace" id="pace-full" value="4">Packed</label>
       </div>
     </div>
+    <fieldset class="field who">
+      <legend class="lbl">Local guide</legend>
+      <label class="chip"><input type="checkbox" id="wantGuide">I'd like a licensed local guide</label>
+      <div class="group" id="groupSize" hidden>
+        <label>Adults <input type="number" id="adults" min="1" max="30" value="2" inputmode="numeric"></label>
+        <label>Children <input type="number" id="kids" min="0" max="30" value="0" inputmode="numeric"></label>
+      </div>
+      <span class="hint"><a href="/local-guides/">How guide matching works</a></span>
+    </fieldset>
     <button class="btn" type="submit">Build my itinerary</button>
   </form>
   <div style="min-width:0">
@@ -609,6 +618,7 @@ def page_planner(posts):
     </div>
     <div id="whoTips"></div>
     <div id="days"></div>
+    <div id="guideReq"></div>
     <div class="tools">
       <button class="btn ghost" type="button" id="copyPlan">Copy itinerary</button>
       <button class="btn ghost" type="button" id="printPlan">Print or save as PDF</button>
@@ -633,6 +643,51 @@ def page_planner(posts):
              f'<script src="/static/planner.js?v={ASSET_V}" defer></script>')
     return layout("Korea trip planner", "Build a free day-by-day Korea itinerary for Seoul, Busan, Jeju, Gyeongju, Gangneung, Sokcho, Yeosu and more, based on your dates and interests.",
                   "/planner/", body, "planner", head_extra=extra)
+
+
+def page_local_guides():
+    # Guide matching, step 1: explains the service and the license badge. Requests are not collected yet.
+    body = """<div class="page-h"><h1>Licensed local guides</h1>
+<p>Plan your trip, tell us you'd like a guide, and compare proposals from licensed guides in the cities you're visiting.</p></div>
+<p class="soon-banner"><b>Launching soon.</b> We're onboarding our first licensed guides in Seoul. Until then, plan your trip for free and mark the days you'd like a guide.</p>
+<div class="prose" style="margin-top:18px">
+<h2>How it works</h2>
+<ol class="steps">
+<li><b>Build your plan.</b> Pick your dates, cities and stops in the <a href="/planner/">trip planner</a>, then tick <i>I'd like a licensed local guide</i> and choose the days.</li>
+<li><b>We share your request.</b> Your dates, cities, stops and group size go to licensed guides who work in those cities.</li>
+<li><b>Guides send proposals.</b> Each proposal shows the guide's price, how they would adjust your plan, their languages and what they specialize in.</li>
+<li><b>You compare and choose.</b> Pick the guide that fits you. There's no obligation to book.</li>
+</ol>
+<h2>What the license badge means</h2>
+<div class="badge-demo"><span class="lic-badge">✓ Licensed guide</span></div>
+<p>In Korea, guiding foreign tourists is a licensed job. A <b>Tourist Interpretation Guide</b> (관광통역안내사) holds a national license from the Ministry of Culture, Sports and Tourism, earned by passing a written exam on Korean history, tourism and tourism law, a foreign-language requirement and an interview.</p>
+<ul>
+<li>Before a guide's profile goes live, we check their license certificate and ID.</li>
+<li>Only guides we've verified show the <b>Licensed guide</b> badge.</li>
+<li>Guides list the languages they guide in and their specialties, such as family trips, food, history, K-pop or photo walks.</li>
+</ul>
+<h2>What a guide profile will show</h2>
+<div class="gp-sample" aria-label="Sample layout of a guide profile">
+<span class="gp-tag">Sample layout · not a real guide</span>
+<div class="gp-head"><div class="gp-avatar" aria-hidden="true"></div><div><b>Guide name</b><br><span class="lic-badge">✓ Licensed guide</span></div></div>
+<dl class="gp-facts"><dt>Languages</dt><dd>English, Korean</dd><dt>Cities</dt><dd>Seoul, day trips nearby</dd><dt>Good at</dt><dd>Family trips, palaces, food markets</dd><dt>Proposal</dt><dd>Price and plan changes for your dates</dd><dt>Reviews</dt><dd>Only from travelers who completed a trip</dd></dl>
+</div>
+<h2>Our promises</h2>
+<ul>
+<li>Every guide is licensed and verified before they can send proposals.</li>
+<li>Reviews come only from travelers who finished a trip with that guide. We never write or buy reviews.</li>
+<li>Prices are set by each guide and shown in full before you choose, including Seoulmate's matching fee.</li>
+</ul>
+<h2>Who we are in this</h2>
+<p>Seoulmate connects travelers with independent licensed guides. The guide plans and leads the tour. We earn a matching fee when a match is made, and the fee is shown before you confirm.</p>
+<h2>Questions</h2>
+<h3>Do I need a guide to use the planner?</h3><p>No. The planner is free and works without a guide.</p>
+<h3>Can a guide change my plan?</h3><p>Yes. Guides can suggest better timing, nearby places or local food stops in their proposal. You decide what to keep.</p>
+<h3>Which languages are available?</h3><p>English first. More languages will follow as guides join.</p>
+</div>
+<p style="margin-top:24px"><a class="btn" href="/planner/">Plan your trip</a></p>"""
+    return layout("Licensed local guides", "Compare proposals from licensed Korean tour guides matched to your own itinerary. Every guide is license-verified. Launching soon in Seoul.",
+                  "/local-guides/", body, "local-guides")
 
 
 def page_simple(slug, title, desc, inner, active=""):
@@ -667,7 +722,7 @@ DISCLOSURE = """<p>Some links on this site are affiliate links, for example to K
 
 def sitemap(posts):
     today = dt.date.today().isoformat()
-    urls = [("/", today), ("/planner/", today), ("/destinations/", today), ("/guides/", posts[0]["date"] if posts else today), ("/about/", today)]
+    urls = [("/", today), ("/planner/", today), ("/local-guides/", today), ("/destinations/", today), ("/guides/", posts[0]["date"] if posts else today), ("/about/", today)]
     urls += [(city_url(c), today) for c in DESTS]
     urls += [(topic_url(t), today) for t in TOPIC_NAMES if any(t in p["topics"] for p in posts)]
     urls += [(p["url"], p.get("updated", p["date"])) for p in posts]
@@ -700,6 +755,7 @@ def build():
     shutil.copytree(ROOT / "static", OUT / "static")
     write("index.html", page_home(posts))
     write("planner/index.html", page_planner(posts))
+    write("local-guides/index.html", page_local_guides())
     write("guides/index.html", page_guides(posts))
     write("destinations/index.html", page_destinations(posts))
     for c in DEST["cities"]:
