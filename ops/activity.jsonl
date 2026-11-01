@@ -95,3 +95,4 @@
 {"at": "2026-10-30 18:33", "agent": "dev", "event": "task_update", "text": "review", "ref": "T-0020"}
 {"at": "2026-10-30 18:33", "agent": "lead", "event": "approval_request", "text": "동선 이동시간 추정 보정과 '이전 장소에서 가까운 곳 우선 추천'(branch fix/route-estimates) 사이트 발행", "ref": "A-0013"}
 {"at": "2026-10-30 18:34", "agent": "owner", "event": "approval_approved", "text": "동선 이동시간 추정 보정과 '이전 장소에서 가까운 곳 우선 추천'(branch fix/route-estimates) 사이트 발행", "ref": "A-0013"}
+{"at": "2026-10-30 18:35", "agent": "dev", "event": "task_update", "text": "done A-0013 배포 완료", "ref": "T-0020"}

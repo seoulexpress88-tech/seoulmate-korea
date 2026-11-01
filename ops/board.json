@@ -370,13 +370,17 @@
    "title": "동선 이동시간 추정 보정 + 가까운 장소 우선 추천",
    "detail": "branch fix/route-estimates. 21km 택시 85분→48분 등 장거리 추정 보정",
    "agent": "dev",
-   "status": "doing",
+   "status": "done",
    "created": "2026-10-30 18:33",
-   "updated": "2026-10-30 18:34",
+   "updated": "2026-10-30 18:35",
    "notes": [
     {
      "at": "2026-10-30 18:34",
      "text": "A-0013 approved by owner: 대표 채팅 승인"
+    },
+    {
+     "at": "2026-10-30 18:35",
+     "text": "A-0013 배포 완료"
     }
    ]
   }
