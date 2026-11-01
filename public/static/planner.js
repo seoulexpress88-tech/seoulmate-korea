@@ -148,6 +148,22 @@ adh:[36.5394,128.5180],adb:[36.5390,128.5550],adm:[36.5410,128.5250,1],adj:[36.5
 dgm:[35.8693,128.5862],dgd:[35.9890,128.6970],dgk:[35.8603,128.6060],dgl:[35.8690,128.5960],dgs:[35.8687,128.5806],dga:[35.8291,128.5843],dsl:[35.8410,128.6812],
 ysh:[34.5916,127.8047],yso:[34.7438,127.7660],ysc:[34.7350,127.7450],ysg:[34.7340,127.7360,1],ysn:[34.7395,127.7375],
 tys:[34.8466,128.4247],tyd:[34.8443,128.4281],tyc:[34.8268,128.4223],tyl:[34.8273,128.4253],tym:[34.8435,128.4250]};
+// Who's traveling: [id, label, default pace, suggested interests, short label for fitting stops, tips]
+const WHO=[
+["family","Family with kids",2,["nature","culture","history","food"],"Good with kids",["Easy pace: two stops a day and no late-night picks.","Children under 6 ride the subway free with an adult.","Palaces, hanok streets and markets have steps and crowds, so a light stroller or a baby carrier helps."]],
+["couple","Couple",3,["food","night","nature","culture"],"Date spot",["Evenings lean toward sunset and night-view spots.","Popular dinner places get long lines on weekend evenings, so book ahead where you can.","Check opening hours with each stop's Naver Map link before you go."]],
+["friends","Friends",4,["food","night","kpop","local"],"",["Packed pace adds a late-night slot for bars and street food.","Night markets and pocha tents are made for sharing plates.","Subways stop around midnight; after that, taxis are the easy way home."]],
+["solo","Solo or backpacker",3,["local","food","culture","night"],"Easy on the budget",["Markets, local streets and free sights get priority.","Guesthouses and hostels cluster around Hongdae and Myeongdong in Seoul and Seomyeon and Haeundae in Busan.","Many national museums have free permanent exhibitions."]],
+["student","Student",3,["kpop","local","food","culture"],"Easy on the budget",["K-pop spots and local hangouts get priority.","Many national museums have free permanent exhibitions.","Short on time? Plan one city per weekend by KTX or express bus."]],
+["whv","Working holiday",3,["local","food","nature","sports"],"Easy on the budget",["Staying for months? Plan one city per weekend and come back for the next.","Local markets and neighborhood streets get priority.","Keep a T-money card topped up; it works on subways and buses around the country."]]];
+// Stops that suit each kind of trip. Family trips skip the ADULT list.
+const KIDS=new Set("gbg nmk hkr nst hrc tkd hrb kbo gcd gcv jgl bbp sio hny wjr jhr dmm bgs drw dgw jhv icc ics icw swh swp gpn gpr gpp gpg gnb gop skr ska skb adh adm dga yso ysc tyc tyl".split(" "));
+const ADULT=new Set("eul sgb mkg ysn".split(" "));
+const DATE=new Set("nst dgw gal bbp ysc ysn tyc ics adw swn gna skb wjr gpg sio hrc isd hrd".split(" "));
+const BUDGET=new Set("mwm gjm isd hdb hrc hrb bpk gcv jpc dgs dgk dmm nbm skm gnm swl hrd jgs nmk hkr ska".split(" "));
+const FITS={family:KIDS,couple:DATE,solo:BUDGET,student:BUDGET,whv:BUDGET};
+const whoOf=id=>WHO.find(w=>w[0]===id);
+const fits=id=>!!(state.who&&FITS[state.who]&&FITS[state.who].has(id));
 // Cities with a subway network; elsewhere taxis or a rental car are the practical way between stops.
 const METRO=["seoul","busan","incheon","daegu","suwon"];
 const byId=Object.fromEntries(P.map(p=>[p[0],p]));
@@ -157,7 +173,8 @@ const $=id=>document.getElementById(id);
 const qs=new URLSearchParams(location.search);
 const qCity=(qs.get("city")||"").split(",").filter(c=>cityOf(c));
 const qCat=(qs.get("cat")||"").split(",").filter(c=>CATS.some(x=>x[0]===c));
-const state={cities:qCity.length?qCity:["seoul","busan"],cats:qCat.length?qCat:["food","kpop","history"],plan:[],picks:{}};
+const qWho=whoOf(qs.get("who")||"")?qs.get("who"):"";
+const state={who:qWho,cities:qCity.length?qCity:["seoul","busan"],cats:qCat.length?qCat:(qWho?whoOf(qWho)[3].slice():["food","kpop","history"]),plan:[],picks:{}};
 
 // Default dates: two weeks from today, five days long
 const iso=d=>d.toISOString().slice(0,10);
@@ -178,6 +195,22 @@ $("cityChips").addEventListener("change",e=>{
 });
 $("catChips").addEventListener("change",()=>{state.cats=[...document.querySelectorAll("#catChips input:checked")].map(i=>i.value)});
 
+// Who's traveling: picking a type sets a suggested pace and interests, which the traveler can still change.
+$("whoChips").innerHTML=WHO.map(([id,label])=>`<label class="chip"><input type="radio" name="who" value="${id}" ${state.who===id?"checked":""}>${label}</label>`).join("");
+function setPace(v){const r=document.querySelector(`input[name=pace][value="${v}"]`);if(r)r.checked=true}
+function whoHint(){
+  const w=whoOf(state.who);
+  $("whoHint").textContent=w?`Pace and interests are set for: ${w[1]}. Change anything you like.`:"Pick one and we'll tune the stops, pace and tips.";
+}
+$("whoChips").addEventListener("change",e=>{
+  const w=whoOf(e.target.value);if(!w)return;
+  state.who=w[0];state.cats=w[3].slice();
+  chips($("catChips"),CATS,state.cats,"cat");setPace(w[2]);
+  whoHint();build();
+});
+if(state.who&&!qs.get("pace"))setPace(whoOf(state.who)[2]);
+whoHint();
+
 function dayCount(){
   const a=new Date($("arrive").value+"T00:00"),d=new Date($("depart").value+"T00:00");
   const n=Math.round((d-a)/864e5)+1;return isNaN(n)?0:Math.max(0,Math.min(n,14));
@@ -195,15 +228,16 @@ function build(){
   if(!n){render();return}
   const k=Math.min(cities.length,n);const base=Math.floor(n/k);let extra=n-base*k;
   const alloc=cities.slice(0,k).map(()=>base+(extra-->0?1:0));
-  const score=p=>(state.cats.includes(p[2])?10:0)+(p[3]==="am"?0.1:0);
+  const score=p=>(state.cats.includes(p[2])?10:0)+(fits(p[0])?4:0)+(p[3]==="am"?0.1:0);
+  const family=state.who==="family";
   let di=0;
   alloc.forEach((cnt,ci)=>{
     for(let i=0;i<cnt;i++){
       const city=cities[ci];
       const date=new Date($("arrive").value+"T00:00");date.setDate(date.getDate()+di);
       const move=(i===0&&ci>0)?{from:cities[ci-1],to:city}:null;
-      const slots=SLOTS.slice(0,pace).map(([sid])=>{
-        const ok=p=>p[1]===city&&!used.has(p[0])&&(!p[7]||p[7].includes(date.getMonth()+1));
+      const slots=SLOTS.slice(0,pace).filter(([sid])=>!(family&&sid==="late")).map(([sid])=>{
+        const ok=p=>p[1]===city&&!used.has(p[0])&&(!p[7]||p[7].includes(date.getMonth()+1))&&!(family&&ADULT.has(p[0]));
         let c=P.filter(p=>ok(p)&&p[3]===sid).sort((a,b)=>score(b)-score(a)).slice(0,3);
         if(!c.length&&sid!=="late")c=P.filter(ok).sort((a,b)=>score(b)-score(a)).slice(0,2);
         c.forEach(p=>used.add(p[0]));
@@ -244,7 +278,7 @@ function render(){
         const p=byId[id];const on=state.picks[di+"-"+si]===id;const cat=CATS.find(x=>x[0]===p[2])[1];
         const gq=encodeURIComponent(p[4]+" "+c[1]);const nq=encodeURIComponent(p[5]);
         return `<div class="opt" role="button" tabindex="0" aria-pressed="${on}" data-key="${di}-${si}" data-id="${id}">
-          <div class="row"><span class="cat ${state.cats.includes(p[2])?"match":""}">${cat}</span>${on?'<span class="pick">Selected</span>':""}</div>
+          <div class="row"><span class="cat ${state.cats.includes(p[2])?"match":""}">${cat}</span>${fits(id)?`<span class="fit">${whoOf(state.who)[4]}</span>`:""}${on?'<span class="pick">Selected</span>':""}</div>
           <div class="name">${esc(p[4])}<small>${esc(p[5])}</small></div>
           <p class="tip">${esc(p[6])}</p>
           <div class="links no-print"><a href="https://www.google.com/maps/search/?api=1&query=${gq}" target="_blank" rel="noopener">Traveler reviews ↗</a><a href="https://map.naver.com/p/search/${nq}" target="_blank" rel="noopener">Naver Map ↗</a></div>
@@ -253,6 +287,8 @@ function render(){
     }).join("");
     return `<article class="pday"><div class="day-h"><h3>Day ${di+1}</h3><span class="date">${fmt(d.date)}</span><span class="cty">${c[1]} ${c[2]}</span></div>${mv}${guide}${slots}${routeBlock(d,di)}</article>`;
   }).join("");
+  const w=whoOf(state.who);
+  $("whoTips").innerHTML=w&&n?`<div class="who-tips"><b>Tips: ${esc(w[1])}</b><ul>${w[5].map(t=>`<li>${esc(t)}</li>`).join("")}</ul></div>`:"";
   $("meter").textContent=`${Object.keys(state.picks).length} stops chosen · ${n} days`;
   $("pricePlan").innerHTML=`$${12+2*n}<small> one-time · ${n} days</small>`;
   $("priceConcierge").innerHTML=`$${39+6*n}<small> one-time · ${n} days</small>`;
@@ -319,7 +355,8 @@ $("days").addEventListener("keydown",e=>{const b=e.target.closest(".opt");if(b&&
 $("tripForm").addEventListener("submit",e=>{e.preventDefault();build()});
 
 function asText(){
-  return state.plan.map((d,di)=>{
+  const w=whoOf(state.who);
+  return (w?`Traveling as: ${w[1]}\n\n`:"")+state.plan.map((d,di)=>{
     const lines=d.slots.map((s,si)=>{const id=state.picks[di+"-"+si];const meta=SLOTS.find(x=>x[0]===s.sid);return `  ${meta[1]}: ${id?byId[id][4]+" ("+byId[id][5]+")":"Free time"}`});
     const st=stopsOf(di);
     const legs=st.slice(1).map((s,i)=>`  ${i+1}→${i+2}: ${legText(km(st[i].g,s.g),d.city)[1]}`);

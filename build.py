@@ -576,6 +576,11 @@ def page_planner(posts):
 <div class="grid">
   <form class="panel sticky" id="tripForm">
     <h2>Your trip</h2>
+    <fieldset class="field who">
+      <legend class="lbl">Who's traveling?</legend>
+      <div class="chips" id="whoChips"></div>
+      <span class="hint" id="whoHint"></span>
+    </fieldset>
     <div class="field">
       <span class="lbl">Dates in Korea</span>
       <div class="dates">
@@ -602,6 +607,7 @@ def page_planner(posts):
       <p>Each stop has up to three options. Check traveler reviews on Google Maps, then tap the one you want.</p></div>
       <div class="meter" id="meter"></div>
     </div>
+    <div id="whoTips"></div>
     <div id="days"></div>
     <div class="tools">
       <button class="btn ghost" type="button" id="copyPlan">Copy itinerary</button>

@@ -115,6 +115,12 @@ label.chip{position:relative;display:inline-flex;align-items:center;gap:6px;padd
 label.chip input{position:absolute;opacity:0;pointer-events:none}
 label.chip:has(input:checked){background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
 label.chip .ko{font-size:.75rem;opacity:.75}
+fieldset.who{border:0;padding:0;margin-left:0;margin-right:0;min-width:0}
+fieldset.who legend{padding:0;margin-bottom:6px}
+.opt .fit{display:inline-block;margin-left:6px;font-size:.7rem;font-weight:600;padding:1px 7px;border-radius:999px;background:var(--sunk);color:var(--ink)}
+.who-tips{margin:0 0 16px;padding:12px 14px;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:10px;background:var(--surface);font-size:.9rem}
+.who-tips b{display:block;margin-bottom:4px}
+.who-tips ul{margin:0;padding-left:18px}
 .seg{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;background:var(--sunk);padding:4px;border-radius:9px}
 .seg label{position:relative;text-align:center;padding:6px;border-radius:6px;cursor:pointer;font-size:.86rem;color:var(--muted)}
 .seg input{position:absolute;opacity:0}
