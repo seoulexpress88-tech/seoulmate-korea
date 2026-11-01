@@ -676,10 +676,25 @@ def page_local_guides():
 <ul>
 <li>Every guide is licensed and verified before they can send proposals.</li>
 <li>Reviews come only from travelers who finished a trip with that guide. We never write or buy reviews.</li>
-<li>Prices are set by each guide and shown in full before you choose, including Seoulmate's matching fee.</li>
+<li>The price in a guide's proposal is the price you pay. There's no booking fee for travelers.</li>
 </ul>
+<h2>How payment works</h2>
+<ol class="steps">
+<li><b>Pay securely on Seoulmate</b> when you choose a guide, by international credit card.</li>
+<li><b>Your payment is held by our payment partner</b> until your tour is done, not passed to the guide in advance.</li>
+<li><b>The guide is paid after your tour.</b> If something goes wrong, tell us within 48 hours and we'll look into it before the guide is paid.</li>
+<li><b>If a guide cancels, you get a full refund.</b> The cancellation policy for your booking is shown before you pay.</li>
+</ol>
 <h2>Who we are in this</h2>
-<p>Seoulmate connects travelers with independent licensed guides. The guide plans and leads the tour. We earn a matching fee when a match is made, and the fee is shown before you confirm.</p>
+<p>Seoulmate connects travelers with independent licensed guides. The guide plans and leads the tour. Travelers pay no booking fee; guides pay Seoulmate a matching fee from each completed booking.</p>
+<h2>For licensed guides</h2>
+<p>Are you a licensed Tourist Interpretation Guide (관광통역안내사)? Set your own prices and send proposals to travelers whose plans already match your city and specialties.</p>
+<ul>
+<li><b>Founding guides keep 85%</b> of every booking for their first 12 months. Seoulmate's 15% fee covers matching, secure payment and support.</li>
+<li>No sign-up or listing fees. You only pay when a tour is completed.</li>
+<li>Paid within 3 business days after the tour.</li>
+</ul>
+<p class="hint">Guide sign-up opens soon in Seoul.</p>
 <h2>Questions</h2>
 <h3>Do I need a guide to use the planner?</h3><p>No. The planner is free and works without a guide.</p>
 <h3>Can a guide change my plan?</h3><p>Yes. Guides can suggest better timing, nearby places or local food stops in their proposal. You decide what to keep.</p>

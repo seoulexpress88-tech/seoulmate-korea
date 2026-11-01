@@ -218,6 +218,7 @@ function guideReq(){
     <p class="hint">${a} adult${a>1?"s":""}${k?`, ${k} child${k>1?"ren":""}`:""}${w?` · ${esc(w[1])}`:""} · ${days.length} of ${state.plan.length} days. Untick a day above to leave it out.</p>
     ${days.length?`<ul>${items}</ul>`:`<p>No days selected yet.</p>`}
     <p class="hint">Licensed guides in these cities will send proposals with their price and suggested changes. Every guide shows the <span class="lic-badge">✓ Licensed guide</span> badge after we verify their national license.</p>
+    <p class="hint">When you choose a guide, you pay on Seoulmate with no booking fee. The guide is paid after your tour.</p>
     <button class="btn" type="button" disabled>Send to licensed guides · launching soon</button>
     <p class="hint" style="margin-top:8px"><a href="/local-guides/">How guide matching works</a></p>
   </section>`;
