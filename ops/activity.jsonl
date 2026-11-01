@@ -105,3 +105,9 @@
 {"at": "2026-11-01 13:48", "agent": "dev", "event": "task_update", "text": "review 로컬 확인 완료", "ref": "T-0022"}
 {"at": "2026-11-01 13:48", "agent": "lead", "event": "approval_request", "text": "가이드 매칭 1단계 화면(branch feature/guide-matching-ui)을 main에 합치고 사이트에 발행: 메뉴 'Local guides' 추가, /local-guides/ 안내 페이지(자격 배지 설명, 'Seoulmate는 연결만 하고 매칭 수수료를 받는다' 고지 문구 포함), 플래너 가이드 요청 옵션(전송 없음)", "ref": "A-0015"}
 {"at": "2026-11-01 13:54", "agent": "owner", "event": "approval_approved", "text": "가이드 매칭 1단계 화면(branch feature/guide-matching-ui)을 main에 합치고 사이트에 발행: 메뉴 'Local guides' 추가, /local-guides/ 안내 페이지(자격 배지 설명, 'Seoulmate는 연결만 하고 매칭 수수료를 받는다' 고지 문구 포함), 플래너 가이드 요청 옵션(전송 없음)", "ref": "A-0015"}
+{"at": "2026-11-01 13:54", "agent": "dev", "event": "task_update", "text": "done A-0015 배포 완료, 실제 사이트 확인", "ref": "T-0022"}
+{"at": "2026-11-01 14:05", "agent": "dev", "event": "task_add", "text": "가이드 매칭 결제·수수료 안내 문구 (branch feature/guide-payment-copy)", "ref": "T-0023"}
+{"at": "2026-11-01 14:05", "agent": "dev", "event": "task_update", "text": "review 빌드 확인", "ref": "T-0023"}
+{"at": "2026-11-01 14:05", "agent": "compliance", "event": "task_add", "text": "가이드 매칭 법적 확인: 여행업 해당 여부·통신판매중개·PG 지급대행·세금", "ref": "T-0024"}
+{"at": "2026-11-01 14:05", "agent": "lead", "event": "approval_request", "text": "가이드 매칭 결제·수수료 안내 문구를 사이트에 발행(/local-guides/: 고객 예약 수수료 없음, 결제는 결제대행사가 보관 후 투어 뒤 가이드 지급, 가이드 창립 요율 85% 수령·15% 수수료, 투어 후 3영업일 정산 / 플래너 요청 패널 한 줄). 실제 결제·가이드 가입은 계속 비활성", "ref": "A-0016"}
+{"at": "2026-11-01 14:06", "agent": "owner", "event": "approval_approved", "text": "가이드 매칭 결제·수수료 안내 문구를 사이트에 발행(/local-guides/: 고객 예약 수수료 없음, 결제는 결제대행사가 보관 후 투어 뒤 가이드 지급, 가이드 창립 요율 85% 수령·15% 수수료, 투어 후 3영업일 정산 / 플래너 요청 패널 한 줄). 실제 결제·가이드 가입은 계속 비활성", "ref": "A-0016"}
