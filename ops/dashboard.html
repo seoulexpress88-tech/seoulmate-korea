@@ -16,6 +16,9 @@
 body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 var(--f)}
 .wrap{max-width:1240px;margin:0 auto;padding:20px max(16px,env(safe-area-inset-left)) 48px}
 header{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:8px;margin-bottom:18px}
+.head-right{display:flex;flex-wrap:wrap;align-items:center;gap:12px}
+.site-link{display:inline-block;background:var(--accent);color:var(--accent-ink);font-weight:700;text-decoration:none;padding:8px 14px;border-radius:999px}
+.site-link:hover{opacity:.88}.site-link:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
 h1{font-size:1.5rem;margin:0}h2{font-size:1.1rem;margin:0 0 10px}
 .meta{font-family:var(--mono);font-size:.8rem;color:var(--muted)}
 .goal{background:var(--accent);color:var(--accent-ink);border-radius:16px;padding:18px 20px;margin-bottom:16px;display:grid;gap:10px}
@@ -64,7 +67,7 @@ pre{white-space:pre-wrap;background:var(--surface);border:1px solid var(--line);
 </head>
 <body>
 <div class="wrap">
-  <header><h1>Seoulmate 팀 대시보드</h1><span class="meta" id="updated">불러오는 중…</span></header>
+  <header><h1>Seoulmate 팀 대시보드</h1><div class="head-right"><a class="site-link" href="https://seoulmate-korea-iota.vercel.app/" target="_blank" rel="noopener">사이트 바로가기 ↗</a><span class="meta" id="updated">불러오는 중…</span></div></header>
   <div class="goal" id="goal"></div>
   <div class="kpis" id="kpis"></div>
 
