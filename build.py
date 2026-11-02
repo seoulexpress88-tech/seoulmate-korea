@@ -15,6 +15,7 @@ import re
 import shutil
 import subprocess
 import sys
+import urllib.parse
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
@@ -177,6 +178,49 @@ def load_posts():
     return posts
 
 
+# Klook destination pages checked on klook.com (2026-11-02). Cities without one fall back to a Klook search.
+KLOOK_DEST = {"seoul": "c13-seoul", "busan": "c46-busan", "jeju": "c20544-jeju", "gyeongju": "c8928-gyeongju", "incheon": "c158-incheon",
+              "gangneung": "c156-gangwon-do", "sokcho": "c156-gangwon-do", "suwon": "c157-gyeonggi-do", "gapyeong": "c157-gyeonggi-do"}
+KLOOK_ESIM = "https://www.klook.com/en-US/search/result/?query=korea%20esim"
+
+
+def klook_url(target):
+    k = CFG.get("klook") or {}
+    if not k.get("aid") or "klook.com" not in target:
+        return target
+    return (f"https://affiliate.klook.com/redirect?aid={k['aid']}&aff_adid={k.get('adid', '')}"
+            f"&k_site={urllib.parse.quote(target, safe='')}")
+
+
+def klook_city(city):
+    dest = KLOOK_DEST.get(city)
+    name = CITIES[city][0] if city in CITIES else city.title()
+    return (f"https://www.klook.com/en-US/destination/{dest}/1-things-to-do/" if dest
+            else f"https://www.klook.com/en-US/search/result/?query={urllib.parse.quote(name)}")
+
+
+def aff_button(url, text):
+    # The seller's name and an "affiliate link" label sit on the link itself (KFTC endorsement guidelines, 2024-12).
+    return (f'<p class="aff"><a class="btn ghost" href="{esc(url)}" target="_blank" rel="sponsored nofollow noopener">{esc(text)} ↗</a> '
+            f'<span class="aff-label">affiliate link</span></p>')
+
+
+AFF_NOTICE = ('<p class="aff-notice"><b>Affiliate links:</b> This page contains affiliate links (labeled). If you book through them, '
+              'Seoulmate earns a commission from the seller, at no extra cost to you. <a href="/disclosure/">Learn more</a></p>')
+
+
+def essentials(city=None):
+    """Klook links for a city's tours and tickets plus a Korea eSIM; empty until a Klook ID is configured."""
+    if not (CFG.get("klook") or {}).get("aid"):
+        return ""
+    items = []
+    if city:
+        name = CITIES[city][0] if city in CITIES else city.title()
+        items.append(aff_button(klook_url(klook_city(city)), f"Tours and tickets in {name} on Klook"))
+    items.append(aff_button(klook_url(KLOOK_ESIM), "Korea eSIM and SIM cards on Klook"))
+    return f'<div class="essentials"><h2>Book ahead</h2>{"".join(items)}</div>'
+
+
 def resolve_affiliates(body):
     links = {k: v for k, v in CFG.get("affiliate_links", {}).items() if not k.startswith("_")}
     used = False
@@ -189,9 +233,8 @@ def resolve_affiliates(body):
             return ""
         used = True
         partner, _, what = key.partition("—")
-        # The seller's name and an "affiliate link" label sit on the link itself (KFTC endorsement guidelines, 2024-12).
         text = f"Check {what.strip()} on {partner.strip()}" if what else f"Check prices on {key}"
-        return f'<p class="aff"><a class="btn ghost" href="{esc(url)}" target="_blank" rel="sponsored nofollow noopener">{esc(text)} ↗</a> <span class="aff-label">affiliate link</span></p>'
+        return aff_button(klook_url(url), text)
 
     body = re.sub(r"<p>\s*\[AFFILIATE:\s*(.*?)\]\s*</p>", repl, body, flags=re.S)
     body = re.sub(r"\[AFFILIATE[^\]]*\]", "", body)
@@ -489,7 +532,9 @@ def page_city(c, posts):
     cats = " ".join(f"<span>{CAT_NAMES[k]}</span>" for k in c["best_for"])
     hl = "".join(f"<li>{esc(h)}</li>" for h in c["highlights"])
     guides = cards(posts) if posts else f'<div class="empty">Guides for {esc(en)} are coming soon. New guides are published every morning.</div>'
+    book = essentials(cid)
     body = f"""<p class="crumbs"><a href="/destinations/">Destinations</a> / {esc(en)}</p>
+{AFF_NOTICE if book else ""}
 <div class="city-hero">
   <div>
     <div class="page-h"><h1>{esc(en)} <span class="hint">{esc(c['ko'])}</span></h1><p>{esc(c['tagline'])}</p></div>
@@ -504,6 +549,7 @@ def page_city(c, posts):
   <ul class="fest-list static">{festival_items(c['festivals'])}</ul>
   <p class="hint">Dates change every year. Confirm on the official site before you book.</p>
 </section>
+{f'<section class="section">{book}</section>' if book else ""}
 <section class="section" id="guides"><div class="section-h"><h2>{esc(en)} guides</h2></div>{guides}</section>"""
     ld = {"@context": "https://schema.org", "@type": "TouristDestination", "name": f"{en}, South Korea", "description": c["tagline"],
           "geo": {"@type": "GeoCoordinates", "latitude": c["lat"], "longitude": c["lon"]}, "url": BASE + city_url(cid)}
@@ -519,6 +565,8 @@ def page_post(p, posts):
     body, used_aff = resolve_affiliates(p["body"])
     body, toc = add_heading_ids(body)
     city = p["cities"][0] if p["cities"] else None
+    book = essentials(city)
+    used_aff = used_aff or bool(book)
     crumbs = '<a href="/guides/">Guides</a>'
     if city:
         crumbs += f' / <a href="{city_url(city)}">{CITIES[city][0]}</a>'
@@ -532,8 +580,7 @@ def page_post(p, posts):
     tags = ('<div class="tags">' + "".join(f'<a href="{topic_url(t)}">{TOPIC_NAMES[t]}</a>' for t in p["topics"])
             + "".join(f'<a href="{city_url(c)}">{CITIES[c][0]}</a>' for c in p["cities"]) + "</div>")
     # Shown at the top of the page, before the first paragraph; the footer line repeats it but never replaces it.
-    aff_top = ('<p class="aff-notice"><b>Affiliate links:</b> This page contains affiliate links (labeled). If you book through them, '
-               'Seoulmate earns a commission from the seller, at no extra cost to you. <a href="/disclosure/">Learn more</a></p>') if used_aff else ""
+    aff_top = AFF_NOTICE if used_aff else ""
     disclosure = ('<p class="disclosure">This page contains labeled affiliate links. Seoulmate earns a commission from the seller when you book through them. '
                   '<a href="/disclosure/">Affiliate disclosure</a></p>') if used_aff else ""
     toc_html = ('<aside class="toc"><span class="lbl">On this page</span><ol>' +
@@ -552,6 +599,7 @@ def page_post(p, posts):
   <div class="prose">
 {body}
   </div>
+  {book}
   {cta}
   {tags}
   {disclosure}
@@ -579,7 +627,8 @@ def page_planner(posts):
     for p in posts:
         for c in p["cities"]:
             guides.setdefault(c, []).append({"title": p["title"], "url": p["url"]})
-    body = """<p class="hint no-print" style="margin:0 0 14px">14 destinations: Seoul, Busan, Jeju, Gyeongju, Jeonju, Incheon, Suwon, Gapyeong &amp; Nami Island, Gangneung, Sokcho &amp; Seoraksan, Andong, Daegu, Yeosu and Tongyeong.</p>
+    book = essentials()
+    body = (AFF_NOTICE if book else "") + """<p class="hint no-print" style="margin:0 0 14px">14 destinations: Seoul, Busan, Jeju, Gyeongju, Jeonju, Incheon, Suwon, Gapyeong &amp; Nami Island, Gangneung, Sokcho &amp; Seoraksan, Andong, Daegu, Yeosu and Tongyeong.</p>
 <div class="grid">
   <form class="panel sticky" id="tripForm">
     <h2>Your trip</h2>
@@ -631,8 +680,9 @@ def page_planner(posts):
       <button class="btn ghost" type="button" id="printPlan">Print or save as PDF</button>
     </div>
     <p class="toast" id="toast" aria-live="polite"></p>
+    <!--BOOK-->
   </div>
-</div>"""
+</div>""".replace("<!--BOOK-->", f'<div class="no-print">{book}</div>' if book else "")
     extra = (f'<script>window.SEOULMATE_GUIDES={json.dumps(guides, ensure_ascii=False)};</script>\n'
              '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">\n'
              '<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js" defer></script>\n'
@@ -755,6 +805,8 @@ DISCLOSURE = """<p>Seoulmate earns money from some links on this site. Affiliate
 def affiliate_partners():
     # Only partners with a live link in site.json are named, so the list never claims a partnership we don't have.
     names = {k.partition("—")[0].strip() for k in CFG.get("affiliate_links", {}) if not k.startswith("_")}
+    if (CFG.get("klook") or {}).get("aid"):
+        names.add("Klook")
     return ", ".join(sorted(names)) + "." if names else "none yet. We'll list each company here when its links go live."
 
 

@@ -7,7 +7,15 @@
   "source_posts_dir": "../해외 블로그 수익화/posts",
   "contact_email": "seoulexpress88@gmail.com",
   "google_site_verification": "MoAlvixM9NMBr6ZyWPsii0-JDAhUVT-XnnINBdwOCt0",
+  "klook": {"aid": "141766", "adid": "1540893"},
   "affiliate_links": {
-    "_example": "Klook 승인 후 이렇게 추가: \"Klook — KTX ticket / KORAIL PASS\": \"https://www.klook.com/...내 제휴 링크...\""
+    "_example": "글 속 [AFFILIATE: 키] 자리에 들어갈 링크. Klook 주소는 build.py가 제휴 링크(aid)로 자동 변환",
+    "Klook — KTX ticket / KORAIL PASS": "https://www.klook.com/en-US/search/result/?query=korail%20pass",
+    "Klook — family-friendly Gyeongju tour or KTX ticket": "https://www.klook.com/en-US/destination/c8928-gyeongju/1-things-to-do/",
+    "Klook — Seoul ski day trip": "https://www.klook.com/en-US/search/result/?query=seoul%20ski%20day%20trip",
+    "Klook — Seoul palace tour": "https://www.klook.com/en-US/search/result/?query=seoul%20palace%20tour",
+    "Klook — KBO baseball ticket": "https://www.klook.com/en-US/search/result/?query=KBO%20baseball",
+    "Klook — Gyeongju day tour from Busan, if you'd rather not plan transport yourself": "https://www.klook.com/en-US/search/result/?query=gyeongju%20day%20tour%20from%20busan",
+    "Klook — Busan Fireworks Festival seats": "https://www.klook.com/en-US/search/result/?query=busan%20fireworks"
   }
 }
