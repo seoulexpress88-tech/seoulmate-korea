@@ -242,6 +242,7 @@ def layout(title, desc, path, body, active="", head_extra="", page_title=None):
 <meta name="twitter:card" content="summary">
 <link rel="alternate" type="application/rss+xml" title="{esc(CFG['name'])} guides" href="{BASE}/feed.xml">
 {f'<meta name="google-site-verification" content="{esc(CFG["google_site_verification"])}">' if CFG.get("google_site_verification") and path == "/" else ""}
+{f'<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={esc(CFG["adsense_client"])}" crossorigin="anonymous"></script>' if CFG.get("adsense_client") and path != "/planner/" else ""}
 <link rel="icon" href="/static/icon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -521,7 +522,7 @@ def page_post(p, posts):
     crumbs = '<a href="/guides/">Guides</a>'
     if city:
         crumbs += f' / <a href="{city_url(city)}">{CITIES[city][0]}</a>'
-    checked = (f'<div class="callout">Prices, opening hours and transit times change often. We last checked them on '
+    checked = (f'<div class="callout">Prices, opening hours and transit times change often. We gathered this information on '
                f'{fmt_date(p["facts_checked"])}. Please confirm on the official site or Naver Map before you go.</div>') if p.get("facts_checked") else ""
     plan_city = next((c for c in p["cities"] if c in PLANNER_CITIES), None)
     cta = (f'<div class="plan-cta"><p><b>Turn this into a day plan</b>Pick your dates and interests and we\'ll build a {CITIES[plan_city][0]} itinerary around them.</p>'
@@ -630,17 +631,6 @@ def page_planner(posts):
       <button class="btn ghost" type="button" id="printPlan">Print or save as PDF</button>
     </div>
     <p class="toast" id="toast" aria-live="polite"></p>
-    <h2 class="no-print" style="margin-top:28px">Want the full plan?</h2>
-    <div class="checkout">
-      <div class="plan"><span class="lbl">Free</span><div class="price">$0</div>
-        <ul><li>This planner, any dates and cities</li><li>Copy or print your plan</li></ul></div>
-      <div class="plan rec"><span class="lbl">Trip Plan</span><div class="price" id="pricePlan"></div>
-        <ul><li>Maps and transit steps for every day</li><li>Opening hours and booking links</li><li>Free edits until departure</li></ul>
-        <span class="soon">Launching soon</span></div>
-      <div class="plan"><span class="lbl">Local Concierge</span><div class="price" id="priceConcierge"></div>
-        <ul><li>A Seoul local reviews and tunes your plan</li><li>Restaurant and experience picks matched to your plan</li><li>Chat support during your trip</li></ul>
-        <span class="soon">Launching soon</span></div>
-    </div>
   </div>
 </div>"""
     extra = (f'<script>window.SEOULMATE_GUIDES={json.dumps(guides, ensure_ascii=False)};</script>\n'
@@ -684,12 +674,13 @@ def page_local_guides():
 <li>Reviews come only from travelers who finished a trip with that guide. We never write or buy reviews.</li>
 <li>The price in a guide's proposal is the price you pay. There's no booking fee for travelers.</li>
 </ul>
-<h2>How payment works</h2>
+<h2>How payment will work</h2>
+<p class="hint">Bookings and payments aren't open yet. This is how they'll work when guide matching launches.</p>
 <ol class="steps">
-<li><b>Pay securely on Seoulmate</b> when you choose a guide, by international credit card.</li>
-<li><b>Your payment is held by our payment partner</b> until your tour is done, not passed to the guide in advance.</li>
-<li><b>The guide is paid after your tour.</b> If something goes wrong, tell us within 48 hours and we'll look into it before the guide is paid.</li>
-<li><b>If a guide cancels, you get a full refund.</b> The cancellation policy for your booking is shown before you pay.</li>
+<li><b>You'll pay on Seoulmate</b> when you choose a guide, by international credit card.</li>
+<li><b>Your payment will be held by our payment partner</b> until your tour is done, not passed to the guide in advance.</li>
+<li><b>The guide will be paid after your tour.</b> If something goes wrong, you'll have 48 hours to tell us before the guide is paid.</li>
+<li><b>If a guide cancels, you'll get a full refund.</b> The cancellation policy for your booking will be shown before you pay.</li>
 </ol>
 <h2>Who we are in this</h2>
 <p>Seoulmate connects travelers with independent licensed guides. The guide plans and leads the tour. Travelers pay no booking fee; guides pay Seoulmate a matching fee from each completed booking.</p>
@@ -719,7 +710,7 @@ ABOUT = """<p>Seoulmate helps foreign travelers plan Korea trips around what the
 <p>We're based in Seoul. Our guides are written for people visiting Korea for the first or second time, so we include the things locals take for granted: how to get there from Seoul or Busan, the Korean address to show a taxi driver, which map app works, and when places close.</p>
 <h2>How we write guides</h2>
 <ul><li>We use official sources such as the Korea Tourism Organization and local government sites, plus recent Korean news and local reviews.</li>
-<li>Prices, hours and transit times change. Each guide shows when we last checked them.</li>
+<li>Prices, hours and transit times change. Each guide shows the date we gathered its information, so please confirm before you go.</li>
 <li>Some guides contain affiliate links. They never change what we recommend. See our <a href="/disclosure/">affiliate disclosure</a>.</li></ul>
 <h2>The trip planner</h2>
 <p>The <a href="/planner/">planner</a> is free. It suggests up to three options for each part of your day so you can choose, and links to Google Maps and Naver Map so you can read what other travelers say.</p>"""
@@ -727,11 +718,29 @@ ABOUT = """<p>Seoulmate helps foreign travelers plan Korea trips around what the
 PRIVACY = """<p>Last updated: {date}</p>
 <p>This site doesn't require an account. The trip planner runs entirely in your browser; the dates, cities and choices you enter are not sent to us.</p>
 <h2>What is collected</h2>
-<ul><li>Our hosting provider (Vercel) keeps standard server logs, such as IP address, browser type and pages requested, for security and reliability.</li>
-<li>Fonts load from Google Fonts, which receives your IP address when the page loads.</li>
-<li>Links to Google Maps, Naver Map and booking partners take you to those sites, which have their own privacy policies.</li></ul>
-<h2>Cookies, analytics and ads</h2>
-<p>We don't set cookies today. If we add analytics, advertising (such as Google AdSense) or affiliate tracking, we'll update this page and, where required, ask for your consent first.</p>
+<ul><li><b>Server logs.</b> Our hosting provider, Vercel, records standard request data (IP address, browser, page requested, time) to run and secure the site, under its own retention rules.</li>
+<li><b>Ads.</b> We show ads from Google AdSense, which uses cookies (see below).</li>
+<li><b>Fonts.</b> Fonts load from Google Fonts, which receives your IP address when the page loads.</li>
+<li><b>Emails you send us.</b> If you email us, we keep your message and address to reply, for up to one year after our last reply.</li>
+<li>We don't collect your name, payment details or device location, and we don't sell your information.</li></ul>
+<h2>Advertising (Google AdSense)</h2>
+<ul><li>Third-party vendors, including Google, use cookies to serve ads based on your prior visits to this website or other websites.</li>
+<li>Google's use of advertising cookies enables it and its partners to serve ads to you based on your visit to this site and/or other sites on the internet.</li>
+<li>You can opt out of personalized advertising in <a href="https://adssettings.google.com" rel="noopener">Google's Ads Settings</a>. You can opt out of some other vendors' cookies for personalized advertising at <a href="https://www.aboutads.info/choices" rel="noopener">aboutads.info/choices</a> (or <a href="https://www.youronlinechoices.eu" rel="noopener">youronlinechoices.eu</a> in Europe).</li>
+<li>Learn <a href="https://policies.google.com/technologies/partner-sites" rel="noopener">how Google uses information from sites that use its services</a>.</li>
+<li>If you refuse personalized ads, you may still see ads that aren't based on your past browsing.</li>
+<li>We don't show ads in the trip planner.</li></ul>
+<h2>Your choices</h2>
+<ul><li>In the EEA, the UK and Switzerland, a consent message from Google (a Google-certified consent management platform) asks for your choice before ad cookies are used.</li>
+<li>You can block or delete cookies in your browser settings. Blocking cookies won't stop the site from working.</li></ul>
+<h2>Affiliate links</h2>
+<p>Links labeled "affiliate link" go to partner companies. When you click one, the partner may use cookies on its own site to credit us for a booking. Partners don't send us your name or contact details. See our <a href="/disclosure/">affiliate disclosure</a>.</p>
+<h2>Who receives information</h2>
+<p>We don't sell or rent your personal information. Vercel Inc. (hosting, server logs) and Google LLC (ads, consent, fonts) process information in the United States under their own terms.</p>
+<h2>Your rights</h2>
+<p>You can ask us to access, correct or delete personal information we hold about you. In the EEA or the UK we rely on your consent for ad cookies and on our legitimate interest in running and securing the site for server logs; you can withdraw consent at any time and complain to your local data protection authority. In Korea you can also contact the Personal Information Protection Commission's Privacy Infringement Report Center (privacy.kisa.or.kr, call 118).</p>
+<h2>Children</h2>
+<p>The site is for adults planning trips. We don't knowingly collect information from children.</p>
 <h2>Contact</h2>
 <p>{contact}</p>"""
 
@@ -804,6 +813,9 @@ def build():
     write("sitemap.xml", sitemap(posts))
     write("feed.xml", rss(posts))
     write("robots.txt", f"User-agent: *\nAllow: /\n\nSitemap: {BASE}/sitemap.xml\n")
+    if CFG.get("adsense_client"):
+        # f08c47fec0942fa0 is Google's fixed certification authority ID for ads.txt.
+        write("ads.txt", f"google.com, {CFG['adsense_client'].removeprefix('ca-')}, DIRECT, f08c47fec0942fa0\n")
     log(f"빌드 완료: 글 {len(posts)}개")
     return posts
 

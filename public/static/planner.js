@@ -321,8 +321,6 @@ function render(){
   $("whoTips").innerHTML=w&&n?`<div class="who-tips"><b>Tips: ${esc(w[1])}</b><ul>${w[5].map(t=>`<li>${esc(t)}</li>`).join("")}</ul></div>`:"";
   $("meter").textContent=`${Object.keys(state.picks).length} stops chosen · ${n} days`;
   guideReq();
-  $("pricePlan").innerHTML=`$${12+2*n}<small> one-time · ${n} days</small>`;
-  $("priceConcierge").innerHTML=`$${39+6*n}<small> one-time · ${n} days</small>`;
   initMaps();
 }
 

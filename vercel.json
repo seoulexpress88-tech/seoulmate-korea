@@ -5,6 +5,7 @@
   "outputDirectory": "public",
   "trailingSlash": true,
   "redirects": [
+    { "source": "/:path*", "has": [{ "type": "host", "value": "seoulmate-korea-iota.vercel.app" }], "destination": "https://goseoulmate.com/:path*", "permanent": true },
     { "source": "/guides/city/:city/", "destination": "/destinations/:city/", "permanent": true }
   ],
   "headers": [
