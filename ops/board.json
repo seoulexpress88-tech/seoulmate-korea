@@ -843,9 +843,9 @@
    "title": "Klook 제휴 링크 배치 (branch feature/klook-links)",
    "detail": "AID 141766. 가이드 31편·도시 14곳 'Book ahead'(도시 투어·eSIM), 플래너 하단, 기존 [AFFILIATE] 7곳. 상단 고지·링크별 affiliate link 표기. 제휴 고지 페이지에 Klook 표시",
    "agent": "dev",
-   "status": "doing",
+   "status": "done",
    "created": "2026-11-02 17:37",
-   "updated": "2026-11-02 17:38",
+   "updated": "2026-11-02 17:39",
    "notes": [
     {
      "at": "2026-11-02 17:37",
@@ -854,6 +854,29 @@
     {
      "at": "2026-11-02 17:38",
      "text": "A-0022 approved by owner: 대표 채팅 승인"
+    },
+    {
+     "at": "2026-11-02 17:39",
+     "text": "A-0022 배포 완료, goseoulmate.com에서 확인"
+    }
+   ]
+  },
+  {
+   "id": "T-0044",
+   "title": "Airalo(Impact) 사이트 확인 문구 추가 (branch feature/impact-verify)",
+   "detail": "홈페이지에만 impact-site-verification 메타태그 + 푸터 작은 문구",
+   "agent": "dev",
+   "status": "doing",
+   "created": "2026-11-02 18:12",
+   "updated": "2026-11-02 18:13",
+   "notes": [
+    {
+     "at": "2026-11-02 18:12",
+     "text": "빌드 확인"
+    },
+    {
+     "at": "2026-11-02 18:13",
+     "text": "A-0023 approved by owner: 대표 채팅 승인"
     }
    ]
   }
@@ -1199,6 +1222,20 @@
    "decided": "2026-11-02 17:38",
    "by": "owner",
    "note": "대표 채팅 승인"
+  },
+  {
+   "id": "A-0023",
+   "agent": "lead",
+   "task": "T-0044",
+   "action": "홈페이지에 Airalo 제휴(Impact) 사이트 확인용 메타태그와 푸터 작은 문구 'Impact-Site-Verification: 31e0…096'를 넣어 발행",
+   "why": "Airalo 제휴 가입의 웹사이트 소유권 확인에 필요",
+   "risk": "low",
+   "files": [],
+   "status": "approved",
+   "requested": "2026-11-02 18:12",
+   "decided": "2026-11-02 18:13",
+   "by": "owner",
+   "note": "대표 채팅 승인"
   }
  ],
  "reports": [
@@ -1428,8 +1465,8 @@
   }
  ],
  "seq": {
-  "T": 43,
-  "A": 22,
+  "T": 44,
+  "A": 23,
   "R": 28
  },
  "revenue": []
