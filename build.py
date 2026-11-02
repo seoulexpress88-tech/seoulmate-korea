@@ -189,8 +189,9 @@ def resolve_affiliates(body):
             return ""
         used = True
         partner, _, what = key.partition("—")
+        # The seller's name and an "affiliate link" label sit on the link itself (KFTC endorsement guidelines, 2024-12).
         text = f"Check {what.strip()} on {partner.strip()}" if what else f"Check prices on {key}"
-        return f'<p class="aff"><a class="btn ghost" href="{esc(url)}" target="_blank" rel="sponsored noopener">{esc(text)} ↗</a></p>'
+        return f'<p class="aff"><a class="btn ghost" href="{esc(url)}" target="_blank" rel="sponsored nofollow noopener">{esc(text)} ↗</a> <span class="aff-label">affiliate link</span></p>'
 
     body = re.sub(r"<p>\s*\[AFFILIATE:\s*(.*?)\]\s*</p>", repl, body, flags=re.S)
     body = re.sub(r"\[AFFILIATE[^\]]*\]", "", body)
@@ -529,7 +530,11 @@ def page_post(p, posts):
            '<a class="btn" href="/planner/">Build my itinerary</a></div>')
     tags = ('<div class="tags">' + "".join(f'<a href="{topic_url(t)}">{TOPIC_NAMES[t]}</a>' for t in p["topics"])
             + "".join(f'<a href="{city_url(c)}">{CITIES[c][0]}</a>' for c in p["cities"]) + "</div>")
-    disclosure = '<p class="disclosure">This post contains affiliate links. If you book through them we may earn a small commission at no extra cost to you.</p>' if used_aff else ""
+    # Shown at the top of the page, before the first paragraph; the footer line repeats it but never replaces it.
+    aff_top = ('<p class="aff-notice"><b>Affiliate links:</b> This page contains affiliate links (labeled). If you book through them, '
+               'Seoulmate earns a commission from the seller, at no extra cost to you. <a href="/disclosure/">Learn more</a></p>') if used_aff else ""
+    disclosure = ('<p class="disclosure">This page contains labeled affiliate links. Seoulmate earns a commission from the seller when you book through them. '
+                  '<a href="/disclosure/">Affiliate disclosure</a></p>') if used_aff else ""
     toc_html = ('<aside class="toc"><span class="lbl">On this page</span><ol>' +
                 "".join(f'<li><a href="#{h}">{esc(t)}</a></li>' for h, t in toc) + "</ol></aside>") if len(toc) > 2 else "<aside></aside>"
     related = [x for x in posts if x is not p and set(x["cities"]) & set(p["cities"])][:3]
@@ -541,6 +546,7 @@ def page_post(p, posts):
 <article>
   <header class="post-h"><h1>{esc(p['title'])}</h1>
   <div class="post-meta"><time datetime="{p['date']}">{fmt_date(p['date'])}</time><span>{p['minutes']} min read</span></div></header>
+  {aff_top}
   {checked}
   <div class="prose">
 {body}
@@ -729,8 +735,16 @@ PRIVACY = """<p>Last updated: {date}</p>
 <h2>Contact</h2>
 <p>{contact}</p>"""
 
-DISCLOSURE = """<p>Some links on this site are affiliate links, for example to Klook, Trip.com or Agoda. If you book through them, we may earn a small commission at no extra cost to you.</p>
-<p>Affiliate partners don't pay for placement in our guides or in the trip planner, and they can't edit what we write. Posts that contain affiliate links say so at the end of the post.</p>"""
+DISCLOSURE = """<p>Seoulmate earns money from some links on this site. Affiliate links are labeled "affiliate link". When you book through one, the company we link to pays us a commission. You pay the same price as booking with that company directly.</p>
+<p><b>Our affiliate partners:</b> {partners}</p>
+<p>The booking, payment, cancellation and the tour or service itself are provided by that company under its own terms. Seoulmate does not take bookings or collect payment for these products.</p>
+<p>Affiliate companies don't pay for placement in our guides or trip planner, and they can't edit what we write. Every page with affiliate links says so at the top of the page.</p>"""
+
+
+def affiliate_partners():
+    # Only partners with a live link in site.json are named, so the list never claims a partnership we don't have.
+    names = {k.partition("—")[0].strip() for k in CFG.get("affiliate_links", {}) if not k.startswith("_")}
+    return ", ".join(sorted(names)) + "." if names else "none yet. We'll list each company here when its links go live."
 
 
 # ---------------------------------------------------------------- feeds
@@ -784,7 +798,7 @@ def build():
     contact = f'Email <a href="mailto:{esc(CFG["contact_email"])}">{esc(CFG["contact_email"])}</a>.' if CFG.get("contact_email") else "Contact details will be listed here soon."
     write("about/index.html", page_simple("about", "About Seoulmate", "Who makes Seoulmate and how we write our Korea travel guides.", ABOUT, "about"))
     write("privacy/index.html", page_simple("privacy", "Privacy policy", "How Seoulmate handles your data.", PRIVACY.format(date=dt.date.today().isoformat(), contact=contact)))
-    write("disclosure/index.html", page_simple("disclosure", "Affiliate disclosure", "How affiliate links work on Seoulmate.", DISCLOSURE))
+    write("disclosure/index.html", page_simple("disclosure", "Affiliate disclosure", "How affiliate links work on Seoulmate.", DISCLOSURE.format(partners=affiliate_partners())))
     write("404.html", layout("Page not found", "This page doesn't exist.", "/404.html",
                              '<div class="page-h"><h1>We couldn\'t find that page.</h1><p>Try the <a href="/guides/">travel guides</a> or <a href="/planner/">build an itinerary</a>.</p></div>'))
     write("sitemap.xml", sitemap(posts))
