@@ -36,6 +36,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,label.chip:focus-within
 .site-foot{margin-top:72px;border-top:1px solid var(--line);background:var(--surface);font-size:.88rem;color:var(--muted)}
 .site-foot .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px;padding-block:28px}
 .site-foot nav{display:flex;flex-wrap:wrap;gap:16px}
+.site-foot .verify{flex-basis:100%;font-size:.7rem;opacity:.6}
 .site-foot a{color:var(--muted)}
 main{padding-block:28px}
 
