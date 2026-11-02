@@ -702,13 +702,17 @@
    "title": "0단계: 개인 도메인 구매·연결 (대표 직접, 후보 seoulmatekorea.com / goseoulmate.com 연 $12.03)",
    "detail": "2026-11-01 대표가 0단계 착수 지시. 가입 후 ID를 받아 사이트 반영(승인 요청)",
    "agent": "lead",
-   "status": "doing",
+   "status": "done",
    "created": "2026-11-01 14:46",
-   "updated": "2026-11-01 14:46",
+   "updated": "2026-11-02 16:30",
    "notes": [
     {
      "at": "2026-11-01 14:46",
      "text": "대표 진행"
+    },
+    {
+     "at": "2026-11-02 16:30",
+     "text": "goseoulmate.com 구매·연결·사이트 전환 완료"
     }
    ]
   },
@@ -732,13 +736,17 @@
    "title": "자동 발행 글 'We last checked' 문구를 사실대로 교체(build.py 524·722행) — 브랜치 작업, 발행은 승인 후",
    "detail": "",
    "agent": "dev",
-   "status": "doing",
+   "status": "done",
    "created": "2026-11-02 16:12",
-   "updated": "2026-11-02 16:29",
+   "updated": "2026-11-02 16:30",
    "notes": [
     {
      "at": "2026-11-02 16:29",
      "text": "A-0017 approved by owner: 대표 채팅 승인"
+    },
+    {
+     "at": "2026-11-02 16:30",
+     "text": "A-0017/A-0019/A-0020 배포 완료, goseoulmate.com에서 확인"
     }
    ]
   },
@@ -747,23 +755,32 @@
    "title": "예약 작업 seoulmate-daily-posts 프롬프트 수정: 무인 실행 규칙(단일 명령·승인 필요 시 중단) + 발행 상한·중복 건너뛰기",
    "detail": "",
    "agent": "dev",
-   "status": "waiting_approval",
+   "status": "doing",
    "created": "2026-11-02 16:12",
-   "updated": "2026-11-02 16:12",
-   "notes": []
+   "updated": "2026-11-02 16:32",
+   "notes": [
+    {
+     "at": "2026-11-02 16:32",
+     "text": "A-0018 approved by owner"
+    }
+   ]
   },
   {
    "id": "T-0040",
    "title": "플래너 유료 상품 영역 삭제 + Local guides 결제 설명을 '예정'형으로 수정 — 브랜치 작업, 발행은 승인 후",
    "detail": "",
    "agent": "dev",
-   "status": "doing",
+   "status": "done",
    "created": "2026-11-02 16:12",
-   "updated": "2026-11-02 16:29",
+   "updated": "2026-11-02 16:30",
    "notes": [
     {
      "at": "2026-11-02 16:29",
      "text": "A-0019 approved by owner: 대표 채팅 승인"
+    },
+    {
+     "at": "2026-11-02 16:30",
+     "text": "A-0017/A-0019/A-0020 배포 완료, goseoulmate.com에서 확인"
     }
    ]
   },
@@ -772,9 +789,9 @@
    "title": "goseoulmate.com 전환 + 애드센스 코드·ads.txt + 광고용 개인정보처리방침 (branch feature/adsense-domain)",
    "detail": "대표가 애드센스 가입·도메인 연결 완료(2026-11-02). 같은 브랜치에 A-0017(gathered on 문구), A-0019(중지 상품 영역 삭제, 결제 '예정'형) 포함. 연락처 이메일은 대표 지정 대기",
    "agent": "dev",
-   "status": "doing",
+   "status": "done",
    "created": "2026-11-02 16:28",
-   "updated": "2026-11-02 16:29",
+   "updated": "2026-11-02 16:30",
    "notes": [
     {
      "at": "2026-11-02 16:28",
@@ -783,6 +800,10 @@
     {
      "at": "2026-11-02 16:29",
      "text": "A-0020 approved by owner: 대표 채팅 승인"
+    },
+    {
+     "at": "2026-11-02 16:30",
+     "text": "A-0017/A-0019/A-0020 배포 완료, goseoulmate.com에서 확인"
     }
    ]
   }
@@ -1064,10 +1085,10 @@
    "files": [
     "~/.claude 예약 작업 SKILL.md"
    ],
-   "status": "pending",
+   "status": "approved",
    "requested": "2026-11-02 16:12",
-   "decided": "",
-   "by": "",
+   "decided": "2026-11-02 16:32",
+   "by": "owner",
    "note": ""
   },
   {

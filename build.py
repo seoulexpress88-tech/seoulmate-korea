@@ -713,7 +713,9 @@ ABOUT = """<p>Seoulmate helps foreign travelers plan Korea trips around what the
 <li>Prices, hours and transit times change. Each guide shows the date we gathered its information, so please confirm before you go.</li>
 <li>Some guides contain affiliate links. They never change what we recommend. See our <a href="/disclosure/">affiliate disclosure</a>.</li></ul>
 <h2>The trip planner</h2>
-<p>The <a href="/planner/">planner</a> is free. It suggests up to three options for each part of your day so you can choose, and links to Google Maps and Naver Map so you can read what other travelers say.</p>"""
+<p>The <a href="/planner/">planner</a> is free. It suggests up to three options for each part of your day so you can choose, and links to Google Maps and Naver Map so you can read what other travelers say.</p>
+<h2>Contact</h2>
+<p>{contact}</p>"""
 
 PRIVACY = """<p>Last updated: {date}</p>
 <p>This site doesn't require an account. The trip planner runs entirely in your browser; the dates, cities and choices you enter are not sent to us.</p>
@@ -805,7 +807,7 @@ def build():
     for p in posts:
         write(f"guides/{p['slug']}/index.html", page_post(p, posts))
     contact = f'Email <a href="mailto:{esc(CFG["contact_email"])}">{esc(CFG["contact_email"])}</a>.' if CFG.get("contact_email") else "Contact details will be listed here soon."
-    write("about/index.html", page_simple("about", "About Seoulmate", "Who makes Seoulmate and how we write our Korea travel guides.", ABOUT, "about"))
+    write("about/index.html", page_simple("about", "About Seoulmate", "Who makes Seoulmate and how we write our Korea travel guides.", ABOUT.format(contact=contact), "about"))
     write("privacy/index.html", page_simple("privacy", "Privacy policy", "How Seoulmate handles your data.", PRIVACY.format(date=dt.date.today().isoformat(), contact=contact)))
     write("disclosure/index.html", page_simple("disclosure", "Affiliate disclosure", "How affiliate links work on Seoulmate.", DISCLOSURE.format(partners=affiliate_partners())))
     write("404.html", layout("Page not found", "This page doesn't exist.", "/404.html",
