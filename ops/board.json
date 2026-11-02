@@ -866,7 +866,7 @@
    "title": "Airalo(Impact) 사이트 확인 문구 추가 (branch feature/impact-verify)",
    "detail": "홈페이지에만 impact-site-verification 메타태그 + 푸터 작은 문구",
    "agent": "dev",
-   "status": "doing",
+   "status": "done",
    "created": "2026-11-02 18:12",
    "updated": "2026-11-02 18:13",
    "notes": [
@@ -877,6 +877,25 @@
     {
      "at": "2026-11-02 18:13",
      "text": "A-0023 approved by owner: 대표 채팅 승인"
+    },
+    {
+     "at": "2026-11-02 18:13",
+     "text": "A-0023 배포 완료, 홈페이지에 확인 문구 확인. 대표가 Impact에서 Add Website 클릭 필요"
+    }
+   ]
+  },
+  {
+   "id": "T-0045",
+   "title": "Airalo(Impact) 웹사이트 확인 대행",
+   "detail": "대표 요청(2026-11-02): 앱 브라우저의 Impact 화면에서 goseoulmate.com Add Website/Verify 클릭, 신청 마무리 보조",
+   "agent": "lead",
+   "status": "doing",
+   "created": "2026-11-02 18:17",
+   "updated": "2026-11-02 18:17",
+   "notes": [
+    {
+     "at": "2026-11-02 18:17",
+     "text": "A-0024 approved by owner: 대표 채팅 승인"
     }
    ]
   }
@@ -1236,6 +1255,20 @@
    "decided": "2026-11-02 18:13",
    "by": "owner",
    "note": "대표 채팅 승인"
+  },
+  {
+   "id": "A-0024",
+   "agent": "lead",
+   "task": "T-0045",
+   "action": "앱 브라우저의 대표 Impact 계정에서 goseoulmate.com 웹사이트 확인(Add Website 또는 Properties의 Verify 클릭)과 Airalo 신청서의 사이트 정보 항목 입력. 개인정보·정산·세금 정보, 비밀번호, 약관 동의는 하지 않음",
+   "why": "대표가 메뉴를 찾지 못해 대행 요청",
+   "risk": "low",
+   "files": [],
+   "status": "approved",
+   "requested": "2026-11-02 18:17",
+   "decided": "2026-11-02 18:17",
+   "by": "owner",
+   "note": "대표 채팅 승인"
   }
  ],
  "reports": [
@@ -1465,8 +1498,8 @@
   }
  ],
  "seq": {
-  "T": 44,
-  "A": 23,
+  "T": 45,
+  "A": 24,
   "R": 28
  },
  "revenue": []

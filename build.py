@@ -264,6 +264,11 @@ def fmt_date(d):
     return dt.date.fromisoformat(d).strftime("%b %-d, %Y") if sys.platform != "win32" else dt.date.fromisoformat(d).strftime("%b %#d, %Y")
 
 
+# Impact (Airalo) shows a new code per verification attempt, so site.json may list several.
+_impact = CFG.get("impact_site_verification") or []
+IMPACT_CODES = [_impact] if isinstance(_impact, str) else list(_impact)
+
+
 def layout(title, desc, path, body, active="", head_extra="", page_title=None):
     full = page_title or (f"{title} | {CFG['name']}" if title != CFG["name"] else f"{CFG['name']} · {CFG['tagline']}")
     nav = [("/planner/", "Plan a trip", "planner"), ("/local-guides/", "Local guides", "local-guides"), ("/destinations/", "Destinations", "destinations"), ("/guides/", "Travel guides", "guides"), ("/about/", "About", "about")]
@@ -285,7 +290,7 @@ def layout(title, desc, path, body, active="", head_extra="", page_title=None):
 <meta name="twitter:card" content="summary">
 <link rel="alternate" type="application/rss+xml" title="{esc(CFG['name'])} guides" href="{BASE}/feed.xml">
 {f'<meta name="google-site-verification" content="{esc(CFG["google_site_verification"])}">' if CFG.get("google_site_verification") and path == "/" else ""}
-{f'<meta name="impact-site-verification" value="{esc(CFG["impact_site_verification"])}">' if CFG.get("impact_site_verification") and path == "/" else ""}
+{"".join(f'<meta name="impact-site-verification" value="{esc(v)}">' for v in IMPACT_CODES) if path == "/" else ""}
 {f'<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={esc(CFG["adsense_client"])}" crossorigin="anonymous"></script>' if CFG.get("adsense_client") and path != "/planner/" else ""}
 <link rel="icon" href="/static/icon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -305,7 +310,7 @@ def layout(title, desc, path, body, active="", head_extra="", page_title=None):
 <footer class="site-foot"><div class="wrap">
 <span>© {year} {esc(CFG['name'])} · Made in Seoul for travelers to Korea</span>
 <nav aria-label="Footer"><a href="/guides/">Guides</a><a href="/about/">About</a><a href="/privacy/">Privacy</a><a href="/disclosure/">Affiliate disclosure</a><a href="/feed.xml">RSS</a></nav>
-{f'<span class="verify">Impact-Site-Verification: {esc(CFG["impact_site_verification"])}</span>' if CFG.get("impact_site_verification") and path == "/" else ""}
+{"".join(f'<span class="verify">Impact-Site-Verification: {esc(v)}</span>' for v in IMPACT_CODES) if path == "/" else ""}
 </div></footer>
 </body>
 </html>

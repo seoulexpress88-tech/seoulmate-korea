@@ -205,3 +205,7 @@
 {"at": "2026-11-02 18:12", "agent": "dev", "event": "task_update", "text": "review 빌드 확인", "ref": "T-0044"}
 {"at": "2026-11-02 18:12", "agent": "lead", "event": "approval_request", "text": "홈페이지에 Airalo 제휴(Impact) 사이트 확인용 메타태그와 푸터 작은 문구 'Impact-Site-Verification: 31e0…096'를 넣어 발행", "ref": "A-0023"}
 {"at": "2026-11-02 18:13", "agent": "owner", "event": "approval_approved", "text": "홈페이지에 Airalo 제휴(Impact) 사이트 확인용 메타태그와 푸터 작은 문구 'Impact-Site-Verification: 31e0…096'를 넣어 발행", "ref": "A-0023"}
+{"at": "2026-11-02 18:13", "agent": "dev", "event": "task_update", "text": "done A-0023 배포 완료, 홈페이지에 확인 문구 확인. 대표가 Impact에서 Add Website 클릭 필요", "ref": "T-0044"}
+{"at": "2026-11-02 18:17", "agent": "lead", "event": "task_add", "text": "Airalo(Impact) 웹사이트 확인 대행", "ref": "T-0045"}
+{"at": "2026-11-02 18:17", "agent": "lead", "event": "approval_request", "text": "앱 브라우저의 대표 Impact 계정에서 goseoulmate.com 웹사이트 확인(Add Website 또는 Properties의 Verify 클릭)과 Airalo 신청서의 사이트 정보 항목 입력. 개인정보·정산·세금 정보, 비밀번호, 약관 동의는 하지 않음", "ref": "A-0024"}
+{"at": "2026-11-02 18:17", "agent": "owner", "event": "approval_approved", "text": "앱 브라우저의 대표 Impact 계정에서 goseoulmate.com 웹사이트 확인(Add Website 또는 Properties의 Verify 클릭)과 Airalo 신청서의 사이트 정보 항목 입력. 개인정보·정산·세금 정보, 비밀번호, 약관 동의는 하지 않음", "ref": "A-0024"}
