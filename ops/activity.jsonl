@@ -111,3 +111,51 @@
 {"at": "2026-11-01 14:05", "agent": "compliance", "event": "task_add", "text": "가이드 매칭 법적 확인: 여행업 해당 여부·통신판매중개·PG 지급대행·세금", "ref": "T-0024"}
 {"at": "2026-11-01 14:05", "agent": "lead", "event": "approval_request", "text": "가이드 매칭 결제·수수료 안내 문구를 사이트에 발행(/local-guides/: 고객 예약 수수료 없음, 결제는 결제대행사가 보관 후 투어 뒤 가이드 지급, 가이드 창립 요율 85% 수령·15% 수수료, 투어 후 3영업일 정산 / 플래너 요청 패널 한 줄). 실제 결제·가이드 가입은 계속 비활성", "ref": "A-0016"}
 {"at": "2026-11-01 14:06", "agent": "owner", "event": "approval_approved", "text": "가이드 매칭 결제·수수료 안내 문구를 사이트에 발행(/local-guides/: 고객 예약 수수료 없음, 결제는 결제대행사가 보관 후 투어 뒤 가이드 지급, 가이드 창립 요율 85% 수령·15% 수수료, 투어 후 3영업일 정산 / 플래너 요청 패널 한 줄). 실제 결제·가이드 가입은 계속 비활성", "ref": "A-0016"}
+{"at": "2026-11-01 14:07", "agent": "dev", "event": "task_update", "text": "done A-0016 배포 완료, 실제 사이트 확인", "ref": "T-0023"}
+{"at": "2026-11-01 14:11", "agent": "owner", "event": "approval_approved", "text": "사이트 제휴 고지 페이지(/disclosure)와 글 하단 제휴 고지 문구를 공정위 2024-12 지침에 맞게 수정·발행", "ref": "A-0011"}
+{"at": "2026-11-01 14:12", "agent": "owner", "event": "approval_approved", "text": "SNS 3건 게시(Pinterest·Instagram·Reddit, 대표 계정)", "ref": "A-0010"}
+{"at": "2026-11-01 14:14", "agent": "lead", "event": "report", "text": "주간 업무보고 W1 (10/26~11/1) + 차주 계획", "ref": "R-0015"}
+{"at": "2026-11-01 14:18", "agent": "lead", "event": "task_update", "text": "done 대표 지시(2026-11-01): 팀 업무 재개", "ref": "T-0018"}
+{"at": "2026-11-01 14:19", "agent": "lead", "event": "task_add", "text": "차주(11/2~11/8) 계획 팀 재개 분배·종합 보고", "ref": "T-0025"}
+{"at": "2026-11-01 14:19", "agent": "dev", "event": "task_add", "text": "자동 영문화(seoulmate-daily-posts) 오류 3221226505 원인 조사", "ref": "T-0026"}
+{"at": "2026-11-01 14:19", "agent": "planner", "event": "task_add", "text": "가이드 모집 공고·가입 절차 초안 (게시는 법적 확인 후)", "ref": "T-0027"}
+{"at": "2026-11-01 14:19", "agent": "marketer", "event": "task_add", "text": "가족·커플 타겟 차주 SNS 운영안 초안", "ref": "T-0028"}
+{"at": "2026-11-01 14:19", "agent": "research", "event": "task_add", "text": "제휴 여행사 문의(T-0014) 진행 확인·후속 연락 계획", "ref": "T-0029"}
+{"at": "2026-11-01 14:19", "agent": "compliance", "event": "task_update", "text": "doing", "ref": "T-0024"}
+{"at": "2026-11-01 14:19", "agent": "dev", "event": "task_update", "text": "doing", "ref": "T-0008"}
+{"at": "2026-11-01 14:19", "agent": "planner", "event": "task_update", "text": "doing", "ref": "T-0006"}
+{"at": "2026-11-01 14:20", "agent": "dev", "event": "task_update", "text": "doing 도윤 조사 시작", "ref": "T-0026"}
+{"at": "2026-11-01 14:22", "agent": "lead", "event": "task_add", "text": "대표 지시: 사업 구조 변경 (제휴 여행사 판매 중지 → 광고 수익 우선, 가이드 매칭 수수료 확대, 수익 고도화 지속)", "ref": "T-0030"}
+{"at": "2026-11-01 14:22", "agent": "lead", "event": "task_update", "text": "doing 한결에게 전달, 팀 재배분 중", "ref": "T-0030"}
+{"at": "2026-11-01 14:23", "agent": "research", "event": "report", "text": "제휴 문의 진행 확인·후속 계획 (발송 기록 없음)", "ref": "R-0016"}
+{"at": "2026-11-01 14:23", "agent": "research", "event": "task_update", "text": "review 발송 기록 없음-대표 확인 필요. 창구 4곳 재확인(KTC 영업제안 차단 경고 신규), D+3/D+7 계획·다음 후보(하나투어ITC>Trazy 제휴폼>코스모진, 새 승인 필요). ops/research/2026-11-01_제휴문의-진행·후속계획.md", "ref": "T-0029"}
+{"at": "2026-11-01 14:25", "agent": "planner", "event": "report", "text": "대학·어학당 겨울 과정 B2B 영문 제안서 (발송은 제휴 확정 후)", "ref": "R-0017"}
+{"at": "2026-11-01 14:25", "agent": "planner", "event": "report", "text": "가이드 모집 공고·가입 절차 초안 (T-0024 전 게시 금지)", "ref": "R-0018"}
+{"at": "2026-11-01 14:25", "agent": "planner", "event": "task_update", "text": "review 영문 제안서 완료(ops/plans/2026-11-01_B2B-제안서-대학어학당-EN.md). 규리 검토 대기, 발송은 제휴 확정·발신정보·발송 승인 후", "ref": "T-0006"}
+{"at": "2026-11-01 14:25", "agent": "planner", "event": "task_update", "text": "review 공고 국·영문, 5단계 가입 절차 초안 완료(ops/plans/2026-11-01_가이드-모집-공고·가입절차.md). T-0024 결론 전 게시 금지, 규리 검토 대기", "ref": "T-0027"}
+{"at": "2026-11-01 14:25", "agent": "lead", "event": "task_update", "text": "doing 대표 직접 가입 진행(2026-11-01)", "ref": "T-0010"}
+{"at": "2026-11-01 14:25", "agent": "lead", "event": "task_add", "text": "구글 애드센스 가입 (대표 직접) + 개인 도메인 검토", "ref": "T-0031"}
+{"at": "2026-11-01 14:25", "agent": "lead", "event": "task_update", "text": "doing 대표 진행 중", "ref": "T-0031"}
+{"at": "2026-11-01 14:26", "agent": "marketer", "event": "report", "text": "가족·커플 W2 SNS 운영안 초안 (게시물 10건, 미게시)", "ref": "R-0019"}
+{"at": "2026-11-01 14:26", "agent": "marketer", "event": "task_update", "text": "review 운영안 초안 완료: ops/marketing/2026-11-01_가족커플-SNS-운영안-W2.md (10건+예비1, 미게시). 규리 검토 후 게시 승인 묶음 A/B/C 요청 예정. 묶음 A는 11/3 저녁까지 결정 필요", "ref": "T-0028"}
+{"at": "2026-11-01 14:27", "agent": "compliance", "event": "report", "text": "가이드 매칭 법적 확인: 전문가 상담 질문 목록 + 종합여행업 등록 체크리스트", "ref": "R-0020"}
+{"at": "2026-11-01 14:27", "agent": "compliance", "event": "task_update", "text": "review 질문 목록(행정사 25·세무사 13)과 종합여행업 등록 체크리스트 작성. 신규 높음 위험 R11: 구조 A(가이드 직접 판매)에서 가이드 개인이 무등록 여행업에 해당할 가능성. 처리기간·수수료·보증보험료·등록면허세는 [CHECK]", "ref": "T-0024"}
+{"at": "2026-11-01 14:33", "agent": "dev", "event": "report", "text": "T-0008 결제대행사 비교: 1단계 PayPal 링크, 2단계 토스 해외카드", "ref": "R-0021"}
+{"at": "2026-11-01 14:33", "agent": "dev", "event": "report", "text": "T-0026 자동 영문화 오류 원인: 무인 실행 권한 승인 대기 + 10/30 메모리 고갈", "ref": "R-0022"}
+{"at": "2026-11-01 14:33", "agent": "dev", "event": "task_update", "text": "review 비교 문서 완료(R-0021, worktree 브랜치 worktree-agent-af83c9dd4da3f10e1 커밋 8ee5c2f의 ops/plans/2026-11-01_결제대행사-비교.md). 추천: 1단계 PayPal 결제 링크(실수수료 약 7.3%), 2단계 토스페이먼츠 해외카드 병행 신청. 대표 가입·서류와 승인 대기", "ref": "T-0008"}
+{"at": "2026-11-01 14:33", "agent": "dev", "event": "task_update", "text": "review 원인 확인(R-0022): 무인 실행 첫 Bash 묶음 명령이 승인 대기로 멈춤 → per_task_limit로 이후 실행 건너뜀(11/1 현재도 10/30 18:02 세션이 대기 중). 0xC0000409는 10/30 가상 메모리 고갈에 따른 2차 증상. 복구: 대표가 멈춘 세션 중지, 프롬프트·허용 규칙·메모리 조치는 승인 후", "ref": "T-0026"}
+{"at": "2026-11-01 14:33", "agent": "lead", "event": "task_update", "text": "blocked 대표 지시 2026-11-01: 사업 구조 변경으로 중지", "ref": "T-0014"}
+{"at": "2026-11-01 14:33", "agent": "planner", "event": "task_update", "text": "blocked 대표 지시 2026-11-01: 사업 구조 변경으로 중지", "ref": "T-0006"}
+{"at": "2026-11-01 14:33", "agent": "dev", "event": "task_update", "text": "blocked 대표 지시 2026-11-01: 사업 구조 변경으로 중지", "ref": "T-0008"}
+{"at": "2026-11-01 14:33", "agent": "research", "event": "task_update", "text": "blocked 대표 지시 2026-11-01: 사업 구조 변경으로 중지 (제휴 판매 중단, 문의서 발송 안 함)", "ref": "T-0029"}
+{"at": "2026-11-01 14:44", "agent": "dev", "event": "report", "text": "T-0030 광고·제휴 링크 붙이기 준비: vercel.app도 애드센스 가능(PSL), 도메인은 지금 사는 게 최저비용", "ref": "R-0023"}
+{"at": "2026-11-01 14:44", "agent": "lead", "event": "task_update", "text": "review 도윤: 광고·제휴 준비 문서 완료(worktree ops/plans/2026-11-01_광고-제휴링크-붙이기-준비.md, 커밋 9187664). T-0031 전제 정정: vercel.app은 PSL 등재 → 애드센스 사이트 등록·루트 ads.txt 가능. 승인 후보 14건(11장)", "ref": "T-0030"}
+{"at": "2026-11-01 14:44", "agent": "compliance", "event": "task_add", "text": "광고 준비 법적 검토: 개인정보처리방침 수정안·쿠키 동의·광고 표시·AdSense 정책 위험 + 수동 매칭 시범 여행업 해당 여부", "ref": "T-0032"}
+{"at": "2026-11-01 14:44", "agent": "marketer", "event": "task_add", "text": "트래픽 성장 계획: 검색어 기준 주제 선정(도시×계절×유형)·SNS 유입안·광고 수익 가정 범위·제휴 3종 후보", "ref": "T-0033"}
+{"at": "2026-11-01 14:44", "agent": "planner", "event": "task_add", "text": "가이드 모집 플랜(창립 10명→감수 글→수동 매칭 시범)·프로필 양식 + 수익 고도화 후보 목록", "ref": "T-0034"}
+{"at": "2026-11-01 14:44", "agent": "research", "event": "task_add", "text": "경쟁·유사 사이트 광고 운영·트래픽(공개 자료) + 가이드 공급 공식 채널", "ref": "T-0035"}
+{"at": "2026-11-01 14:45", "agent": "lead", "event": "task_update", "text": "doing", "ref": "T-0025"}
+{"at": "2026-11-01 14:46", "agent": "lead", "event": "task_add", "text": "0단계: 개인 도메인 구매·연결 (대표 직접, 후보 seoulmatekorea.com / goseoulmate.com 연 $12.03)", "ref": "T-0036"}
+{"at": "2026-11-01 14:46", "agent": "lead", "event": "task_update", "text": "doing 대표 진행", "ref": "T-0036"}
+{"at": "2026-11-01 14:46", "agent": "lead", "event": "task_add", "text": "0단계: 제휴 프로그램 가입 (대표 직접: Klook·Agoda·Airalo·Trazy)", "ref": "T-0037"}
+{"at": "2026-11-01 14:46", "agent": "lead", "event": "task_update", "text": "doing 대표 진행", "ref": "T-0037"}
