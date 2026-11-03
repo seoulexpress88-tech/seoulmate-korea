@@ -889,13 +889,17 @@
    "title": "Airalo(Impact) 웹사이트 확인 대행",
    "detail": "대표 요청(2026-11-02): 앱 브라우저의 Impact 화면에서 goseoulmate.com Add Website/Verify 클릭, 신청 마무리 보조",
    "agent": "lead",
-   "status": "doing",
+   "status": "done",
    "created": "2026-11-02 18:17",
-   "updated": "2026-11-02 18:17",
+   "updated": "2026-11-02 18:20",
    "notes": [
     {
      "at": "2026-11-02 18:17",
      "text": "A-0024 approved by owner: 대표 채팅 승인"
+    },
+    {
+     "at": "2026-11-02 18:20",
+     "text": "A-0024: Impact Media Properties에서 goseoulmate.com Connected (새 확인 코드 48a1121f… 홈페이지 추가 후 확인). 신청서 나머지 단계는 대표"
     }
    ]
   }
