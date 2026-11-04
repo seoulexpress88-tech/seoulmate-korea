@@ -206,11 +206,13 @@ def aff_button(url, text):
 
 
 # Sits right under the "Book ahead" heading, next to the links it describes (KFTC: close to the endorsement, before the click).
-AFF_NOTE = ('<p class="aff-note">These are affiliate links. If you book through them, Seoulmate earns a commission from the seller, '
+AFF_NOTE = ('<p class="aff-note"><b>Affiliate links:</b> If you book through them, Seoulmate earns a commission from the seller, '
             'at no extra cost to you. <a href="/disclosure/">Learn more</a></p>')
-# One quiet line above the article when affiliate links also appear inside the text.
-AFF_LINE = ('<p class="aff-line">This guide contains labeled affiliate links: Seoulmate earns a commission if you book through them. '
-            '<a href="/disclosure/">Learn more</a></p>')
+# One quiet line under a guide's title whenever the guide has any affiliate link (KFTC: shown at the start, not only at the end).
+AFF_LINE = ('<p class="aff-line"><b>Affiliate links:</b> This guide contains labeled affiliate links: Seoulmate earns a commission '
+            'if you book through them. <a href="/disclosure/">Learn more</a></p>')
+AFF_LINE_BOX = ('<p class="aff-line"><b>Affiliate links:</b> This guide includes affiliate links (see "Book ahead"): Seoulmate earns '
+                'a commission if you book through them. <a href="/disclosure/">Learn more</a></p>')
 
 
 def essentials(city=None):
@@ -590,8 +592,7 @@ def page_post(p, posts):
            '<a class="btn" href="/planner/">Build my itinerary</a></div>')
     tags = ('<div class="tags">' + "".join(f'<a href="{topic_url(t)}">{TOPIC_NAMES[t]}</a>' for t in p["topics"])
             + "".join(f'<a href="{city_url(c)}">{CITIES[c][0]}</a>' for c in p["cities"]) + "</div>")
-    # Links inside the text get a quiet line above the article; the "Book ahead" box carries its own note.
-    aff_top = AFF_LINE if inline_aff else ""
+    aff_top = AFF_LINE if inline_aff else (AFF_LINE_BOX if used_aff else "")
     disclosure = ('<p class="disclosure">This page contains labeled affiliate links. Seoulmate earns a commission from the seller when you book through them. '
                   '<a href="/disclosure/">Affiliate disclosure</a></p>') if used_aff else ""
     toc_html = ('<aside class="toc"><span class="lbl">On this page</span><ol>' +
