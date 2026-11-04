@@ -205,8 +205,12 @@ def aff_button(url, text):
             f'<span class="aff-label">affiliate link</span></p>')
 
 
-AFF_NOTICE = ('<p class="aff-notice"><b>Affiliate links:</b> This page contains affiliate links (labeled). If you book through them, '
-              'Seoulmate earns a commission from the seller, at no extra cost to you. <a href="/disclosure/">Learn more</a></p>')
+# Sits right under the "Book ahead" heading, next to the links it describes (KFTC: close to the endorsement, before the click).
+AFF_NOTE = ('<p class="aff-note">These are affiliate links. If you book through them, Seoulmate earns a commission from the seller, '
+            'at no extra cost to you. <a href="/disclosure/">Learn more</a></p>')
+# One quiet line above the article when affiliate links also appear inside the text.
+AFF_LINE = ('<p class="aff-line">This guide contains labeled affiliate links: Seoulmate earns a commission if you book through them. '
+            '<a href="/disclosure/">Learn more</a></p>')
 
 
 def essentials(city=None):
@@ -218,7 +222,7 @@ def essentials(city=None):
         name = CITIES[city][0] if city in CITIES else city.title()
         items.append(aff_button(klook_url(klook_city(city)), f"Tours and tickets in {name} on Klook"))
     items.append(aff_button(klook_url(KLOOK_ESIM), "Korea eSIM and SIM cards on Klook"))
-    return f'<div class="essentials"><h2>Book ahead</h2>{"".join(items)}</div>'
+    return f'<div class="essentials"><h2>Book ahead</h2>{AFF_NOTE}{"".join(items)}</div>'
 
 
 def resolve_affiliates(body):
@@ -541,7 +545,6 @@ def page_city(c, posts):
     guides = cards(posts) if posts else f'<div class="empty">Guides for {esc(en)} are coming soon. New guides are published every morning.</div>'
     book = essentials(cid)
     body = f"""<p class="crumbs"><a href="/destinations/">Destinations</a> / {esc(en)}</p>
-{AFF_NOTICE if book else ""}
 <div class="city-hero">
   <div>
     <div class="page-h"><h1>{esc(en)} <span class="hint">{esc(c['ko'])}</span></h1><p>{esc(c['tagline'])}</p></div>
@@ -573,6 +576,7 @@ def page_post(p, posts):
     body, toc = add_heading_ids(body)
     city = p["cities"][0] if p["cities"] else None
     book = essentials(city)
+    inline_aff = used_aff
     used_aff = used_aff or bool(book)
     crumbs = '<a href="/guides/">Guides</a>'
     if city:
@@ -586,8 +590,8 @@ def page_post(p, posts):
            '<a class="btn" href="/planner/">Build my itinerary</a></div>')
     tags = ('<div class="tags">' + "".join(f'<a href="{topic_url(t)}">{TOPIC_NAMES[t]}</a>' for t in p["topics"])
             + "".join(f'<a href="{city_url(c)}">{CITIES[c][0]}</a>' for c in p["cities"]) + "</div>")
-    # Shown at the top of the page, before the first paragraph; the footer line repeats it but never replaces it.
-    aff_top = AFF_NOTICE if used_aff else ""
+    # Links inside the text get a quiet line above the article; the "Book ahead" box carries its own note.
+    aff_top = AFF_LINE if inline_aff else ""
     disclosure = ('<p class="disclosure">This page contains labeled affiliate links. Seoulmate earns a commission from the seller when you book through them. '
                   '<a href="/disclosure/">Affiliate disclosure</a></p>') if used_aff else ""
     toc_html = ('<aside class="toc"><span class="lbl">On this page</span><ol>' +
@@ -635,7 +639,7 @@ def page_planner(posts):
         for c in p["cities"]:
             guides.setdefault(c, []).append({"title": p["title"], "url": p["url"]})
     book = essentials()
-    body = (AFF_NOTICE if book else "") + """<p class="hint no-print" style="margin:0 0 14px">14 destinations: Seoul, Busan, Jeju, Gyeongju, Jeonju, Incheon, Suwon, Gapyeong &amp; Nami Island, Gangneung, Sokcho &amp; Seoraksan, Andong, Daegu, Yeosu and Tongyeong.</p>
+    body = """<p class="hint no-print" style="margin:0 0 14px">14 destinations: Seoul, Busan, Jeju, Gyeongju, Jeonju, Incheon, Suwon, Gapyeong &amp; Nami Island, Gangneung, Sokcho &amp; Seoraksan, Andong, Daegu, Yeosu and Tongyeong.</p>
 <div class="grid">
   <form class="panel sticky" id="tripForm">
     <h2>Your trip</h2>
