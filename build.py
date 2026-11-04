@@ -39,7 +39,7 @@ CITIES["suncheon"] = ("Suncheon", "순천")
 CAT_NAMES = {"food": "Food", "local": "Local life", "culture": "Culture", "history": "History",
              "kpop": "K-pop", "sports": "Sports", "nature": "Nature", "night": "Nightlife"}
 # Cache-busting version for /static files, so browsers pick up CSS/JS changes after each deploy.
-ASSET_V = hashlib.sha1(b"".join(f.read_bytes() for f in sorted((ROOT / "static").glob("*")))).hexdigest()[:8]
+ASSET_V = hashlib.sha1(b"".join(f.read_bytes() for f in sorted((ROOT / "static").glob("*")) if f.is_file())).hexdigest()[:8]
 # Guide topics, matched against each guide's title, labels and description.
 # A guide can override them with a "topics" list in its meta header.
 TOPICS = [
