@@ -21,6 +21,7 @@ import os
 import re
 import sys
 import time
+import urllib.parse
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 
@@ -228,6 +229,53 @@ def status(_):
 
 # ---------------------------------------------------------------- dashboard
 
+# Team deliverables shown on the dashboard, by folder.
+DOC_DIRS = {"plans": "기획", "research": "리서치", "marketing": "마케팅", "compliance": "컴플라이언스", "reports": "보고"}
+
+
+def doc_author(text, folder):
+    """Guess who wrote a document from its header lines ("작성: 서아", "[규리 · ...]") or the R-xxxx file name."""
+    head = "\n".join(text.splitlines()[:8])
+    by_name = {ag["name"]: ag["id"] for ag in TEAM["agents"]}
+    m = re.search(r"작성[:：]\s*([^\s(·,]+)", head) or re.search(r"\[([^\s\]·]+)\s*·", head)
+    if m:
+        if m.group(1) in by_name:
+            return by_name[m.group(1)]
+        if m.group(1) == "메인":
+            return "main"
+    if "메인 세션" in head:
+        return "main"
+    return {"plans": "planner", "research": "research", "marketing": "marketer", "compliance": "compliance"}.get(folder, "")
+
+
+def list_docs():
+    docs = []
+    for folder, label in DOC_DIRS.items():
+        d = OPS / folder
+        if not d.is_dir():
+            continue
+        for p in d.glob("*.md"):
+            text = p.read_text(encoding="utf-8", errors="replace")
+            title = next((ln.lstrip("# ").strip() for ln in text.splitlines() if ln.startswith("#")), p.stem)
+            m = re.match(r"(\d{4}-\d{2}-\d{2})", p.name)
+            rid = re.search(r"_(R-\d{4})_([a-z]+)_", p.name)
+            author = rid.group(2) if rid else doc_author(text, folder)
+            docs.append({"path": f"{folder}/{p.name}", "folder": folder, "label": label, "title": title,
+                         "date": m.group(1) if m else "", "author": author,
+                         "mtime": dt.datetime.fromtimestamp(p.stat().st_mtime).strftime("%Y-%m-%d %H:%M"),
+                         "chars": len(text)})
+    return sorted(docs, key=lambda x: (x["date"], x["mtime"]), reverse=True)
+
+
+def read_doc(rel):
+    folder, _, name = rel.partition("/")
+    p = (OPS / folder / name).resolve()
+    # Only plain .md files directly inside the deliverable folders can be read.
+    if folder not in DOC_DIRS or "/" in name or p.parent != (OPS / folder).resolve() or p.suffix != ".md" or not p.is_file():
+        return None
+    return p.read_text(encoding="utf-8", errors="replace")
+
+
 class Handler(BaseHTTPRequestHandler):
     def _send(self, code, body, ctype="application/json; charset=utf-8"):
         data = body.encode("utf-8") if isinstance(body, str) else body
@@ -250,6 +298,11 @@ class Handler(BaseHTTPRequestHandler):
             b["activity"] = [json.loads(x) for x in reversed(act)]
             b["team"] = TEAM
             return self._send(200, json.dumps(b, ensure_ascii=False))
+        if self.path == "/api/docs":
+            return self._send(200, json.dumps(list_docs(), ensure_ascii=False))
+        if self.path.startswith("/api/doc?path="):
+            text = read_doc(urllib.parse.unquote(self.path.split("=", 1)[1]))
+            return self._send(200, text, "text/plain; charset=utf-8") if text is not None else self._send(404, '{"error":"not found"}')
         m = re.fullmatch(r"/api/reports/(R-\d{4})", self.path)
         if m:
             r = find(load()["reports"], m.group(1))

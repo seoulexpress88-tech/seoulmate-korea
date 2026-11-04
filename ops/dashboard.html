@@ -63,17 +63,45 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline
 .li button{background:none;padding:0;color:var(--accent);font-weight:600;text-align:left}
 pre{white-space:pre-wrap;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px;font:13px/1.6 var(--f);max-height:460px;overflow:auto}
 .hist .li{opacity:.8}
+.docbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:10px}
+.docbar input{flex:1;min-width:200px;font:inherit;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{background:var(--surface);border:1px solid var(--line);color:var(--ink);font-weight:500;padding:5px 11px;border-radius:999px}
+.chip[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.docs{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:14px}
+@media (max-width:860px){.docs{grid-template-columns:1fr}}
+.doc{display:grid;grid-template-columns:auto 1fr;gap:2px 10px;width:100%;background:none;border:0;border-bottom:1px solid var(--line);border-radius:0;padding:10px 12px;text-align:left;color:var(--ink);font-weight:400}
+.doc:hover{background:var(--sunk)}.doc[aria-current="true"]{background:var(--sunk);box-shadow:inset 3px 0 0 var(--accent)}
+.doc .dt{grid-row:span 2;font-family:var(--mono);font-size:.74rem;color:var(--muted);padding-top:2px}
+.doc .tt{font-weight:600;font-size:.9rem;overflow-wrap:anywhere}.doc .by{font-size:.78rem;color:var(--muted)}
+.fold{font-size:.7rem;font-weight:600;padding:1px 7px;border-radius:999px;background:var(--sunk);margin-left:4px}
+.viewer{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px 20px;max-height:640px;overflow:auto;font-size:.92rem;line-height:1.7}
+.viewer h1{font-size:1.2rem;margin:0 0 10px}.viewer h2{font-size:1.05rem;margin:18px 0 8px}.viewer h3{font-size:.95rem;margin:14px 0 6px}
+.viewer table{border-collapse:collapse;width:100%;font-size:.85rem;margin:8px 0;display:block;overflow-x:auto}
+.viewer th,.viewer td{border:1px solid var(--line);padding:5px 8px;text-align:left;vertical-align:top}.viewer th{background:var(--sunk)}
+.viewer blockquote{margin:8px 0;padding:6px 12px;border-left:3px solid var(--accent);background:var(--sunk);border-radius:6px}
+.viewer code{font-family:var(--mono);font-size:.84em;background:var(--sunk);padding:1px 5px;border-radius:4px}
+.viewer pre{max-height:none;font-family:var(--mono);font-size:.8rem}
+.viewer ul,.viewer ol{padding-left:22px;margin:6px 0}
+.viewer .path{font-family:var(--mono);font-size:.75rem;color:var(--muted);margin-bottom:10px;overflow-wrap:anywhere}
 </style>
 </head>
 <body>
 <div class="wrap">
-  <header><h1>Seoulmate 팀 대시보드</h1><div class="head-right"><a class="site-link" href="https://seoulmate-korea-iota.vercel.app/" target="_blank" rel="noopener">사이트 바로가기 ↗</a><span class="meta" id="updated">불러오는 중…</span></div></header>
+  <header><h1>Seoulmate 팀 대시보드</h1><div class="head-right"><a class="site-link" href="https://goseoulmate.com/" target="_blank" rel="noopener">사이트 바로가기 ↗</a><span class="meta" id="updated">불러오는 중…</span></div></header>
   <div class="goal" id="goal"></div>
   <div class="kpis" id="kpis"></div>
 
   <section><h2>승인 대기</h2><p class="meta" style="margin:-6px 0 10px">팀원은 여기서 대표님이 승인한 일만 실행합니다. 반려할 때는 이유를 적어 주세요.</p><div id="approvals"></div></section>
 
   <section><h2>팀 현황</h2><div class="team" id="team"></div></section>
+
+  <section id="docsSec"><h2>팀 산출물</h2>
+    <p class="meta" style="margin:-6px 0 10px">팀원이 만든 기획·리서치·마케팅·컴플라이언스 문서와 업무 보고입니다. 제목을 누르면 오른쪽에서 바로 읽을 수 있어요.</p>
+    <div class="docbar"><input id="docQ" type="search" placeholder="제목 검색 (예: 가이드, 애드센스, T-0034)" aria-label="산출물 제목 검색"></div>
+    <div class="docbar"><div class="chips" id="docFolders" role="group" aria-label="분류"></div><div class="chips" id="docPeople" role="group" aria-label="작성자"></div></div>
+    <div class="docs"><div class="list" id="docList" style="max-height:640px"></div><div class="viewer" id="docView"><p class="meta">왼쪽에서 문서를 고르세요.</p></div></div>
+  </section>
 
   <section><h2>작업 보드</h2><div class="board" id="board"></div></section>
 
@@ -134,7 +162,53 @@ document.addEventListener("click",async e=>{
   const rb=e.target.closest("button[data-r]");
   if(rb){const v=$("reportView");v.textContent=await (await fetch("/api/reports/"+rb.dataset.r)).text();v.hidden=false;v.scrollIntoView({behavior:"smooth",block:"nearest"})}
 });
-load();setInterval(load,15000);
+// ---- Team deliverables: list from /api/docs, filter by folder, author and title, read in place.
+const FOLDERS=[["all","전체"],["plans","기획"],["research","리서치"],["marketing","마케팅"],["compliance","컴플라이언스"],["reports","보고"]];
+const docState={docs:[],folder:"all",who:"all",q:"",open:""};
+const author=id=>team[id]?`${team[id].emoji} ${team[id].name}`:(id==="main"?"🤖 메인 세션":"—");
+function inline(s){return esc(s).replace(/`([^`]+)`/g,"<code>$1</code>").replace(/\*\*([^*]+)\*\*/g,"<b>$1</b>")
+  .replace(/\[([^\]]+)\]\((https?:\/\/[^)\s]+)\)/g,'<a href="$2" target="_blank" rel="noopener">$1</a>')}
+// Small Markdown renderer for our own documents: headings, lists, tables, quotes, code blocks.
+function md(src){
+  const L=src.replace(/\r/g,"").split("\n"),out=[];let i=0;
+  while(i<L.length){const l=L[i];
+    if(/^```/.test(l)){const b=[];i++;while(i<L.length&&!/^```/.test(L[i]))b.push(L[i++]);i++;out.push(`<pre>${esc(b.join("\n"))}</pre>`);continue}
+    const h=l.match(/^(#{1,4})\s+(.*)/);if(h){const n=Math.min(h[1].length,3);out.push(`<h${n}>${inline(h[2])}</h${n}>`);i++;continue}
+    if(/^\s*\|/.test(l)){const rows=[];while(i<L.length&&/^\s*\|/.test(L[i]))rows.push(L[i++]);
+      const cells=r=>r.trim().replace(/^\||\|$/g,"").split("|").map(c=>c.trim());
+      const body=rows.filter(r=>!/^\s*\|[\s:|-]+\|\s*$/.test(r));
+      out.push("<table>"+body.map((r,k)=>"<tr>"+cells(r).map(c=>k?`<td>${inline(c)}</td>`:`<th>${inline(c)}</th>`).join("")+"</tr>").join("")+"</table>");continue}
+    if(/^>\s?/.test(l)){const b=[];while(i<L.length&&/^>\s?/.test(L[i]))b.push(L[i++].replace(/^>\s?/,""));out.push(`<blockquote>${b.map(inline).join("<br>")}</blockquote>`);continue}
+    if(/^\s*([-*]|\d+\.)\s+/.test(l)){const ord=/^\s*\d+\./.test(l),b=[];
+      while(i<L.length&&/^\s*([-*]|\d+\.)\s+/.test(L[i]))b.push(L[i++].replace(/^\s*([-*]|\d+\.)\s+/,""));
+      out.push(`<${ord?"ol":"ul"}>${b.map(x=>`<li>${inline(x)}</li>`).join("")}</${ord?"ol":"ul"}>`);continue}
+    if(/^---+\s*$/.test(l)){out.push("<hr>");i++;continue}
+    if(!l.trim()){i++;continue}
+    const p=[];while(i<L.length&&L[i].trim()&&!/^(#|\||>|```|\s*([-*]|\d+\.)\s)/.test(L[i]))p.push(L[i++]);
+    out.push(`<p>${p.map(inline).join("<br>")}</p>`)}
+  return out.join("")}
+function renderDocs(){
+  const people=["all",...new Set(docState.docs.map(d=>d.author).filter(Boolean))];
+  $("docFolders").innerHTML=FOLDERS.map(([k,l])=>{const n=k==="all"?docState.docs.length:docState.docs.filter(d=>d.folder===k).length;
+    return `<button class="chip" data-f="${k}" aria-pressed="${docState.folder===k}">${l} ${n}</button>`}).join("");
+  $("docPeople").innerHTML=people.map(p=>`<button class="chip" data-w="${p}" aria-pressed="${docState.who===p}">${p==="all"?"모든 사람":author(p)}</button>`).join("");
+  const q=docState.q.trim().toLowerCase();
+  const list=docState.docs.filter(d=>(docState.folder==="all"||d.folder===docState.folder)&&(docState.who==="all"||d.author===docState.who)&&(!q||d.title.toLowerCase().includes(q)||d.path.toLowerCase().includes(q)));
+  $("docList").innerHTML=list.length?list.map(d=>`<button class="doc" data-doc="${esc(d.path)}" aria-current="${docState.open===d.path}">
+    <span class="dt">${esc(d.date.slice(5))}</span><span class="tt">${esc(d.title)}</span><span class="by">${author(d.author)}<span class="fold">${esc(d.label)}</span></span></button>`).join("")
+    :`<div class="li">조건에 맞는 문서가 없어요.</div>`}
+async function loadDocs(){try{docState.docs=await (await fetch("/api/docs",{cache:"no-store"})).json();renderDocs()}catch(e){$("docList").innerHTML=`<div class="li">문서 목록을 불러오지 못했어요.</div>`}}
+async function openDoc(path){docState.open=path;renderDocs();
+  const d=docState.docs.find(x=>x.path===path),v=$("docView");
+  const t=await (await fetch("/api/doc?path="+encodeURIComponent(path))).text();
+  v.innerHTML=`<div class="path">${esc(d?d.label+" · "+author(d.author)+" · 수정 "+d.mtime:"")}<br>ops/${esc(path)}</div>`+md(t);v.scrollTop=0;
+  if(innerWidth<860)v.scrollIntoView({behavior:"smooth",block:"start"})}
+document.addEventListener("click",e=>{
+  const f=e.target.closest("button[data-f]");if(f){docState.folder=f.dataset.f;renderDocs();return}
+  const w=e.target.closest("button[data-w]");if(w){docState.who=w.dataset.w;renderDocs();return}
+  const d=e.target.closest("button[data-doc]");if(d)openDoc(d.dataset.doc)});
+$("docQ").addEventListener("input",e=>{docState.q=e.target.value;renderDocs()});
+load().then(loadDocs);setInterval(load,15000);setInterval(loadDocs,60000);
 </script>
 </body>
 </html>

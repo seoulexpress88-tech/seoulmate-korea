@@ -763,13 +763,21 @@
    "title": "예약 작업 seoulmate-daily-posts 프롬프트 수정: 무인 실행 규칙(단일 명령·승인 필요 시 중단) + 발행 상한·중복 건너뛰기",
    "detail": "",
    "agent": "dev",
-   "status": "doing",
+   "status": "review",
    "created": "2026-11-02 16:12",
-   "updated": "2026-11-02 16:32",
+   "updated": "2026-11-03 11:04",
    "notes": [
     {
      "at": "2026-11-02 16:32",
      "text": "A-0018 approved by owner"
+    },
+    {
+     "at": "2026-11-03 11:03",
+     "text": "A-0018: 예약 작업 프롬프트 교체(무인 규칙·하루 2편/주 4편 상한·도메인 goseoulmate.com). 11/2 16:15부터 멈춘 실행 중지. '지금 실행'은 대표가 앱에서 직접 눌러 권한 '항상 허용' 등록 필요"
+    },
+    {
+     "at": "2026-11-03 11:04",
+     "text": "대표 결정: 주간 상한은 2026-11-04 이후 글만 셈(예약 작업 지시문 반영)"
     }
    ]
   },
@@ -900,6 +908,103 @@
     {
      "at": "2026-11-02 18:20",
      "text": "A-0024: Impact Media Properties에서 goseoulmate.com Connected (새 확인 코드 48a1121f… 홈페이지 추가 후 확인). 신청서 나머지 단계는 대표"
+    }
+   ]
+  },
+  {
+   "id": "T-0046",
+   "title": "구조 변경 후 사업자 업종·업종코드·과세 판단, 통신판매(중개)업 신고 필요 여부, 식당 사업자 추가 vs 별도 (대표 질문 11/3)",
+   "detail": "",
+   "agent": "compliance",
+   "status": "review",
+   "created": "2026-11-03 11:14",
+   "updated": "2026-11-03 14:58",
+   "notes": [
+    {
+     "at": "2026-11-03 14:58",
+     "text": "메인 세션이 정리: ops/compliance/2026-11-03_사업자-업종·신고-판단.md (세무사 확인 필요 표시)"
+    },
+    {
+     "at": "2026-11-03 14:58",
+     "text": "검토서 ops/compliance/2026-11-03_사업자-업종·신고-판단.md. 642004 추천, 별도 사업자 기본안, 세무사 확인 T6·T15"
+    }
+   ]
+  },
+  {
+   "id": "T-0047",
+   "title": "Awin 프로필 미완성 항목 채우기(Booking.com 신청 준비)",
+   "detail": "",
+   "agent": "lead",
+   "status": "doing",
+   "created": "2026-11-04 15:43",
+   "updated": "2026-11-04 16:43",
+   "notes": [
+    {
+     "at": "2026-11-04 15:56",
+     "text": "A-0025 approved by owner: 대표 채팅 승인"
+    },
+    {
+     "at": "2026-11-04 16:43",
+     "text": "A-0027 approved by owner: 대표 채팅 승인"
+    }
+   ]
+  },
+  {
+   "id": "T-0048",
+   "title": "Awin Viator·GetYourGuide 승인 여부 확인(11/04 신청, pending) → 승인 시 투어 링크 연결 승인 요청",
+   "detail": "",
+   "agent": "lead",
+   "status": "todo",
+   "created": "2026-11-04 16:14",
+   "updated": "2026-11-04 16:14",
+   "notes": []
+  },
+  {
+   "id": "T-0049",
+   "title": "CJ 계정 설정(Promotional Property·소개) 후 Booking.com 신청 준비",
+   "detail": "",
+   "agent": "lead",
+   "status": "doing",
+   "created": "2026-11-04 16:21",
+   "updated": "2026-11-04 16:47",
+   "notes": [
+    {
+     "at": "2026-11-04 16:21",
+     "text": "A-0026 approved by owner: 대표 채팅 승인"
+    },
+    {
+     "at": "2026-11-04 16:47",
+     "text": "A-0028 approved by owner: 대표 채팅 승인"
+    }
+   ]
+  },
+  {
+   "id": "T-0050",
+   "title": "Agoda 도메인 인증(수동) → 승인 후 플래너·가이드 숙소 링크",
+   "detail": "",
+   "agent": "lead",
+   "status": "review",
+   "created": "2026-11-04 17:00",
+   "updated": "2026-11-04 17:05",
+   "notes": [
+    {
+     "at": "2026-11-04 17:03",
+     "text": "A-0029 approved by owner: 대표 채팅 승인"
+    }
+   ]
+  },
+  {
+   "id": "T-0051",
+   "title": "자동 발행 멈춤 해결(권한 허용 추가 + 멈춘 실행 정리)",
+   "detail": "",
+   "agent": "lead",
+   "status": "review",
+   "created": "2026-11-04 17:11",
+   "updated": "2026-11-04 17:12",
+   "notes": [
+    {
+     "at": "2026-11-04 17:12",
+     "text": "A-0030 approved by owner: 대표 채팅 승인"
     }
    ]
   }
@@ -1273,6 +1378,90 @@
    "decided": "2026-11-02 18:17",
    "by": "owner",
    "note": "대표 채팅 승인"
+  },
+  {
+   "id": "A-0025",
+   "agent": "lead",
+   "task": "T-0047",
+   "action": "앱 브라우저의 대표 Awin 계정(3143208) 프로필 미완성 4항목 채우기: ① Promotional Spaces에 goseoulmate.com 추가(분류 Content/Blog·여행) ② Company/Publisher name 'Seoulmate' ③ Description 보강(독자·콘텐츠·제휴 고지 방식) ④ 프로필 사진에 사이트 아이콘(static/icon.svg를 PNG로) 업로드. 주소·연락처·정산·세금·은행 정보, 비밀번호, 약관 동의, 광고주 신청은 하지 않음",
+   "why": "Booking.com 등 Awin 광고주 승인을 받으려면 프로필 완성이 필요(숙소 제휴 수익)",
+   "risk": "low",
+   "files": [],
+   "status": "approved",
+   "requested": "2026-11-04 15:43",
+   "decided": "2026-11-04 15:56",
+   "by": "owner",
+   "note": "대표 채팅 승인"
+  },
+  {
+   "id": "A-0026",
+   "agent": "lead",
+   "task": "T-0049",
+   "action": "앱 브라우저의 대표 CJ 계정에서 미완성 항목 채우기: Promotional Property에 goseoulmate.com 등록(웹사이트·여행·콘텐츠), 사이트 소개·홍보 방식 설명(Awin과 같은 내용), 필요하면 사이트 확인용 코드 확인(사이트 반영은 별도 승인). 대표가 로그인. 주소·연락처·세금·정산·은행 정보, 비밀번호, 약관 동의, 광고주(Booking.com) 신청 버튼은 하지 않음",
+   "why": "Booking.com 제휴가 Awin에서 CJ로 옮겨 CJ 승인이 필요(숙소 제휴 수익)",
+   "risk": "low",
+   "files": [],
+   "status": "approved",
+   "requested": "2026-11-04 16:21",
+   "decided": "2026-11-04 16:21",
+   "by": "owner",
+   "note": "대표 채팅 승인"
+  },
+  {
+   "id": "A-0027",
+   "agent": "lead",
+   "task": "T-0047",
+   "action": "Awin 계정(3143208) Contact Details의 우편번호(postCode)만 13021 → 13012로 수정. 다른 주소·연락처·정산 정보는 건드리지 않음",
+   "why": "대표 요청: Awin 주소 우편번호 오기 수정(CJ W-8BEN 주소와 일치)",
+   "risk": "low",
+   "files": [],
+   "status": "approved",
+   "requested": "2026-11-04 16:41",
+   "decided": "2026-11-04 16:43",
+   "by": "owner",
+   "note": "대표 채팅 승인"
+  },
+  {
+   "id": "A-0028",
+   "agent": "lead",
+   "task": "T-0049",
+   "action": "앱 브라우저의 대표 CJ 계정에서 Booking.com 광고주 프로그램 신청(Apply): 홍보 사이트 Seoulmate(101920379) 선택, 신청 메시지는 사이트 소개 문안, Booking.com 프로그램 약관(Program Terms) 동의 포함. 약관 내용은 동의 전에 대표에게 요약 보고. 정산·세금·주소 정보는 건드리지 않음",
+   "why": "숙소 제휴 수익: 플래너·가이드의 숙소 링크에 Booking.com 연결",
+   "risk": "low",
+   "files": [],
+   "status": "approved",
+   "requested": "2026-11-04 16:44",
+   "decided": "2026-11-04 16:47",
+   "by": "owner",
+   "note": "대표 채팅 승인"
+  },
+  {
+   "id": "A-0029",
+   "agent": "lead",
+   "task": "T-0050",
+   "action": "앱 브라우저의 대표 Agoda 파트너 계정에서 '수동 인증' 양식 제출: 사유 '웹사이트 자동 인증 방법을 이해하지 못함'(화면에 자동 인증 옵션이 보이지 않음), 카테고리 '여행 블로그', URL https://goseoulmate.com, 신청 사유는 영문 사이트 소개·숙소 링크 배치 방식(Awin·CJ와 같은 내용). 개인정보·은행 정보·약관은 건드리지 않음",
+   "why": "Agoda 승인 대기의 유일한 남은 단계. 한국 숙소 제휴 수익의 첫 단추(플래너 숙소 링크)",
+   "risk": "low",
+   "files": [],
+   "status": "approved",
+   "requested": "2026-11-04 17:00",
+   "decided": "2026-11-04 17:03",
+   "by": "owner",
+   "note": "대표 채팅 승인"
+  },
+  {
+   "id": "A-0030",
+   "agent": "lead",
+   "task": "T-0051",
+   "action": "자동 발행 멈춤 해결: ① 11/3 11:03부터 권한 확인창에서 멈춘 예약 실행 세션(local_90dbc60f) 중지 ② 프로젝트 .claude/settings.json allow에 자동 발행에 필요한 것만 추가 — Read: 네이버 블로그 자동화/**, 해외 블로그 수익화/**; Write: 해외 블로그 수익화/posts/**; Bash: py build.py --publish, curl -s -o /dev/null -w \"%{http_code}\" https://goseoulmate.com/guides/* ③ 다음 정기 실행(오늘 18:00) 결과 확인. 예약 작업 프롬프트·발행 상한(A-0018)은 바꾸지 않음",
+   "why": "자동 발행이 하루째 멈춤 → 글이 안 쌓임(광고 수익·검색 노출의 기반)",
+   "risk": "low",
+   "files": [],
+   "status": "approved",
+   "requested": "2026-11-04 17:11",
+   "decided": "2026-11-04 17:12",
+   "by": "owner",
+   "note": "대표 채팅 승인"
   }
  ],
  "reports": [
@@ -1499,12 +1688,60 @@
    "task": "",
    "at": "2026-11-02 16:13",
    "file": "reports/2026-11-02_R-0028_lead_팀-재개-종합-보고-구조-변경-반영-승인-요청-A-0017-A-0019-.md"
+  },
+  {
+   "id": "R-0029",
+   "agent": "compliance",
+   "title": "T-0046 사업자 업종·신고 판단: 642004 추천, 통신판매 신고는 결제 오픈 시",
+   "task": "",
+   "at": "2026-11-03 14:58",
+   "file": "reports/2026-11-03_R-0029_compliance_T-0046-사업자-업종-신고-판단-642004-추천-통신판매-신고는-결.md"
+  },
+  {
+   "id": "R-0030",
+   "agent": "lead",
+   "title": "Awin 프로필 완성(100%)",
+   "task": "",
+   "at": "2026-11-04 16:00",
+   "file": "reports/2026-11-04_R-0030_lead_Awin-프로필-완성-100.md"
+  },
+  {
+   "id": "R-0031",
+   "agent": "lead",
+   "title": "CJ 계정 설정(홍보 사이트·프로필)",
+   "task": "",
+   "at": "2026-11-04 16:25",
+   "file": "reports/2026-11-04_R-0031_lead_CJ-계정-설정-홍보-사이트-프로필.md"
+  },
+  {
+   "id": "R-0032",
+   "agent": "lead",
+   "title": "Agoda 수동 인증 제출",
+   "task": "",
+   "at": "2026-11-04 17:05",
+   "file": "reports/2026-11-04_R-0032_lead_Agoda-수동-인증-제출.md"
+  },
+  {
+   "id": "R-0033",
+   "agent": "lead",
+   "title": "Search Console 점검(색인 정상·노출 0)",
+   "task": "",
+   "at": "2026-11-04 17:09",
+   "file": "reports/2026-11-04_R-0033_lead_Search-Console-점검-색인-정상-노출-0.md"
+  },
+  {
+   "id": "R-0034",
+   "agent": "lead",
+   "title": "자동 발행 멈춤 해결(권한 추가)",
+   "task": "",
+   "at": "2026-11-04 17:12",
+   "file": "reports/2026-11-04_R-0034_lead_자동-발행-멈춤-해결-권한-추가.md"
   }
  ],
  "seq": {
-  "T": 45,
-  "A": 24,
-  "R": 28
+  "T": 51,
+  "A": 30,
+  "R": 34
  },
  "revenue": []
 }

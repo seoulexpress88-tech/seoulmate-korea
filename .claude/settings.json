@@ -9,7 +9,14 @@
       "Bash(py \"C:/Users/goopo/Desktop/클로드코드/외국인 여행/ops/ops.py\" task *)",
       "Bash(py \"C:/Users/goopo/Desktop/클로드코드/외국인 여행/ops/ops.py\" report *)",
       "Bash(py \"C:/Users/goopo/Desktop/클로드코드/외국인 여행/ops/ops.py\" approval request *)",
-      "Bash(py \"C:/Users/goopo/Desktop/클로드코드/외국인 여행/ops/ops.py\" approval list*)"
+      "Bash(py \"C:/Users/goopo/Desktop/클로드코드/외국인 여행/ops/ops.py\" approval list*)",
+      "Read(//c/Users/goopo/Desktop/클로드코드/네이버 블로그 자동화/**)",
+      "Read(//c/Users/goopo/Desktop/클로드코드/해외 블로그 수익화/**)",
+      "Edit(//c/Users/goopo/Desktop/클로드코드/해외 블로그 수익화/posts/**)",
+      "Bash(py build.py --publish)",
+      "PowerShell(py build.py --publish)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" https://goseoulmate.com/guides/*)",
+      "PowerShell(curl -s -o /dev/null -w \"%{http_code}\" https://goseoulmate.com/guides/*)"
     ],
     "ask": [
       "Bash(py ops/ops.py approval decide *)"
