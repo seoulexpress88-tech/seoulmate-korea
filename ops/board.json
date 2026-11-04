@@ -998,13 +998,43 @@
    "title": "자동 발행 멈춤 해결(권한 허용 추가 + 멈춘 실행 정리)",
    "detail": "",
    "agent": "lead",
-   "status": "review",
+   "status": "done",
    "created": "2026-11-04 17:11",
-   "updated": "2026-11-04 17:12",
+   "updated": "2026-11-04 17:14",
    "notes": [
     {
      "at": "2026-11-04 17:12",
      "text": "A-0030 approved by owner: 대표 채팅 승인"
+    }
+   ]
+  },
+  {
+   "id": "T-0052",
+   "title": "애드센스 유럽(GDPR) 동의 메시지 설정·게시",
+   "detail": "",
+   "agent": "lead",
+   "status": "done",
+   "created": "2026-11-04 18:04",
+   "updated": "2026-11-04 19:13",
+   "notes": [
+    {
+     "at": "2026-11-04 18:04",
+     "text": "A-0031 approved by owner: 대표 채팅 승인"
+    }
+   ]
+  },
+  {
+   "id": "T-0053",
+   "title": "제휴 표기 위치 B안(노란 박스 제거) 발행",
+   "detail": "",
+   "agent": "dev",
+   "status": "doing",
+   "created": "2026-11-04 19:20",
+   "updated": "2026-11-04 19:20",
+   "notes": [
+    {
+     "at": "2026-11-04 19:20",
+     "text": "A-0032 approved by owner: 대표 채팅 승인"
     }
    ]
   }
@@ -1462,6 +1492,34 @@
    "decided": "2026-11-04 17:12",
    "by": "owner",
    "note": "대표 채팅 승인"
+  },
+  {
+   "id": "A-0031",
+   "agent": "lead",
+   "task": "T-0052",
+   "action": "앱 브라우저의 대표 애드센스 계정에서 유럽 규정(GDPR) 동의 메시지 완성·게시: 메시지 이름 'Seoulmate EU consent', 사이트 goseoulmate.com의 로고(사이트 아이콘 PNG)와 개인정보처리방침 URL https://goseoulmate.com/privacy/ 입력, 버튼은 Google 기본(동의/동의하지 않음/옵션 관리) 유지, 영어 기본. 그 외 애드센스 설정(자동 광고·지급·계정)은 건드리지 않음",
+   "why": "유럽 방문자에게 광고를 보여 주려면 동의 메시지 필수(광고 수익)",
+   "risk": "low",
+   "files": [],
+   "status": "approved",
+   "requested": "2026-11-04 18:04",
+   "decided": "2026-11-04 18:04",
+   "by": "owner",
+   "note": "대표 채팅 승인"
+  },
+  {
+   "id": "A-0032",
+   "agent": "lead",
+   "task": "T-0053",
+   "action": "제휴 고지 문구·위치 변경 발행: 브랜치 aff-notice-b(커밋 a04a716, 6cb7790)를 main에 병합 → py build.py --publish. 플래너·도시 14곳은 맨 위 노란 박스 삭제, Book ahead 박스 제목 아래 'Affiliate links:' 굵은 라벨+회색 한 줄. 가이드 38편은 제목 아래 회색 한 줄(본문 링크 있는 글/박스만 있는 글 문구 구분). 링크별 'affiliate link' 라벨·rel=sponsored·하단 고지·/disclosure/ 유지. 규리 검토 R-0036 수정안 1·2 반영",
+   "why": "대표 요청: 상단 노란 박스가 보기 안 좋음. 규정(공정위 2024-12·FTC)은 지키면서 첫인상 개선",
+   "risk": "low",
+   "files": [],
+   "status": "approved",
+   "requested": "2026-11-04 19:20",
+   "decided": "2026-11-04 19:20",
+   "by": "owner",
+   "note": "대표 채팅 승인"
   }
  ],
  "reports": [
@@ -1736,12 +1794,28 @@
    "task": "",
    "at": "2026-11-04 17:12",
    "file": "reports/2026-11-04_R-0034_lead_자동-발행-멈춤-해결-권한-추가.md"
+  },
+  {
+   "id": "R-0035",
+   "agent": "lead",
+   "title": "애드센스 유럽 동의 메시지 게시",
+   "task": "",
+   "at": "2026-11-04 19:13",
+   "file": "reports/2026-11-04_R-0035_lead_애드센스-유럽-동의-메시지-게시.md"
+  },
+  {
+   "id": "R-0036",
+   "agent": "compliance",
+   "title": "제휴 표기 위치 B안 검토",
+   "task": "",
+   "at": "2026-11-04 19:19",
+   "file": "reports/2026-11-04_R-0036_compliance_제휴-표기-위치-B안-검토.md"
   }
  ],
  "seq": {
-  "T": 51,
-  "A": 30,
-  "R": 34
+  "T": 53,
+  "A": 32,
+  "R": 36
  },
  "revenue": []
 }

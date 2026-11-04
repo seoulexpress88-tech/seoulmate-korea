@@ -96,7 +96,9 @@ main{padding-block:28px}
 .tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:24px}
 .tags span{font-size:.8rem;padding:3px 10px;border-radius:999px;background:var(--sunk);color:var(--muted)}
 .disclosure{font-size:.85rem;color:var(--muted);border-top:1px solid var(--line);padding-top:12px;margin-top:28px}
-.aff-notice{margin:0 0 16px;padding:10px 14px;border-radius:10px;background:var(--warn-soft);color:var(--ink);font-size:.92rem}
+.aff-note{margin:0 0 10px;font-size:.85rem;color:var(--muted)}
+.aff-line{margin:0 0 14px;font-size:.85rem;color:var(--muted)}
+.aff-line b,.aff-note b{color:var(--ink);font-weight:700}
 .aff-label{font-size:.75rem;font-weight:700;color:var(--warn);margin-left:6px}
 .essentials{margin:24px 0;padding:14px 16px;border:1px solid var(--line);border-radius:12px;background:var(--surface)}
 .essentials h2{font-size:1.05rem;margin:0 0 8px}

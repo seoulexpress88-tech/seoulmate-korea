@@ -8,6 +8,12 @@
       "port": 8765
     },
     {
+      "name": "site-feature",
+      "runtimeExecutable": "py",
+      "runtimeArgs": ["-m", "http.server", "8766", "--directory", "../seoulmate-wt-affnotice/public"],
+      "port": 8766
+    },
+    {
       "name": "ops-dashboard",
       "runtimeExecutable": "py",
       "runtimeArgs": ["ops/ops.py", "serve", "--port", "8790"],
