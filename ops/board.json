@@ -1028,13 +1028,47 @@
    "title": "제휴 표기 위치 B안(노란 박스 제거) 발행",
    "detail": "",
    "agent": "dev",
-   "status": "doing",
+   "status": "done",
    "created": "2026-11-04 19:20",
-   "updated": "2026-11-04 19:20",
+   "updated": "2026-11-04 19:21",
    "notes": [
     {
      "at": "2026-11-04 19:20",
      "text": "A-0032 approved by owner: 대표 채팅 승인"
+    }
+   ]
+  },
+  {
+   "id": "T-0054",
+   "title": "Trip.com 파트너 신청 마무리 + Airalo(Impact) 신청 마무리·잘못 만든 채널 삭제",
+   "detail": "",
+   "agent": "lead",
+   "status": "done",
+   "created": "2026-11-04 19:29",
+   "updated": "2026-11-04 19:35",
+   "notes": [
+    {
+     "at": "2026-11-04 19:31",
+     "text": "A-0033 approved by owner: 대표 채팅 승인"
+    }
+   ]
+  },
+  {
+   "id": "T-0055",
+   "title": "Pinterest 첫 핀 6개 게시(대표 계정, 11/5~11/9)",
+   "detail": "",
+   "agent": "marketer",
+   "status": "doing",
+   "created": "2026-11-04 19:46",
+   "updated": "2026-11-04 20:07",
+   "notes": [
+    {
+     "at": "2026-11-04 19:47",
+     "text": "A-0034 approved by owner: 대표 채팅 승인. 대표가 직접 게시"
+    },
+    {
+     "at": "2026-11-04 20:07",
+     "text": "A-0035 approved by owner: 대표 채팅 승인"
     }
    ]
   }
@@ -1520,6 +1554,48 @@
    "decided": "2026-11-04 19:20",
    "by": "owner",
    "note": "대표 채팅 승인"
+  },
+  {
+   "id": "A-0033",
+   "agent": "lead",
+   "task": "T-0054",
+   "action": "앱 브라우저(대표 로그인)에서 ① Trip.com 파트너 신청서의 사이트·홍보 방식 항목 작성·제출(사이트 소개는 Awin·CJ와 같은 문안) ② Impact에서 Airalo 신청서 사이트 정보 마무리·제출 ③ Impact의 잘못 생성된 홍보 채널 'Browser Extension · seoulmate' 1건 삭제(다른 채널·계정은 건드리지 않음). 개인정보·정산·세금·은행 정보, 비밀번호, 계정 생성은 하지 않음. 약관 동의 화면이 나오면 요점을 먼저 보고하고 대표 확인 후 진행",
+   "why": "숙소·eSIM 제휴 수익 경로 확보(Trip.com 30일 쿠키, Airalo eSIM)",
+   "risk": "low",
+   "files": [],
+   "status": "approved",
+   "requested": "2026-11-04 19:29",
+   "decided": "2026-11-04 19:31",
+   "by": "owner",
+   "note": "대표 채팅 승인"
+  },
+  {
+   "id": "A-0034",
+   "agent": "lead",
+   "task": "T-0055",
+   "action": "대표가 새 Pinterest 비즈니스 계정(Seoulmate)으로 핀 6개 게시: 보드 4개(Korea Trip Planning·Korea with Kids·Korea Date Ideas·Korea in Fall & Winter) 만들고 11/5~11/9 하루 1~2개(단풍+플래너 → 귤 → 에버랜드 → 스키 → 안동). 문구·이미지: ops/marketing/2026-11-04_Pinterest-첫-핀-6개.md, pins/2026-11-04/pin-01~06.png. 단풍 핀은 11/12 이후 보류, 귤 핀은 11/18 이후 박람회 문장 삭제",
+   "why": "새 검색 유입 채널(Pinterest)로 외국인 방문자 증가 → 광고 수익",
+   "risk": "low",
+   "files": [],
+   "status": "approved",
+   "requested": "2026-11-04 19:46",
+   "decided": "2026-11-04 19:47",
+   "by": "owner",
+   "note": "대표 채팅 승인. 대표가 직접 게시"
+  },
+  {
+   "id": "A-0035",
+   "agent": "lead",
+   "task": "T-0055",
+   "action": "홈페이지 head에 Pinterest 사이트 확인 메타태그 추가 발행(p:domain_verify = 81f4c8070de0789c8619c577d0ae6e43). 브랜치 pinterest-verify(커밋 645775c, 홈에서만 출력) main 병합 → py build.py --publish. 다른 변경 없음",
+   "why": "Pinterest 웹사이트 소유 확인 → 핀에 사이트 표시·분석(방문자 유입)",
+   "risk": "low",
+   "files": [],
+   "status": "approved",
+   "requested": "2026-11-04 20:05",
+   "decided": "2026-11-04 20:07",
+   "by": "owner",
+   "note": "대표 채팅 승인"
   }
  ],
  "reports": [
@@ -1810,12 +1886,28 @@
    "task": "",
    "at": "2026-11-04 19:19",
    "file": "reports/2026-11-04_R-0036_compliance_제휴-표기-위치-B안-검토.md"
+  },
+  {
+   "id": "R-0037",
+   "agent": "lead",
+   "title": "Trip.com·Airalo 신청 마무리",
+   "task": "",
+   "at": "2026-11-04 19:35",
+   "file": "reports/2026-11-04_R-0037_lead_Trip-com-Airalo-신청-마무리.md"
+  },
+  {
+   "id": "R-0038",
+   "agent": "marketer",
+   "title": "Pinterest 첫 핀 6개 준비",
+   "task": "",
+   "at": "2026-11-04 19:45",
+   "file": "reports/2026-11-04_R-0038_marketer_Pinterest-첫-핀-6개-준비.md"
   }
  ],
  "seq": {
-  "T": 53,
-  "A": 32,
-  "R": 36
+  "T": 55,
+  "A": 35,
+  "R": 38
  },
  "revenue": []
 }
