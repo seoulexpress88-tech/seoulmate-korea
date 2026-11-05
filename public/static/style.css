@@ -27,7 +27,8 @@ button:focus-visible,a:focus-visible,input:focus-visible,label.chip:focus-within
 /* Header & footer */
 .site-head{border-bottom:1px solid var(--line);background:var(--surface)}
 .site-head .wrap{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;padding-block:14px}
-.logo{font-family:var(--f-display);font-weight:700;font-size:1.45rem;color:var(--ink);text-decoration:none;letter-spacing:-.01em}
+.logo{font-family:var(--f-display);font-weight:700;font-size:1.45rem;color:var(--ink);text-decoration:none;letter-spacing:-.01em;display:inline-flex;align-items:center}
+.logo img{display:block;border-radius:7px;margin-right:8px}
 .logo span{color:var(--jade)}
 .nav{display:flex;gap:4px;flex-wrap:wrap}
 .nav a{color:var(--muted);text-decoration:none;font-weight:500;font-size:.93rem;padding:7px 12px;border-radius:8px}

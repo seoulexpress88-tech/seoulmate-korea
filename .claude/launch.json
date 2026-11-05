@@ -10,7 +10,7 @@
     {
       "name": "site-feature",
       "runtimeExecutable": "py",
-      "runtimeArgs": ["-m", "http.server", "8766", "--directory", "../seoulmate-wt-about/public"],
+      "runtimeArgs": ["-m", "http.server", "8766", "--directory", "../seoulmate-wt-logo/public"],
       "port": 8766
     },
     {

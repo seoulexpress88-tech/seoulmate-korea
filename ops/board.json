@@ -1085,13 +1085,28 @@
    "title": "플래너 장소 카드 'What is it?' 소개 펼치기(108곳)",
    "detail": "",
    "agent": "dev",
-   "status": "doing",
+   "status": "done",
    "created": "2026-11-05 16:21",
-   "updated": "2026-11-05 16:21",
+   "updated": "2026-11-05 16:22",
    "notes": [
     {
      "at": "2026-11-05 16:21",
      "text": "A-0038 approved by owner: 대표 채팅 승인"
+    }
+   ]
+  },
+  {
+   "id": "T-0057",
+   "title": "새 로고(H1 ㅎ 한옥) 사이트 적용",
+   "detail": "",
+   "agent": "dev",
+   "status": "doing",
+   "created": "2026-11-05 16:41",
+   "updated": "2026-11-05 16:42",
+   "notes": [
+    {
+     "at": "2026-11-05 16:42",
+     "text": "A-0039 approved by owner: 대표 채팅 승인"
     }
    ]
   }
@@ -1661,6 +1676,20 @@
    "decided": "2026-11-05 16:21",
    "by": "owner",
    "note": "대표 채팅 승인"
+  },
+  {
+   "id": "A-0039",
+   "agent": "lead",
+   "task": "T-0057",
+   "action": "새 로고 H1(ㅎ = 한옥 지붕 + 달문) 발행: 헤더 로고 마크 추가, 파비콘(icon.svg 교체 + 32px PNG), apple-touch-icon(180px), 512px PNG(앱·SNS용). 브랜치 logo-h1 main 병합 → py build.py --publish. Pinterest 프로필 사진 교체는 별도 요청",
+   "why": "대표 결정(H1). 브랜드 인지도·신뢰(유입·재방문)",
+   "risk": "low",
+   "files": [],
+   "status": "approved",
+   "requested": "2026-11-05 16:41",
+   "decided": "2026-11-05 16:42",
+   "by": "owner",
+   "note": "대표 채팅 승인"
   }
  ],
  "reports": [
@@ -1986,8 +2015,8 @@
   }
  ],
  "seq": {
-  "T": 56,
-  "A": 38,
+  "T": 57,
+  "A": 39,
   "R": 40
  },
  "revenue": []

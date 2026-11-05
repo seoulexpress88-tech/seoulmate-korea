@@ -275,3 +275,7 @@
 {"at": "2026-11-05 16:21", "agent": "dev", "event": "task_add", "text": "플래너 장소 카드 'What is it?' 소개 펼치기(108곳)", "ref": "T-0056"}
 {"at": "2026-11-05 16:21", "agent": "lead", "event": "approval_request", "text": "플래너 기능 발행: 장소 카드마다 'What is it?' 버튼 → 1~2문장 영문 소개 펼침(선택은 바뀌지 않음, 인쇄 제외). 소개 108곳(data/place_about.json, 지후 98곳 출처 확인 R-0040 + 한결 10곳). 브랜치 place-about(d4c8711, 1499166) main 병합 → py build.py --publish", "ref": "A-0038"}
 {"at": "2026-11-05 16:21", "agent": "owner", "event": "approval_approved", "text": "플래너 기능 발행: 장소 카드마다 'What is it?' 버튼 → 1~2문장 영문 소개 펼침(선택은 바뀌지 않음, 인쇄 제외). 소개 108곳(data/place_about.json, 지후 98곳 출처 확인 R-0040 + 한결 10곳). 브랜치 place-about(d4c8711, 1499166) main 병합 → py build.py --publish", "ref": "A-0038"}
+{"at": "2026-11-05 16:22", "agent": "dev", "event": "task_update", "text": "done", "ref": "T-0056"}
+{"at": "2026-11-05 16:41", "agent": "dev", "event": "task_add", "text": "새 로고(H1 ㅎ 한옥) 사이트 적용", "ref": "T-0057"}
+{"at": "2026-11-05 16:41", "agent": "lead", "event": "approval_request", "text": "새 로고 H1(ㅎ = 한옥 지붕 + 달문) 발행: 헤더 로고 마크 추가, 파비콘(icon.svg 교체 + 32px PNG), apple-touch-icon(180px), 512px PNG(앱·SNS용). 브랜치 logo-h1 main 병합 → py build.py --publish. Pinterest 프로필 사진 교체는 별도 요청", "ref": "A-0039"}
+{"at": "2026-11-05 16:42", "agent": "owner", "event": "approval_approved", "text": "새 로고 H1(ㅎ = 한옥 지붕 + 달문) 발행: 헤더 로고 마크 추가, 파비콘(icon.svg 교체 + 32px PNG), apple-touch-icon(180px), 512px PNG(앱·SNS용). 브랜치 logo-h1 main 병합 → py build.py --publish. Pinterest 프로필 사진 교체는 별도 요청", "ref": "A-0039"}
