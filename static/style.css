@@ -176,6 +176,8 @@ fieldset.who>label.chip{align-self:flex-start;margin-bottom:8px}
 .opt .name{font-weight:600;line-height:1.3}
 .opt .name small{display:block;font-weight:400;color:var(--muted);font-size:.8rem}
 .opt .tip{font-size:.86rem;color:var(--muted);margin:0}
+.opt .about-btn{align-self:flex-start;font:inherit;font-size:.8rem;font-weight:600;color:var(--accent);background:none;border:0;padding:0;cursor:pointer;text-decoration:underline;text-underline-offset:2px}
+.opt .about{font-size:.88rem;color:var(--ink);margin:0;padding:8px 10px;border-radius:8px;background:var(--sunk);line-height:1.5}
 .opt .links{display:flex;flex-wrap:wrap;gap:10px;font-size:.8rem}
 .free{color:var(--muted);font-size:.92rem;padding-top:4px}
 .tools{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}

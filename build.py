@@ -696,7 +696,10 @@ def page_planner(posts):
     <!--BOOK-->
   </div>
 </div>""".replace("<!--BOOK-->", f'<div class="no-print">{book}</div>' if book else "")
-    extra = (f'<script>window.SEOULMATE_GUIDES={json.dumps(guides, ensure_ascii=False)};</script>\n'
+    about_file = ROOT / "data" / "place_about.json"
+    about = json.loads(about_file.read_text(encoding="utf-8")) if about_file.exists() else {}
+    extra = (f'<script>window.SEOULMATE_GUIDES={json.dumps(guides, ensure_ascii=False)};'
+             f'window.SEOULMATE_ABOUT={json.dumps(about, ensure_ascii=False)};</script>\n'
              '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">\n'
              '<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js" defer></script>\n'
              f'<script src="/static/planner.js?v={ASSET_V}" defer></script>')
