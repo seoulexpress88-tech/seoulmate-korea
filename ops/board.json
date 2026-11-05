@@ -1060,7 +1060,7 @@
    "agent": "marketer",
    "status": "doing",
    "created": "2026-11-04 19:46",
-   "updated": "2026-11-04 20:15",
+   "updated": "2026-11-04 20:54",
    "notes": [
     {
      "at": "2026-11-04 19:47",
@@ -1073,6 +1073,10 @@
     {
      "at": "2026-11-04 20:15",
      "text": "A-0036 approved by owner: 대표 채팅 승인"
+    },
+    {
+     "at": "2026-11-04 20:54",
+     "text": "A-0037 approved by owner: 대표 채팅 승인"
     }
    ]
   }
@@ -1614,6 +1618,20 @@
    "decided": "2026-11-04 20:15",
    "by": "owner",
    "note": "대표 채팅 승인"
+  },
+  {
+   "id": "A-0037",
+   "agent": "lead",
+   "task": "T-0055",
+   "action": "Chrome(대표 로그인)에서 Pinterest 프로필 '소개'만 수정: 'Korea trip ideas for first-time visitors: city guides, day trips, festivals and a free day-by-day trip planner. Seoul · Busan · Jeju & more.' 이름·사진·웹사이트·사용자명 등 다른 항목은 그대로",
+   "why": "현재 소개글이 제휴사 신청 문구라 방문자에게 어색함(Pinterest 유입 전환)",
+   "risk": "low",
+   "files": [],
+   "status": "approved",
+   "requested": "2026-11-04 20:52",
+   "decided": "2026-11-04 20:54",
+   "by": "owner",
+   "note": "대표 채팅 승인"
   }
  ],
  "reports": [
@@ -1920,12 +1938,20 @@
    "task": "",
    "at": "2026-11-04 19:45",
    "file": "reports/2026-11-04_R-0038_marketer_Pinterest-첫-핀-6개-준비.md"
+  },
+  {
+   "id": "R-0039",
+   "agent": "lead",
+   "title": "Pinterest 확인·핀 6개 예약 완료",
+   "task": "",
+   "at": "2026-11-04 20:51",
+   "file": "reports/2026-11-04_R-0039_lead_Pinterest-확인-핀-6개-예약-완료.md"
   }
  ],
  "seq": {
   "T": 55,
-  "A": 36,
-  "R": 38
+  "A": 37,
+  "R": 39
  },
  "revenue": []
 }
