@@ -1079,6 +1079,21 @@
      "text": "A-0037 approved by owner: 대표 채팅 승인"
     }
    ]
+  },
+  {
+   "id": "T-0056",
+   "title": "플래너 장소 카드 'What is it?' 소개 펼치기(108곳)",
+   "detail": "",
+   "agent": "dev",
+   "status": "doing",
+   "created": "2026-11-05 16:21",
+   "updated": "2026-11-05 16:21",
+   "notes": [
+    {
+     "at": "2026-11-05 16:21",
+     "text": "A-0038 approved by owner: 대표 채팅 승인"
+    }
+   ]
   }
  ],
  "approvals": [
@@ -1632,6 +1647,20 @@
    "decided": "2026-11-04 20:54",
    "by": "owner",
    "note": "대표 채팅 승인"
+  },
+  {
+   "id": "A-0038",
+   "agent": "lead",
+   "task": "T-0056",
+   "action": "플래너 기능 발행: 장소 카드마다 'What is it?' 버튼 → 1~2문장 영문 소개 펼침(선택은 바뀌지 않음, 인쇄 제외). 소개 108곳(data/place_about.json, 지후 98곳 출처 확인 R-0040 + 한결 10곳). 브랜치 place-about(d4c8711, 1499166) main 병합 → py build.py --publish",
+   "why": "대표 요청: 외국인이 장소를 몰라 일정에 넣기 망설임 → 플래너 사용성·체류 시간↑(광고 수익)",
+   "risk": "low",
+   "files": [],
+   "status": "approved",
+   "requested": "2026-11-05 16:21",
+   "decided": "2026-11-05 16:21",
+   "by": "owner",
+   "note": "대표 채팅 승인"
   }
  ],
  "reports": [
@@ -1946,12 +1975,20 @@
    "task": "",
    "at": "2026-11-04 20:51",
    "file": "reports/2026-11-04_R-0039_lead_Pinterest-확인-핀-6개-예약-완료.md"
+  },
+  {
+   "id": "R-0040",
+   "agent": "research",
+   "title": "플래너 장소 소개문 98곳",
+   "task": "",
+   "at": "2026-11-05 16:19",
+   "file": "reports/2026-11-05_R-0040_research_플래너-장소-소개문-98곳.md"
   }
  ],
  "seq": {
-  "T": 55,
-  "A": 37,
-  "R": 39
+  "T": 56,
+  "A": 38,
+  "R": 40
  },
  "revenue": []
 }

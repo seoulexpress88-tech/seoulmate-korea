@@ -1,5 +1,6 @@
 // Seoulmate trip planner. Pure client-side: builds a day-by-day plan from the place list below.
 // window.SEOULMATE_GUIDES (injected by build.py) maps city id -> [{title,url}] so days can link to guides.
+// window.SEOULMATE_ABOUT (injected by build.py from data/place_about.json) maps place id -> a short "what is it" intro.
 (function(){
 const CITIES=[["seoul","Seoul","서울"],["busan","Busan","부산"],["jeju","Jeju","제주"],["gyeongju","Gyeongju","경주"],["jeonju","Jeonju","전주"],
 ["incheon","Incheon","인천"],["suwon","Suwon","수원"],["gapyeong","Gapyeong & Nami","가평"],["gangneung","Gangneung","강릉"],["sokcho","Sokcho & Seoraksan","속초"],
@@ -169,6 +170,8 @@ const METRO=["seoul","busan","incheon","daegu","suwon"];
 const byId=Object.fromEntries(P.map(p=>[p[0],p]));
 const cityOf=id=>CITIES.find(x=>x[0]===id);
 const GUIDES=window.SEOULMATE_GUIDES||{};
+const ABOUT=window.SEOULMATE_ABOUT||{};
+const openAbout=new Set();
 const $=id=>document.getElementById(id);
 const qs=new URLSearchParams(location.search);
 const qCity=(qs.get("city")||"").split(",").filter(c=>cityOf(c));
@@ -309,6 +312,7 @@ function render(){
         return `<div class="opt" role="button" tabindex="0" aria-pressed="${on}" data-key="${di}-${si}" data-id="${id}">
           <div class="row"><span class="cat ${state.cats.includes(p[2])?"match":""}">${cat}</span>${fits(id)?`<span class="fit">${whoOf(state.who)[4]}</span>`:""}${on?'<span class="pick">Selected</span>':""}</div>
           <div class="name">${esc(p[4])}<small>${esc(p[5])}</small></div>
+          ${ABOUT[id]?`<button type="button" class="about-btn no-print" aria-expanded="${openAbout.has(id)}" data-about="${id}">${openAbout.has(id)?"Hide":"What is it?"}</button>${openAbout.has(id)?`<p class="about">${esc(ABOUT[id])}</p>`:""}`:""}
           <p class="tip">${esc(p[6])}</p>
           <div class="links no-print"><a href="https://www.google.com/maps/search/?api=1&query=${gq}" target="_blank" rel="noopener">Traveler reviews ↗</a><a href="https://map.naver.com/p/search/${nq}" target="_blank" rel="noopener">Naver Map ↗</a></div>
         </div>`}).join("")}</div>`:`<div class="free">Free time. Rest up or explore the neighborhood.</div>`;
@@ -379,8 +383,13 @@ function choose(el){
   state.picks[el.dataset.key]=el.dataset.id;render();
   const again=$("days").querySelector(`.opt[data-key="${el.dataset.key}"][data-id="${el.dataset.id}"]`);again&&again.focus();
 }
-$("days").addEventListener("click",e=>{if(e.target.closest("a"))return;const b=e.target.closest(".opt");if(b)choose(b)});
-$("days").addEventListener("keydown",e=>{const b=e.target.closest(".opt");if(b&&(e.key==="Enter"||e.key===" ")){e.preventDefault();choose(b)}});
+function toggleAbout(btn){
+  const id=btn.dataset.about,key=btn.closest(".opt").dataset.key;
+  openAbout.has(id)?openAbout.delete(id):openAbout.add(id);render();
+  const again=$("days").querySelector(`.opt[data-key="${key}"] .about-btn[data-about="${id}"]`);again&&again.focus();
+}
+$("days").addEventListener("click",e=>{if(e.target.closest("a"))return;const a=e.target.closest(".about-btn");if(a)return toggleAbout(a);const b=e.target.closest(".opt");if(b)choose(b)});
+$("days").addEventListener("keydown",e=>{if(e.target.closest(".about-btn"))return;const b=e.target.closest(".opt");if(b&&(e.key==="Enter"||e.key===" ")){e.preventDefault();choose(b)}});
 $("tripForm").addEventListener("submit",e=>{e.preventDefault();build()});
 
 function asText(){
