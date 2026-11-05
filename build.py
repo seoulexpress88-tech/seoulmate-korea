@@ -299,7 +299,9 @@ def layout(title, desc, path, body, active="", head_extra="", page_title=None):
 {"".join(f'<meta name="impact-site-verification" value="{esc(v)}">' for v in IMPACT_CODES) if path == "/" else ""}
 {f'<meta name="p:domain_verify" content="{esc(CFG["pinterest_domain_verify"])}"/>' if CFG.get("pinterest_domain_verify") and path == "/" else ""}
 {f'<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={esc(CFG["adsense_client"])}" crossorigin="anonymous"></script>' if CFG.get("adsense_client") and path != "/planner/" else ""}
-<link rel="icon" href="/static/icon.svg" type="image/svg+xml">
+<link rel="icon" href="/static/icon.svg?v={ASSET_V}" type="image/svg+xml">
+<link rel="icon" href="/static/favicon-32.png?v={ASSET_V}" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="/static/apple-touch-icon.png?v={ASSET_V}">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Noto+Sans+KR:wght@400;600&display=swap">
@@ -308,7 +310,7 @@ def layout(title, desc, path, body, active="", head_extra="", page_title=None):
 </head>
 <body>
 <header class="site-head"><div class="wrap">
-<a class="logo" href="/">Seoul<span>mate</span></a>
+<a class="logo" href="/"><img src="/static/icon.svg?v={ASSET_V}" alt="" width="30" height="30">Seoul<span>mate</span></a>
 <nav class="nav" aria-label="Main">{nav_html}</nav>
 </div></header>
 <main class="wrap">
