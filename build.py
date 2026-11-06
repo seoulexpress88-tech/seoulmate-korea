@@ -274,6 +274,11 @@ def fmt_date(d):
 _impact = CFG.get("impact_site_verification") or []
 IMPACT_CODES = [_impact] if isinstance(_impact, str) else list(_impact)
 
+# Korean business registration details, shown in the footer and on About/Privacy.
+BIZ = CFG.get("business") or {}
+BIZ_LINE = (f'{esc(BIZ["name"])} · Owner {esc(BIZ["owner"])} · Business registration no. {esc(BIZ["reg_no"])} · '
+            f'{esc(BIZ["address"])}') if BIZ else ""
+
 
 def layout(title, desc, path, body, active="", head_extra="", page_title=None):
     full = page_title or (f"{title} | {CFG['name']}" if title != CFG["name"] else f"{CFG['name']} · {CFG['tagline']}")
@@ -319,6 +324,7 @@ def layout(title, desc, path, body, active="", head_extra="", page_title=None):
 <footer class="site-foot"><div class="wrap">
 <span>© {year} {esc(CFG['name'])} · Made in Seoul for travelers to Korea</span>
 <nav aria-label="Footer"><a href="/guides/">Guides</a><a href="/about/">About</a><a href="/privacy/">Privacy</a><a href="/disclosure/">Affiliate disclosure</a><a href="/feed.xml">RSS</a></nav>
+{f'<p class="biz">{BIZ_LINE}</p>' if BIZ_LINE else ""}
 {"".join(f'<span class="verify">Impact-Site-Verification: {esc(v)}</span>' for v in IMPACT_CODES) if path == "/" else ""}
 </div></footer>
 </body>
@@ -817,7 +823,7 @@ PRIVACY = """<p>Last updated: {date}</p>
 DISCLOSURE = """<p>Seoulmate earns money from some links on this site. Affiliate links are labeled "affiliate link". When you book through one, the company we link to pays us a commission. You pay the same price as booking with that company directly.</p>
 <p><b>Our affiliate partners:</b> {partners}</p>
 <p>The booking, payment, cancellation and the tour or service itself are provided by that company under its own terms. Seoulmate does not take bookings or collect payment for these products.</p>
-<p>Affiliate companies don't pay for placement in our guides or trip planner, and they can't edit what we write. Every page with affiliate links says so at the top of the page.</p>"""
+<p>Affiliate companies don't pay for placement in our guides or trip planner, and they can't edit what we write. Every page with affiliate links says so before the links: in a short line under a guide's title, and in the "Book ahead" box next to the links themselves.</p>"""
 
 
 def affiliate_partners():
@@ -877,6 +883,9 @@ def build():
     for p in posts:
         write(f"guides/{p['slug']}/index.html", page_post(p, posts))
     contact = f'Email <a href="mailto:{esc(CFG["contact_email"])}">{esc(CFG["contact_email"])}</a>.' if CFG.get("contact_email") else "Contact details will be listed here soon."
+    if BIZ:
+        contact += (f'</p>\n<p>Seoulmate is run by {esc(BIZ["owner"])}, a sole proprietor registered in Korea as {esc(BIZ["name"])}. '
+                    f'Business registration no. {esc(BIZ["reg_no"])}. Address: {esc(BIZ["address"])}.')
     write("about/index.html", page_simple("about", "About Seoulmate", "Who makes Seoulmate and how we write our Korea travel guides.", ABOUT.format(contact=contact), "about"))
     write("privacy/index.html", page_simple("privacy", "Privacy policy", "How Seoulmate handles your data.", PRIVACY.format(date=dt.date.today().isoformat(), contact=contact)))
     write("disclosure/index.html", page_simple("disclosure", "Affiliate disclosure", "How affiliate links work on Seoulmate.", DISCLOSURE.format(partners=affiliate_partners())))
