@@ -916,9 +916,9 @@
    "title": "구조 변경 후 사업자 업종·업종코드·과세 판단, 통신판매(중개)업 신고 필요 여부, 식당 사업자 추가 vs 별도 (대표 질문 11/3)",
    "detail": "",
    "agent": "compliance",
-   "status": "review",
+   "status": "done",
    "created": "2026-11-03 11:14",
-   "updated": "2026-11-03 14:58",
+   "updated": "2026-11-06 16:20",
    "notes": [
     {
      "at": "2026-11-03 14:58",
@@ -1102,11 +1102,30 @@
    "agent": "dev",
    "status": "doing",
    "created": "2026-11-05 16:41",
-   "updated": "2026-11-05 16:42",
+   "updated": "2026-11-05 16:56",
    "notes": [
     {
      "at": "2026-11-05 16:42",
      "text": "A-0039 approved by owner: 대표 채팅 승인"
+    },
+    {
+     "at": "2026-11-05 16:56",
+     "text": "A-0040 approved by owner: 대표 채팅 승인"
+    }
+   ]
+  },
+  {
+   "id": "T-0058",
+   "title": "사업자등록 반영: 사이트 사업자 정보 표기 + 제휴·광고 계정 사업자 정보 갱신",
+   "detail": "",
+   "agent": "lead",
+   "status": "doing",
+   "created": "2026-11-06 16:20",
+   "updated": "2026-11-06 16:22",
+   "notes": [
+    {
+     "at": "2026-11-06 16:22",
+     "text": "A-0041 approved by owner: 대표 채팅 승인"
     }
    ]
   }
@@ -1690,6 +1709,34 @@
    "decided": "2026-11-05 16:42",
    "by": "owner",
    "note": "대표 채팅 승인"
+  },
+  {
+   "id": "A-0040",
+   "agent": "lead",
+   "task": "T-0057",
+   "action": "Chrome(대표 로그인)에서 Pinterest 프로필 사진만 새 로고(static/logo-512.png)로 교체. 이름·소개·웹사이트 등 다른 항목은 그대로",
+   "why": "사이트와 Pinterest 브랜드 통일",
+   "risk": "low",
+   "files": [],
+   "status": "approved",
+   "requested": "2026-11-05 16:43",
+   "decided": "2026-11-05 16:56",
+   "by": "owner",
+   "note": "대표 채팅 승인"
+  },
+  {
+   "id": "A-0041",
+   "agent": "lead",
+   "task": "T-0058",
+   "action": "사이트 발행: 푸터에 사업자 정보 한 줄(서울메이트·대표 Min Goo Kim·사업자등록번호 802-16-03059·사업장 주소), About·Privacy 'Contact'에 운영자 문단 추가, 제휴 고지 페이지 문구를 현재 배치('글 제목 아래 한 줄 + Book ahead 박스')에 맞게 수정. 브랜치 biz-info(aae5a0b) main 병합 → py build.py --publish",
+   "why": "사업자등록 완료(2026-11-05). 사업자 정보 표기로 신뢰·애드센스/제휴 심사에 유리, 고지 문구 사실과 일치",
+   "risk": "low",
+   "files": [],
+   "status": "approved",
+   "requested": "2026-11-06 16:20",
+   "decided": "2026-11-06 16:22",
+   "by": "owner",
+   "note": "대표 채팅 승인"
   }
  ],
  "reports": [
@@ -2015,8 +2062,8 @@
   }
  ],
  "seq": {
-  "T": 57,
-  "A": 39,
+  "T": 58,
+  "A": 41,
   "R": 40
  },
  "revenue": []
